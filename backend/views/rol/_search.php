@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_rol') ?>
 
-    <?= $form->field($model, 'nombre') ?>
+    <?= $form->field($model, 'descripcion') ?>
 
     <?= $form->field($model, 'activo') ?>
 

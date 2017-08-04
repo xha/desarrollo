@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
-use app\models\RolAccion;
-use app\models\RolAccionSearch;
+use backend\models\RolAccion;
+use backend\models\RolAccionSearch;
 use app\models\AccessHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

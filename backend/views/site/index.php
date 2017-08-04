@@ -12,7 +12,7 @@ $this->registerCssFile('../../backend/web/css/general.css');
     <div class="central2">
         <aside class="main-aside2">
             <div class="stroke2 titulo_core">
-                Innova <br />Core
+                Automotores <br />Ipsfa
             </div>
         </aside>
     </div>

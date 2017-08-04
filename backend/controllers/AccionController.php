@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
-use app\models\Accion;
-use app\models\AccionSearch;
+use backend\models\Accion;
+use backend\models\AccionSearch;
 use app\models\AccessHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

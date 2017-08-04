@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "is_rol".
  *
  * @property integer $id_rol
- * @property string $nombre
+ * @property string $descripcion
  * @property integer $activo
  */
 class Rol extends \yii\db\ActiveRecord
@@ -18,7 +18,7 @@ class Rol extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'is_rol';
+        return 'isau_rol';
     }
 
     /**
@@ -27,9 +27,9 @@ class Rol extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre'], 'required'],
+            [['descripcion'], 'required'],
             [['activo'], 'integer'],
-            [['nombre'], 'string', 'max' => 50],
+            [['descripcion'], 'string', 'max' => 50],
         ];
     }
 
@@ -40,7 +40,7 @@ class Rol extends \yii\db\ActiveRecord
     {
         return [
             'id_rol' => 'Id Rol',
-            'nombre' => 'Descripción',
+            'descripcion' => 'Descripción',
             'activo' => 'Activo',
         ];
     }

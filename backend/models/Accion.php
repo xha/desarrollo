@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -21,7 +21,7 @@ class Accion extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'is_accion';
+        return 'isau_accion';
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Rol;
+use backend\models\Rol;
 
 /**
  * RolSearch represents the model behind the search form about `app\models\Rol`.
@@ -19,7 +19,7 @@ class RolSearch extends Rol
     {
         return [
             [['id_rol', 'activo'], 'integer'],
-            [['nombre'], 'safe'],
+            [['descripcion'], 'safe'],
         ];
     }
 
@@ -63,7 +63,7 @@ class RolSearch extends Rol
             'activo' => $this->activo,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 
         return $dataProvider;
     }

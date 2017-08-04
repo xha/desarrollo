@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Usuario;
-use app\models\Cliente;
 use app\models\Rol;
 
 /* @var $this yii\web\View */
@@ -39,18 +38,3 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php ActiveForm::end(); ?>
 </div>
-
-<script type='text/javascript'>
-    function carga_observacion() {
-        var cliente = document.getElementById('activarform-observacion').value;
-        var usuario = document.getElementById('activarform-id_usuario').value;
-        
-        if (usuario.value!="") {
-            var parametros = "&usuario="+usuario;
-            $.get('../site/observacion',parametros,function(data){
-                var data = $.parseJSON(data);
-                document.getElementById('activarform-observacion').value = data['observacion'];
-            });
-        }
-    }
-</script>

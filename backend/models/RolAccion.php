@@ -1,7 +1,8 @@
 <?php
 
-namespace app\models;
-use app\models\Accion;
+namespace backend\models;
+use backend\models\Accion;
+use backend\models\Rol;
 
 use Yii;
 
@@ -23,7 +24,7 @@ class RolAccion extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'is_rol_accion';
+        return 'isau_rolaccion';
     }
 
     /**

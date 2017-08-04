@@ -19,7 +19,7 @@ class PreguntaSearch extends Pregunta
     {
         return [
             [['id_pregunta', 'activo'], 'integer'],
-            [['nombre'], 'safe'],
+            [['descripcion'], 'safe'],
         ];
     }
 
@@ -63,7 +63,7 @@ class PreguntaSearch extends Pregunta
             'activo' => $this->activo,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 
         return $dataProvider;
     }

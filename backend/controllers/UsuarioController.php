@@ -1,10 +1,9 @@
 <?php
 
-namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
-use app\models\Usuario;
-use app\models\UsuarioSearch;
+use common\models\Usuario;
 use app\models\AccessHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
