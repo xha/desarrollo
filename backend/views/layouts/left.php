@@ -15,7 +15,9 @@
                                     ['label' => 'Recuperar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/recuperar']],
                                     ['label' => 'Activar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/activar']],
                             ],];
-            $menuItems[] = ['label' => 'Pisos', 'icon' => 'folder', 'url' => ['../../frontend/web/piso']];
+            $menuItems[] = ['label' => 'Modelo', 'icon' => 'folder-o', 'url' => ['../../frontend/web/modelo']];
+            $menuItems[] = ['label' => 'Tipo de Vehículo', 'icon' => 'gear', 'url' => ['../../frontend/web/tipo-vehiculo']];
+            $menuItems[] = ['label' => 'Alianza', 'icon' => 'star-o', 'url' => ['../../frontend/web/alianza']];
         }
     ?>
         <?= dmstr\widgets\Menu::widget(

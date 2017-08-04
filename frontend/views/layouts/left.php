@@ -9,14 +9,15 @@
         } else {
             $menuItems[] = ['label' => 'Configuración', 'icon' => 'circle-o', 'url' => '#',
                                 'items' => [
-                                    ['label' => 'Recuperar Usuario', 'icon' => 'unlock', 'url' => ['../../backend/web/site/recuperar']],
-                                    ['label' => 'Activar Usuario', 'icon' => 'clock-o', 'url' => ['../../backend/web/site/activar']],
+                                    ['label' => 'Accion', 'icon' => 'check', 'url' => ['../../backend/web/accion']],
+                                    ['label' => 'Rol', 'icon' => 'check', 'url' => ['../../backend/web/rol']],
+                                    ['label' => 'Rol - Accion', 'icon' => 'check', 'url' => ['../../backend/web/rol-accion']],
+                                    ['label' => 'Recuperar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/recuperar']],
+                                    ['label' => 'Activar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/activar']],
                             ],];
-            $menuItems[] = ['label' => 'Pisos', 'icon' => 'folder', 'url' => ['../../frontend/web/piso']];
-            $menuItems[] = ['label' => 'Ubicaciones', 'icon' => 'gear', 'url' => ['../../frontend/web/ubicacion']];
-            $menuItems[] = ['label' => 'Alicuota', 'icon' => 'star', 'url' => ['../../frontend/web/alicuota']];
-            $menuItems[] = ['label' => 'Presupuesto', 'icon' => 'clock-o', 'url' => ['../../frontend/web/presupuesto']];
-            $menuItems[] = ['label' => 'Condominio', 'icon' => 'folder-o', 'url' => ['../../frontend/web/presupuesto/procesar']];
+            $menuItems[] = ['label' => 'Modelo', 'icon' => 'folder-o', 'url' => ['../../frontend/web/modelo']];
+            $menuItems[] = ['label' => 'Tipo de Vehículo', 'icon' => 'gear', 'url' => ['../../frontend/web/tipo-vehiculo']];
+            $menuItems[] = ['label' => 'Alianza', 'icon' => 'star-o', 'url' => ['../../frontend/web/alianza']];
         }
     ?>
         <?= dmstr\widgets\Menu::widget(
