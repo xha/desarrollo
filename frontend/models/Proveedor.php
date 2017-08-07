@@ -48,7 +48,7 @@ use Yii;
  *
  * @property ISAUAlianza[] $iSAUAlianzas
  */
-class Saprov extends \yii\db\ActiveRecord
+class Proveedor extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc

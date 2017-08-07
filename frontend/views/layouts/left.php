@@ -15,9 +15,15 @@
                                     ['label' => 'Recuperar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/recuperar']],
                                     ['label' => 'Activar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/activar']],
                             ],];
-            $menuItems[] = ['label' => 'Modelo', 'icon' => 'folder-o', 'url' => ['../../frontend/web/modelo']];
-            $menuItems[] = ['label' => 'Tipo de Vehículo', 'icon' => 'gear', 'url' => ['../../frontend/web/tipo-vehiculo']];
-            $menuItems[] = ['label' => 'Alianza', 'icon' => 'star-o', 'url' => ['../../frontend/web/alianza']];
+            $menuItems[] = ['label' => 'Tablas Básicas', 'icon' => 'folder-o', 'url' => '#',
+                                'items' => [
+                                    ['label' => 'Modelo', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
+                                    ['label' => 'Tipo de Vehículo', 'icon' => 'check', 'url' => ['../../frontend/web/tipo-vehiculo']],
+                                    ['label' => 'Cliente', 'icon' => 'check', 'url' => ['../../frontend/web/cliente']],
+                                    ['label' => 'Proveedor', 'icon' => 'check', 'url' => ['../../frontend/web/site/proveedor']],
+                                    ['label' => 'Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/alianza']],
+                            ],];
+            $menuItems[] = ['label' => 'Tipo de Vehículo', 'icon' => 'gear', 'url' => ['../../frontend/web/vehiculo']];
         }
     ?>
         <?= dmstr\widgets\Menu::widget(

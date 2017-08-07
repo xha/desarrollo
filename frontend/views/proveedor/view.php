@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Cliente */
+/* @var $model frontend\models\Proveedor */
 
-$this->title = $model->CodClie;
-$this->params['breadcrumbs'][] = ['label' => 'Clientes', 'url' => ['index']];
+$this->title = $model->CodProv;
+$this->params['breadcrumbs'][] = ['label' => 'Proveedors', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cliente-view">
+<div class="proveedor-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->CodClie], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->CodClie], [
+        <?= Html::a('Update', ['update', 'id' => $model->CodProv], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->CodProv], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,14 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'CodClie',
+            'CodProv',
             'Descrip',
-            'ID3',
+            'TipoPrv',
             'TipoID3',
             'TipoID',
-            'Activo',
+            'ID3',
             'DescOrder',
             'Clase',
+            'Activo',
             'Represent',
             'Direc1',
             'Direc2',
@@ -46,38 +47,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'ZipCode',
             'Telef',
             'Movil',
-            'Email:email',
             'Fax',
+            'Email:email',
             'FechaE',
-            'CodZona',
-            'CodVend',
-            'CodConv',
-            'CodAlte',
-            'TipoCli',
-            'TipoPVP',
+            'EsReten',
+            'RetenISLR',
+            'DiasCred',
             'Observa',
             'EsMoneda',
-            'EsCredito',
-            'LimiteCred',
-            'DiasCred',
-            'EsToleran',
-            'DiasTole',
-            'IntMora',
-            'Descto',
             'Saldo',
+            'MontoMax',
             'PagosA',
-            'FechaUV',
-            'MontoUV',
-            'NumeroUV',
+            'PromPago',
+            'RetenIVA',
+            'FechaUC',
+            'MontoUC',
+            'NumeroUC',
             'FechaUP',
             'MontoUP',
             'NumeroUP',
-            'MontoMax',
-            'MtoMaxCred',
-            'PromPago',
-            'RetenIVA',
-            'SaldoPtos',
-            'DescripExt',
         ],
     ]) ?>
 

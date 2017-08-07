@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use frontend\models\Saprov;
+use frontend\models\Proveedor;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Alianza */
@@ -16,7 +16,7 @@ use frontend\models\Saprov;
 
     <label class="control-label">Proveedor</label>
     <?= Html::activeDropDownList($model, 'CodProv',
-      ArrayHelper::map(Saprov::find()->where(['activo' => '1'])->OrderBy('Descrip')->all(), 'CodProv', 'Descrip'), ['class'=>'form-control','prompt'=>'Seleccione']) ?>
+      ArrayHelper::map(Proveedor::find()->where(['activo' => '1'])->OrderBy('Descrip')->all(), 'CodProv', 'Descrip'), ['class'=>'form-control','prompt'=>'Seleccione']) ?>
     <br />
     <?= $form->field($model, 'porcentaje')->textInput() ?>
 

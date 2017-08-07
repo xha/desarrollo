@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\ClienteSearch */
+/* @var $searchModel frontend\models\ProveedorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Clientes';
+$this->title = 'Proveedors';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cliente-index">
+<div class="proveedor-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Cliente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Proveedor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,14 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'CodClie',
+            'CodProv',
             'Descrip',
-            'ID3',
+            'TipoPrv',
             'TipoID3',
             'TipoID',
-            // 'Activo',
+            // 'ID3',
             // 'DescOrder',
             // 'Clase',
+            // 'Activo',
             // 'Represent',
             // 'Direc1',
             // 'Direc2',
@@ -42,38 +43,25 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'ZipCode',
             // 'Telef',
             // 'Movil',
-            // 'Email:email',
             // 'Fax',
+            // 'Email:email',
             // 'FechaE',
-            // 'CodZona',
-            // 'CodVend',
-            // 'CodConv',
-            // 'CodAlte',
-            // 'TipoCli',
-            // 'TipoPVP',
+            // 'EsReten',
+            // 'RetenISLR',
+            // 'DiasCred',
             // 'Observa',
             // 'EsMoneda',
-            // 'EsCredito',
-            // 'LimiteCred',
-            // 'DiasCred',
-            // 'EsToleran',
-            // 'DiasTole',
-            // 'IntMora',
-            // 'Descto',
             // 'Saldo',
+            // 'MontoMax',
             // 'PagosA',
-            // 'FechaUV',
-            // 'MontoUV',
-            // 'NumeroUV',
+            // 'PromPago',
+            // 'RetenIVA',
+            // 'FechaUC',
+            // 'MontoUC',
+            // 'NumeroUC',
             // 'FechaUP',
             // 'MontoUP',
             // 'NumeroUP',
-            // 'MontoMax',
-            // 'MtoMaxCred',
-            // 'PromPago',
-            // 'RetenIVA',
-            // 'SaldoPtos',
-            // 'DescripExt',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

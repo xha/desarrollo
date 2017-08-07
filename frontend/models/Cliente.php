@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
 use Yii;
 
@@ -60,7 +60,7 @@ use Yii;
  *
  * @property ISCOALICUOTA[] $iSCOALICUOTAs
  */
-class Saclie extends \yii\db\ActiveRecord
+class Cliente extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -141,5 +141,13 @@ class Saclie extends \yii\db\ActiveRecord
             'SaldoPtos' => 'Saldo Ptos',
             'DescripExt' => 'Descrip Ext',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getISCOALICUOTAs()
+    {
+        return $this->hasMany(ISCOALICUOTA::className(), ['CodClie' => 'CodClie']);
     }
 }

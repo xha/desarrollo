@@ -12,7 +12,7 @@ use Yii;
  * @property string $porcentaje
  * @property integer $activo
  *
- * @property SAPROV $codProv
+ * @property Proveedor $codProv
  * @property ISAUAlianzaTransaccion[] $iSAUAlianzaTransaccions
  */
 class Alianza extends \yii\db\ActiveRecord
@@ -35,7 +35,7 @@ class Alianza extends \yii\db\ActiveRecord
             [['CodProv'], 'string'],
             [['porcentaje'], 'number'],
             [['activo'], 'integer'],
-            [['CodProv'], 'exist', 'skipOnError' => true, 'targetClass' => SAPROV::className(), 'targetAttribute' => ['CodProv' => 'CodProv']],
+            [['CodProv'], 'exist', 'skipOnError' => true, 'targetClass' => Proveedor::className(), 'targetAttribute' => ['CodProv' => 'CodProv']],
         ];
     }
 
@@ -57,7 +57,7 @@ class Alianza extends \yii\db\ActiveRecord
      */
     public function getCodProv()
     {
-        return $this->hasOne(SAPROV::className(), ['CodProv' => 'CodProv']);
+        return $this->hasOne(Proveedor::className(), ['CodProv' => 'CodProv']);
     }
 
     /**
