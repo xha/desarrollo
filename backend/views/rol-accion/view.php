@@ -12,14 +12,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rol-accion-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
-        <?= Html::a('Update', ['update', 'id_accion' => $model->id_accion, 'id_rol' => $model->id_rol], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id_accion' => $model->id_accion, 'id_rol' => $model->id_rol], [
+        <?= Html::a('Actualizar', ['update', 'id_accion' => $model->id_accion, 'id_rol' => $model->id_rol], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Desactivar', ['delete', 'id_accion' => $model->id_accion, 'id_rol' => $model->id_rol], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Confirmar Desactivado',
                 'method' => 'post',
             ],
         ]) ?>

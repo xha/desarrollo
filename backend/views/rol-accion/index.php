@@ -7,16 +7,16 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\RolAccionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Rol Accions';
+$this->title = 'Rol Accion';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rol-accion-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Rol Accion', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Rol Accion', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

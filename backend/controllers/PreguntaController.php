@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
-use app\models\Pregunta;
-use app\models\PreguntaSearch;
+use backend\models\Pregunta;
+use backend\models\PreguntaSearch;
 use common\models\AccessHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

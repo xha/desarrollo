@@ -12,14 +12,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proveedor-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->CodProv], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->CodProv], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->CodProv], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Desactivar', ['delete', 'id' => $model->CodProv], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Confirmar Desactivado',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,16 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'CodProv',
             'Descrip',
-            'TipoPrv',
-            'TipoID3',
-            'TipoID',
+            //'TipoPrv',
+            //'TipoID3',
+            //'TipoID',
             'ID3',
-            'DescOrder',
-            'Clase',
+            //'DescOrder',
+            //'Clase',
             'Activo',
-            'Represent',
+            //'Represent',
             'Direc1',
-            'Direc2',
+            /*'Direc2',
             'Pais',
             'Estado',
             'Ciudad',
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'NumeroUC',
             'FechaUP',
             'MontoUP',
-            'NumeroUP',
+            'NumeroUP',*/
         ],
     ]) ?>
 

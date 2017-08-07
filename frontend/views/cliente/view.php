@@ -12,14 +12,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cliente-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->CodClie], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->CodClie], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->CodClie], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Desactivar', ['delete', 'id' => $model->CodClie], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Confirmar Desactivado',
                 'method' => 'post',
             ],
         ]) ?>
@@ -31,9 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'CodClie',
             'Descrip',
             'ID3',
-            'TipoID3',
-            'TipoID',
             'Activo',
+            /*'TipoID3',
+            'TipoID',
             'DescOrder',
             'Clase',
             'Represent',
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'PromPago',
             'RetenIVA',
             'SaldoPtos',
-            'DescripExt',
+            'DescripExt',*/
         ],
     ]) ?>
 

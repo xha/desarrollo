@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -20,7 +20,7 @@ class Pregunta extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'is_pregunta';
+        return 'isau_pregunta';
     }
 
     /**

@@ -78,12 +78,12 @@ class Proveedor extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'CodProv' => 'Cod Prov',
-            'Descrip' => 'Descrip',
+            'CodProv' => 'Código',
+            'Descrip' => 'Razón Social',
             'TipoPrv' => 'Tipo Prv',
             'TipoID3' => 'Tipo Id3',
             'TipoID' => 'Tipo ID',
-            'ID3' => 'Id3',
+            'ID3' => 'Rif',
             'DescOrder' => 'Desc Order',
             'Clase' => 'Clase',
             'Activo' => 'Activo',

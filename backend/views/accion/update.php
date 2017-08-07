@@ -5,14 +5,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Accion */
 
-$this->title = 'Update Accion: ' . $model->id_accion;
-$this->params['breadcrumbs'][] = ['label' => 'Accions', 'url' => ['index']];
+$this->title = 'Actualizar Acción: ' . $model->id_accion;
+$this->params['breadcrumbs'][] = ['label' => 'Acciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_accion, 'url' => ['view', 'id' => $model->id_accion]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="accion-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <?= $this->render('_form', [
         'model' => $model,

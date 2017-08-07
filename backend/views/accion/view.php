@@ -7,19 +7,19 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Accion */
 
 $this->title = $model->id_accion;
-$this->params['breadcrumbs'][] = ['label' => 'Accions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Acciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="accion-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_accion], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_accion], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->id_accion], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Desactivar', ['delete', 'id' => $model->id_accion], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Confirmar Desactivado',
                 'method' => 'post',
             ],
         ]) ?>

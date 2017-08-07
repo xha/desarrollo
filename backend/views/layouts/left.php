@@ -9,8 +9,9 @@
         } else {
             $menuItems[] = ['label' => 'Configuración', 'icon' => 'circle-o', 'url' => '#',
                                 'items' => [
-                                    ['label' => 'Accion', 'icon' => 'check', 'url' => ['../../backend/web/accion']],
-                                    ['label' => 'Rol', 'icon' => 'check', 'url' => ['../../backend/web/rol']],
+                                    ['label' => 'Preguntas', 'icon' => 'check', 'url' => ['../../backend/web/pregunta']],
+                                    ['label' => 'Acciones', 'icon' => 'check', 'url' => ['../../backend/web/accion']],
+                                    ['label' => 'Roles', 'icon' => 'check', 'url' => ['../../backend/web/rol']],
                                     ['label' => 'Rol - Accion', 'icon' => 'check', 'url' => ['../../backend/web/rol-accion']],
                                     ['label' => 'Recuperar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/recuperar']],
                                     ['label' => 'Activar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/activar']],

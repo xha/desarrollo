@@ -7,19 +7,19 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Inspeccion */
 
 $this->title = $model->id_inspeccion;
-$this->params['breadcrumbs'][] = ['label' => 'Inspeccions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Inspecciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="inspeccion-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_inspeccion], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_inspeccion], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->id_inspeccion], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Desactivar', ['delete', 'id' => $model->id_inspeccion], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Confirmar Desactivado',
                 'method' => 'post',
             ],
         ]) ?>
