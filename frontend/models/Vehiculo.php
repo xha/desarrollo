@@ -38,8 +38,8 @@ class Vehiculo extends \yii\db\ActiveRecord
     {
         return [
             [['id_modelo', 'id_tipo_vehiculo', 'placa', 'anio'], 'required'],
-            [['id_modelo', 'id_tipo_vehiculo', 'activo'], 'integer'],
-            [['placa', 'anio', 'color', 'propietario'], 'string'],
+            [['id_modelo', 'id_tipo_vehiculo', 'activo', 'anio'], 'integer'],
+            [['color', 'propietario', 'placa'], 'string', 'max'=>50],
             [['propietario'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['propietario' => 'CodClie']],
             [['id_modelo'], 'exist', 'skipOnError' => true, 'targetClass' => Modelo::className(), 'targetAttribute' => ['id_modelo' => 'id_modelo']],
             [['id_tipo_vehiculo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoVehiculo::className(), 'targetAttribute' => ['id_tipo_vehiculo' => 'id_tipo_vehiculo']],
@@ -53,10 +53,10 @@ class Vehiculo extends \yii\db\ActiveRecord
     {
         return [
             'id_vehiculo' => 'Id Vehiculo',
-            'id_modelo' => 'Id Modelo',
-            'id_tipo_vehiculo' => 'Id Tipo Vehiculo',
+            'id_modelo' => 'Modelo',
+            'id_tipo_vehiculo' => 'Tipo Vehiculo',
             'placa' => 'Placa',
-            'anio' => 'Anio',
+            'anio' => 'Año',
             'color' => 'Color',
             'propietario' => 'Propietario',
             'activo' => 'Activo',

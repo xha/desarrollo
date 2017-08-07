@@ -25,12 +25,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id_vehiculo',
-            'id_modelo',
-            'id_tipo_vehiculo',
+            [
+              'attribute'=>'id_modelo',
+              'value'=>'idModelo.descripcion',
+            ],
+            [
+              'attribute'=>'id_tipo_vehiculo',
+              'value'=>'idTipoVehiculo.descripcion',
+            ],
             'placa',
-            'anio',
+            //'anio',
             // 'color',
-            // 'propietario',
+            'propietario',
             // 'activo',
 
             ['class' => 'yii\grid\ActionColumn'],
