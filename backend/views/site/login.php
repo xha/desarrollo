@@ -21,7 +21,7 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <b>Innova Core</b> Login
+        <b>Automotores IPSFA</b> Login
     </div>
     <div class="login-box-body">
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
