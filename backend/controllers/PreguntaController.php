@@ -5,7 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Pregunta;
 use app\models\PreguntaSearch;
-use app\models\AccessHelpers;
+use common\models\AccessHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

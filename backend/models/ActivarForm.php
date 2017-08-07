@@ -4,6 +4,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use common\models\Usuario;
+use backend\models\Rol;
 
 class ActivarForm extends model{
     

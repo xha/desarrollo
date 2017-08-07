@@ -5,7 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Rol;
 use backend\models\RolSearch;
-use app\models\AccessHelpers;
+use common\models\AccessHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

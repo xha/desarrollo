@@ -32,7 +32,7 @@ class Usuario extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'is_usuario';
+        return 'isau_usuario';
     }
 
     /**

@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\AccessHelpers;
+use common\models\AccessHelpers;
 use app\models\LoginForm;
 use app\models\RegisterForm;
 use app\models\RecuperarClaveForm;
@@ -195,7 +195,7 @@ class SiteController extends Controller
             $clave = md5("is".$model->clave);
             $connection = \Yii::$app->db;
 
-            $query = "UPDATE is_usuario
+            $query = "UPDATE ISAU_usuario
             SET clave='$clave'
             where usuario='".$model->usuario."' and id_pregunta=".$model->id_pregunta." and respuesta_seguridad='".$model->respuesta_seguridad."' and correo='".$model->correo."'";
             $msg = $connection->createCommand($query)->execute();
@@ -220,16 +220,15 @@ class SiteController extends Controller
         $msg = null;
         $data = array();
         
-        $query = "SELECT usuario FROM IS_USUARIO";
+        $query = "SELECT usuario FROM ISAU_USUARIO";
         $data1 = $connection->createCommand($query)->queryAll();
 
         for($i=0;$i<count($data1);$i++) {
             $data[]= $data1[$i]['usuario'];
         }
         
-        if ($model->load(Yii::$app->request->post()))
-        {
-            $query = "UPDATE is_usuario
+        if ($model->load(Yii::$app->request->post())) {
+            $query = "UPDATE ISAU_USUARIO
             SET id_rol=".$model->id_rol."
             where id_usuario='".$model->id_usuario."'";
             $msg = $connection->createCommand($query)->execute();
@@ -240,7 +239,7 @@ class SiteController extends Controller
                 $msg = "Error al Actualizar";
             };
         }
-
+        
         return $this->render('activar', [
             'model' => $model,
             'msg' => $msg,

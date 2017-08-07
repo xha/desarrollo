@@ -4,13 +4,15 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Usuario;
-use app\models\Rol;
+use backend\models\Rol;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Rol */
 
 $this->title = 'Activar usuario';
+
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <h3><?= $msg ?></h3>
@@ -28,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) 
     ?>
 
-    <?= $form->field($model, 'id_rol')->dropDownList(ArrayHelper::map(Rol::find()->where(['activo' => '1'])->OrderBy('nombre')->all(), 'id_rol', 'nombre')); ?>
+    <?= $form->field($model, 'id_rol')->dropDownList(ArrayHelper::map(Rol::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 'id_rol', 'descripcion')); ?>
 
     <?= $form->field($model, "activado")->checkbox(); ?><br /><br />
 
