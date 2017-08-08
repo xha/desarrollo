@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name'=>'Innova Core',
+    'name'=>'Automotores',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'es',

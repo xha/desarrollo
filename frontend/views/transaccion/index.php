@@ -24,7 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_transaccion',
+            //'id_transaccion',
+            'numero_atencion',
             'id_vehiculo',
             //'fecha_transaccion',
             'fecha',
@@ -33,7 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'asesor',
             // 'km',
             'representante',
-            'numero_atencion',
             // 'gravable',
             // 'exento',
             // 'tax',
