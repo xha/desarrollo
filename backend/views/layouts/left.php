@@ -25,7 +25,7 @@
                                     ['label' => 'Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/alianza']],
                             ],];
             $menuItems[] = ['label' => 'Vehículo', 'icon' => 'car', 'url' => ['../../frontend/web/vehiculo']];
-            $menuItems[] = ['label' => 'Transaccion', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];
+            $menuItems[] = ['label' => 'Generar Orden', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];
         }
     ?>
         <?= dmstr\widgets\Menu::widget(
