@@ -77,7 +77,9 @@ class TransaccionSearch extends Transaccion
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'CodSucu', $this->CodSucu])
             ->andFilterWhere(['like', 'representante', $this->representante])
-            ->andFilterWhere(['like', 'observacion', $this->observacion]);
+            ->andFilterWhere(['like', 'observacion', $this->observacion])
+            ->andFilterWhere(['IN', 'activo', 1])
+            ->orderBy('numero_atencion DESC');
 
         return $dataProvider;
     }

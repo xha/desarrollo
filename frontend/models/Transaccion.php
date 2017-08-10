@@ -33,7 +33,8 @@ use Yii;
  * @property TransaccionInspeccion[] $iSAUTransaccionInspeccions
  */
 class Transaccion extends \yii\db\ActiveRecord
-{
+{   
+    public $placa;
     /**
      * @inheritdoc
      */
@@ -48,9 +49,10 @@ class Transaccion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_vehiculo', 'asesor', 'representante'], 'required'],
+            [['id_vehiculo', 'asesor', 'representante', 'placa'], 'required'],
             [['id_vehiculo', 'asesor', 'numero_atencion', 'activo'], 'integer'],
             [['fecha_transaccion', 'fecha'], 'safe'],
+            ['placa', 'placaExiste'],
             [['hora', 'CodSucu', 'representante', 'observacion'], 'string'],
             [['km', 'gravable', 'exento', 'tax', 'total'], 'number'],
             [['id_vehiculo'], 'exist', 'skipOnError' => true, 'targetClass' => Vehiculo::className(), 'targetAttribute' => ['id_vehiculo' => 'id_vehiculo']],
@@ -82,6 +84,15 @@ class Transaccion extends \yii\db\ActiveRecord
         ];
     }
 
+    public function placaExiste($attribute, $params) {
+        //Buscar la placa en la tabla
+        $table = Vehiculo::find()->where("placa=:placa", [":placa" => $this->placa]);
+        
+        //Si la placa no existe mostrar el error
+        if ($table->count() < 1) {
+            $this->addError($attribute, "La placa ".$this->placa." no existe");
+        }
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
