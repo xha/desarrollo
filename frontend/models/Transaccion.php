@@ -35,6 +35,8 @@ use Yii;
 class Transaccion extends \yii\db\ActiveRecord
 {   
     public $placa;
+    public $CodClie;
+    public $d_codigo;
     /**
      * @inheritdoc
      */
@@ -79,8 +81,9 @@ class Transaccion extends \yii\db\ActiveRecord
             'exento' => 'Exento',
             'tax' => 'Tax',
             'total' => 'Total',
-            'observacion' => 'Observacion',
+            'observacion' => 'Observaciones',
             'activo' => 'Activo',
+            'CodClie' => 'Cliente',
         ];
     }
 
