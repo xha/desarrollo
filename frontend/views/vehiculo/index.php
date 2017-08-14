@@ -33,6 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
               'attribute'=>'id_tipo_vehiculo',
               'value'=>'idTipoVehiculo.descripcion',
             ],
+            [
+              'attribute'=>'id_marca',
+              'value'=>'idMarca.descripcion',
+            ],
             'placa',
             //'anio',
             // 'color',

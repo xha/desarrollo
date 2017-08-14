@@ -37,12 +37,14 @@ class Vehiculo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_modelo', 'id_tipo_vehiculo', 'placa', 'anio'], 'required'],
-            [['id_modelo', 'id_tipo_vehiculo', 'activo', 'anio'], 'integer'],
+            [['id_modelo', 'id_tipo_vehiculo', 'id_marca', 'placa', 'anio'], 'required'],
+            [['id_modelo', 'id_tipo_vehiculo', 'activo', 'anio', 'id_marca'], 'integer'],
             [['color', 'propietario', 'placa'], 'string', 'max'=>50],
+            [['serial_carroceria', 'serial_motor'], 'string', 'max'=>100],
             [['propietario'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['propietario' => 'CodClie']],
             [['id_modelo'], 'exist', 'skipOnError' => true, 'targetClass' => Modelo::className(), 'targetAttribute' => ['id_modelo' => 'id_modelo']],
             [['id_tipo_vehiculo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoVehiculo::className(), 'targetAttribute' => ['id_tipo_vehiculo' => 'id_tipo_vehiculo']],
+            [['id_marca'], 'exist', 'skipOnError' => true, 'targetClass' => Marca::className(), 'targetAttribute' => ['id_marca' => 'id_marca']],
         ];
     }
 
@@ -54,9 +56,12 @@ class Vehiculo extends \yii\db\ActiveRecord
         return [
             'id_vehiculo' => 'Id Vehiculo',
             'id_modelo' => 'Modelo',
+            'id_marca' => 'Marca',
             'id_tipo_vehiculo' => 'Tipo Vehiculo',
             'placa' => 'Placa',
             'anio' => 'Año',
+            'serial_motor' => 'Serial de Motor',
+            'serial_carroceria' => 'Serial de Carrocería',
             'color' => 'Color',
             'propietario' => 'Propietario',
             'activo' => 'Activo',
@@ -86,7 +91,13 @@ class Vehiculo extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Modelo::className(), ['id_modelo' => 'id_modelo']);
     }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdMarca()
+    {
+        return $this->hasOne(Marca::className(), ['id_marca' => 'id_marca']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

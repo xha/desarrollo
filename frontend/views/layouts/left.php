@@ -17,6 +17,7 @@
                             ],];
             $menuItems[] = ['label' => 'Tablas Básicas', 'icon' => 'folder-o', 'url' => '#',
                                 'items' => [
+                                    ['label' => 'Marca', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],
                                     ['label' => 'Modelo', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
                                     ['label' => 'Tipo de Vehículo', 'icon' => 'check', 'url' => ['../../frontend/web/tipo-vehiculo']],
                                     ['label' => 'Cliente', 'icon' => 'check', 'url' => ['../../frontend/web/cliente']],

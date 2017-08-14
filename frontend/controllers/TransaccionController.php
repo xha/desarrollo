@@ -46,6 +46,17 @@ class TransaccionController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
+    public function actionSolicitud()
+    {
+        $searchModel = new TransaccionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('solicitud', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     /**
      * Displays a single Transaccion model.

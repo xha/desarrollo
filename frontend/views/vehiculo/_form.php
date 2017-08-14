@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use frontend\models\Modelo;
+use frontend\models\Marca;
 use frontend\models\TipoVehiculo;
 
 /* @var $this yii\web\View */
@@ -22,10 +23,17 @@ $this->registerCssFile('@web/css/general.css');
 
     <?= $form->field($model, 'id_tipo_vehiculo')->dropDownList(ArrayHelper::map(TipoVehiculo::find()->where('activo=1')->OrderBy('descripcion')->all(), 
         'id_tipo_vehiculo', 'descripcion'), ['prompt' => 'Seleccione']); ?>
+    
+    <?= $form->field($model, 'id_marca')->dropDownList(ArrayHelper::map(Marca::find()->where('activo=1')->OrderBy('descripcion')->all(), 
+        'id_marca', 'descripcion'), ['prompt' => 'Seleccione']); ?>
 
     <?= $form->field($model, 'placa')->textInput(['maxlength' => 10]) ?>
+    
+    <?= $form->field($model, 'placa')->textInput(['maxlength' => 100]) ?>
+    
+    <?= $form->field($model, 'serial_motor')->textInput(['maxlength' => 100]) ?>
 
-    <?= $form->field($model, 'anio')->textInput(['maxlength' => 4]) ?>
+    <?= $form->field($model, 'serial_carroceria')->textInput(['maxlength' => 4]) ?>
 
     <?= $form->field($model, 'color')->textInput() ?>
 

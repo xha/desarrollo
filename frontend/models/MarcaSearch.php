@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Vehiculo;
+use frontend\models\Marca;
 
 /**
- * VehiculoSearch represents the model behind the search form about `frontend\models\Vehiculo`.
+ * MarcaSearch represents the model behind the search form about `frontend\models\Marca`.
  */
-class VehiculoSearch extends Vehiculo
+class MarcaSearch extends Marca
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class VehiculoSearch extends Vehiculo
     public function rules()
     {
         return [
-            [['id_vehiculo', 'id_modelo', 'id_tipo_vehiculo', 'id_marca', 'activo'], 'integer'],
-            [['placa', 'anio', 'color', 'propietario'], 'safe'],
+            [['id_marca', 'activo'], 'integer'],
+            [['descripcion'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class VehiculoSearch extends Vehiculo
      */
     public function search($params)
     {
-        $query = Vehiculo::find();
+        $query = Marca::find();
 
         // add conditions that should always apply here
 
@@ -59,17 +59,11 @@ class VehiculoSearch extends Vehiculo
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_vehiculo' => $this->id_vehiculo,
-            'id_modelo' => $this->id_modelo,
             'id_marca' => $this->id_marca,
-            'id_tipo_vehiculo' => $this->id_tipo_vehiculo,
             'activo' => $this->activo,
         ]);
 
-        $query->andFilterWhere(['like', 'placa', $this->placa])
-            ->andFilterWhere(['like', 'anio', $this->anio])
-            ->andFilterWhere(['like', 'color', $this->color])
-            ->andFilterWhere(['like', 'propietario', $this->propietario]);
+        $query->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 
         return $dataProvider;
     }
