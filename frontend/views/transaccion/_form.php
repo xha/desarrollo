@@ -11,6 +11,7 @@ use kartik\tabs\TabsX;
 date_default_timezone_set("America/Caracas");
 $fecha= time();
 $fecha=date('d-m-Y',$fecha);
+
 for($i=7;$i<23;$i++) {
     if($i<10) {
         $valor = "0".$i;
@@ -42,11 +43,16 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
 
 <div class="transaccion-form">
 
+    <div class="inicial00" align="center">
+        <?= Html::submitButton("Crear Nueva Orden",array('class'=>'btn btn-success','onclick'=>'js:enviar_data();')); ?>
+    </div>
+    
     <?php $form = ActiveForm::begin(); ?>
+    
     <table class="tablas tablas1">
         <tr>
             <td>
-                <b>Hora de Entrada</b><br />
+                <b>Hora de Entrada</b><br /><br />
                 <select class='texto texto-xc' id='hora_e'><?= $hora; ?></select>
                 <select class='texto texto-xc' id='minuto_e'><?= $minuto; ?></select> 
             </td>
@@ -58,7 +64,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                         'clientOptions' => [
                             'changeYear' => true
                         ],
-                        'options' => ['class' => 'texto texto-ec', 'readonly'=>true, 'value' => $fecha]
+                        'options' => ['class' => 'texto texto-ec', 'readonly' => true]
                     ]) 
                 ?>
             </td>
@@ -115,7 +121,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                 <input class="texto texto-corto" id="v_color" readonly="true" />
             </td>
             <td align="left">
-                <?= $form->field($model, 'km')->textInput(['class'=>'texto texto-xc']) ?>
+                <?= $form->field($model, 'km')->textInput(['class'=>'texto texto-ec']) ?>
             </td>
         </tr>
         <tr>
@@ -130,7 +136,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
         </tr>
         <tr>
             <td colspan="5">
-                <?= $form->field($model, 'CodClie')->widget(\yii\jui\AutoComplete::classname(), [
+                <?= $form->field($model, 'representante')->widget(\yii\jui\AutoComplete::classname(), [
                         'clientOptions' => [
                             'source' => $clientes,
                         ],
@@ -170,8 +176,10 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
         </tr>
         <tr>
             <td colspan="5">
-                <div id="di_izquierdo" style="width: 60%; float: left"></div>
-                <div id="di_derecho" style="width: 38%; float: right"></div>
+                <div id="div_inspescciones">
+                    <div id="di_izquierdo" style="width: 60%; float: left"></div>
+                    <div id="di_derecho" style="width: 38%; float: right"></div>
+                </div>
             </td>
         </tr>
     </table>
@@ -187,6 +195,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                 Fila<br />
                 <input id="d_fila" maxlength="5" class="texto texto-xc" onkeypress="return entero(event);" />
                 <input id="tipo_item" type="hidden" />
+                <input id="i_items" name="i_items" type="hidden" />
+                <input id="i_inspecciones" name="i_inspecciones" type="hidden" />
+                <input id="fecha_e" value="<?= $fecha; ?>" type="hidden" />
             </td>
             <td>
                 Cod. de Item *<br />
@@ -251,17 +262,13 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
         </tr>
     </table>
     
-    <?= $form->field($model, 'representante')->hiddenInput()->label(false); ?>
     <?= $form->field($model, 'asesor')->hiddenInput(['value' => $id_usuario])->label(false) ?>
     <?= $form->field($model, 'CodSucu')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'numero_atencion')->hiddenInput(['value' => 0])->label(false) ?>
     <?= $form->field($model, 'id_vehiculo')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'hora')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'activo')->hiddenInput(['value' => 1])->label(false); ?>
     
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear Nueva Orden' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
     <?php ActiveForm::end(); ?>
 
 </div>

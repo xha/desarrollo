@@ -100,7 +100,78 @@ class TransaccionController extends Controller
             $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'];
         }
                 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            //print_r(Yii::$app->request->post());die;
+            date_default_timezone_set("America/Caracas");
+            $fecha_transaccion = time();
+            $hora = date('H:i:s',$fecha_transaccion);
+            $hora2 = date('Hi',$fecha_transaccion);
+            $fecha_transaccion = date('Ymd',$fecha_transaccion);
+            
+            $query = "SELECT count(*)+1 as numero_atencion FROM ISAU_Transaccion where fecha_transaccion "
+                    . "between '$fecha_transaccion 00:00:00' and '$fecha_transaccion 23:59:59'";
+            $data1 = $connection->createCommand($query)->queryOne();
+            $model->numero_atencion = $data1['numero_atencion'];
+            $model->CodSucu = '0000';
+            $model->fecha_transaccion = $fecha_transaccion." ".$hora;
+            $model->hora = $hora2;
+            $arr_fecha_compra=explode("-",$model->fecha);
+            $model->fecha = $arr_fecha_compra[2].$arr_fecha_compra[1].$arr_fecha_compra[0];
+            /******************************************* GUARDO ************************************************/
+            $model->save();
+            /********************* ESTA VAINA TIENE QUE SE UN SP ***********************************************/
+            /******************************************* DETALLE ***********************************************/
+            $detalle = explode("¬",$_POST['i_items']);  
+            
+            for ($i=0;$i < count($detalle) - 1;$i++) {
+                $campos = explode("#",$detalle[$i]);
+                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
+                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleTransaccion(id_transaccion,EsServ,CodItem,descripcion,cantidad,costo,total) VALUES (".$model->id_transaccion.""
+                        . ",'".$campos[8]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$campos[7].") SELECT Scope_Identity() as ultimo;";
+                $ultimo = $connection->createCommand($query2)->queryOne();
+                
+                if ($campos[5]>0) {
+                    $grav = round(($campos[3] * $campos[4]),2);
+                    
+                    $monto_tax = 0;
+                    $query3 = "SELECT * FROM SATAXES WHERE CodTaxs='".$campos[9]."'";
+                    $satax = $connection->createCommand($query3)->queryOne();
+                    $monto_tax = $satax['MtoTax'];
+
+                    $query2 = "INSERT INTO ISAU_TaxDetalleTransaccion(id_detalle_transaccion,CodItem,CodTaxs,monto,gravable,mtotax) VALUES ('".$ultimo['ultimo']."',"
+                            . "'".$campos[1]."','".$campos[9]."',".$campos[5].",".$campos[7].",".$monto_tax.")";
+                    $connection->createCommand($query2)->query();
+                }
+                /*************************************** ALMACEN ***********************************************/
+                if ($campos[8]==0) {
+                    $query2 = "INSERT INTO ISAU_SolicitudTransaccion(id_transaccion,CodProd,cantidad) "
+                            . " VALUES (".$model->id_transaccion.",'".$campos[1]."',".$campos[3].")";
+                    $connection->createCommand($query2)->query();
+                }
+            }
+            /******************************************* TAX ***************************************************/
+            $query3 = "SELECT d.CodTaxs,d.mtotax,sum(d.monto) as monto, sum(d.gravable) as gravable
+                    FROM ISAU_TaxDetalleTransaccion d, ISAU_DetalleTransaccion dt
+                    WHERE dt.id_detalle_transaccion=d.id_detalle_transaccion and dt.id_transaccion=".$model->id_transaccion."
+                    GROUP BY d.CodTaxs,d.MtoTax";
+            $sataxvta = $connection->createCommand($query3)->queryAll();
+            
+            for ($i=0;$i<count($sataxvta);$i++) {
+                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,gravable,mtotax) VALUES (".$model->id_transaccion.",'".$sataxvta[$i]['CodTaxs']."',"
+                        . "'".$sataxvta[$i]['monto']."',".$sataxvta[$i]['mtotax'].",".$sataxvta[$i]['gravable'].")";
+                $connection->createCommand($query2)->query();
+            }
+            /******************************************* INSPECCION ***********************************************/
+            $inspecciones = explode("¬",$_POST['i_inspecciones']);  
+            
+            for ($i=0;$i < count($inspecciones) - 1;$i++) {
+                $campos = explode("#",$inspecciones[$i]);
+
+                $query2 = "INSERT INTO ISAU_TransaccionInspeccion(id_transaccion,id_inspeccion,observacion) "
+                        . "VALUES (".$model->id_transaccion.",".$campos[0].",'".$campos[1]."')";
+                $connection->createCommand($query2)->query();
+            }
+            /******************************************************************************************************/
             return $this->redirect(['view', 'id' => $model->id_transaccion]);
         } else {
             return $this->render('create', [
@@ -166,6 +237,28 @@ class TransaccionController extends Controller
         $query = "SELECT * from ISAU_Inspeccion where activo=1";
 
         $pendientes = $connection->createCommand($query)->queryAll();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }    
+    
+    public function actionBuscarCliente($cliente) {
+        $connection = \Yii::$app->db;
+
+        $query = "SELECT * from SACLIE where Activo=1 and CodClie='".$cliente."'";
+
+        $pendientes = $connection->createCommand($query)->queryOne();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }    
+    
+    public function actionBuscarVehiculo($placa) {
+        $connection = \Yii::$app->db;
+
+        $query = "SELECT v.id_vehiculo,v.placa,m.descripcion as modelo, t.descripcion as tipo,v.color,v.propietario,v.anio
+                FROM isau_vehiculo v, isau_modelo m, ISAU_TipoVehiculo t
+                WHERE v.activo=1 and v.placa='".$placa."'";
+
+        $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
     }    

@@ -1,59 +1,92 @@
+var num_inspecciones;
 $(function() {
+    trae('transaccion-fecha').value = trae('fecha_e').value;
     buscar_inspeccion();    
 });
 
 function buscar_cliente() {
-    var cliente = trae('').value;
-    $.get('../transaccion/buscar-cliente',{cliente : cliente},function(data){
-        var data = $.parseJSON(data);
-        var costo_hora = document.getElementById('facturacion-costo_hora');
-        var porcentaje = document.getElementById('facturacion-porcentaje');
-
-        costo_hora.value = data[0].costo;
-        porcentaje.value = data[0].porcentaje;
-    });
+    var cliente = trae('transaccion-representante').value;
+    
+    if (cliente!="") {
+        $.get('../transaccion/buscar-cliente',{cliente : cliente},function(data){
+            var data = $.parseJSON(data);
+            if (data!="") {
+                var nombre = trae('c_nombre');
+                var rif = trae('c_rif');
+                var tlf = trae('c_tlf');
+                var email = trae('c_email');
+                var direccion = trae('c_direccion');
+                var cliente = trae('transaccion-representante');
+                
+                cliente.value = data.CodClie;
+                email.value = data.Email;
+                rif.value = data.ID3;
+                tlf.value = data.Telef;
+                nombre.value = data.Descrip;
+                direccion.value = data.Direc1+" "+data.Direc2;
+            }
+        });
+    }
 }
 
 function buscar_vehiculo() {
-    var cliente = trae('').value;
-    $.get('../transaccion/buscar-cliente',{cliente : cliente},function(data){
-        var data = $.parseJSON(data);
-        var costo_hora = document.getElementById('facturacion-costo_hora');
-        var porcentaje = document.getElementById('facturacion-porcentaje');
-
-        costo_hora.value = data[0].costo;
-        porcentaje.value = data[0].porcentaje;
-    });
+    var placa = trae('transaccion-placa').value;
+    
+    if (placa!="") {
+        $.get('../transaccion/buscar-vehiculo',{placa : placa},function(data){
+            var data = $.parseJSON(data);
+            if (data!="") {
+                var tipo = trae('v_tipo');
+                var modelo = trae('v_modelo');
+                var anio = trae('v_anio');
+                var color = trae('v_color');
+                var cliente = trae('transaccion-representante');
+                var id_vehiculo = trae('transaccion-id_vehiculo');
+                
+                tipo.value = data.tipo;
+                modelo.value = data.modelo;
+                anio.value = data.anio;
+                color.value = data.color;
+                id_vehiculo.value = data.id_vehiculo;
+                if (cliente.value=="") {
+                    cliente.value = data.propietario;
+                    buscar_cliente();
+                }
+            }
+        });
+    }
 }
 
 function buscar_inspeccion() {
     var izquiero = trae('di_izquierdo');
     var derecho = trae('di_derecho');
-    
+    num_inspecciones=0;
     $.get('../transaccion/buscar-inspeccion',{},function(data){
         var data = $.parseJSON(data);
         
         if (data!="") {
+            num_inspecciones = data.length;
             for (var i = 0; i < data.length; i++) {
                 var div = document.createElement('div');
                 var input1 = document.createElement('input');
                 var b = document.createElement('b');
                 var select = document.createElement('select');
                     
-                var item = new Option("Bien","Bien","","");
+                var item = new Option("Sin Detalle","Sin Detalle","","");
                 select[0] = item;
-                var item = new Option("Abolladura","Abolladura","","");
-                select[0] = item;
-                item = new Option("Falta","Falta","","");
+                item = new Option("Abolladura","Abolladura","","");
                 select[1] = item;
-                item = new Option("Golpe","Golpe","","");
+                item = new Option("Falta","Falta","","");
                 select[2] = item;
-                item = new Option("R","R","","");
+                item = new Option("Golpe","Golpe","","");
                 select[3] = item;
+                item = new Option("R","R","","");
+                select[4] = item;
                 
                 select.className = "texto texto-ec";
-                div.id="d_inspeccion_"+i;
+                select.id = "i_inspeccion_"+data[i].id_inspeccion;
                 div.align="left";
+                div.id="d_inspeccion_"+i;
                 div.style= "width: 49%; float: left; padding: 5px";
                 b.style= "padding: 5px";
                 b.innerHTML = data[i].descripcion;
@@ -64,8 +97,7 @@ function buscar_inspeccion() {
                     derecho.appendChild(div);
                 } else {
                     input1.type = "checkbox";
-                    input1.id = "i_inspeccion_"+i;
-                    input1.value = data[i].id_inspeccion;
+                    input1.id = "i_inspeccion_"+data[i].id_inspeccion;
                     input1.style.marginRight = "4px";
                     
                     div.appendChild(input1);
@@ -339,4 +371,47 @@ function recorre_tabla() {
     impuesto.value = Math.round(d_impuesto * 100) / 100;   
     //descuento.value = Math.round(d_descuento * 100) / 100;   
     total.value = Math.round((d_sub_total + d_impuesto) * 100) / 100;   
+}
+
+function enviar_data() {
+    var i_items = document.getElementById('i_items');
+    var i_inspecciones = document.getElementById('i_inspecciones');
+    var id_vehiculo = trae('transaccion-id_vehiculo').value;
+    var cliente = trae('transaccion-representante').value;
+    var km = trae('transaccion-km').value;
+    var hora_e = trae('hora_e').value;
+    var minuto_e = trae('minuto_e').value;
+    var hora = trae('transaccion-hora').value;
+    var fila;
+    
+    i_items.value = "";
+    i_inspecciones.value = "";
+    hora.value = hora_e.toString()+minuto_e.toString();
+    
+    if ((id_vehiculo!="") && (cliente!="") && (km!="")) {
+        $("#listado_detalle tr").each(function (index) {
+            var td = $(this).children("td");
+            if (td.eq(0).text()!="") {
+                fila = td.eq(0).text();
+                i_items.value+= trae('add_fila_i_'+fila).tittle+"¬";
+            }
+        });
+        
+        $("#div_inspescciones :input").each(function(){	
+            var campos = this.id.split("_");
+            if (campos[2]<4) {
+                i_inspecciones.value+= campos[2]+"#"+this.value+"¬";
+            } else {
+                if (this.checked) {
+                    i_inspecciones.value+= campos[2]+"#SI¬";
+                } else {
+                    i_inspecciones.value+= campos[2]+"#NO¬";
+                }
+            }
+        });
+
+        if ((i_items.value!="") && (i_inspecciones.value!="")) document.forms['w0'].submit();
+    } else {
+        alert("Faltan datos");
+    }
 }
