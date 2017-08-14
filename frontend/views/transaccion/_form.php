@@ -11,7 +11,8 @@ use kartik\tabs\TabsX;
 date_default_timezone_set("America/Caracas");
 $fecha= time();
 $fecha=date('d-m-Y',$fecha);
-
+$hora="";
+$minuto="";
 for($i=7;$i<23;$i++) {
     if($i<10) {
         $valor = "0".$i;
@@ -26,7 +27,6 @@ for($i=7;$i<23;$i++) {
     $hora.= "<option value='$valor'>$hora1</option>";
 }
 
-$minuto = "";
 for($i=0;$i<60;$i++) {
     if($i<10) {
         $valor = "0".$i;
@@ -98,7 +98,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                         'clientOptions' => [
                             'source' => $placas,
                         ],
-                        'options' => ['class' => 'texto texto-ec','onblur'=>'js: buscar_vehiculo()', 'placeHolder' => 'Escriba la Placa'],
+                        'options' => ['class' => 'texto texto-ec','onblur'=>'js: buscar_vehiculo()', 'placeHolder' => 'Escriba Placa'],
                     ]) 
                 ?>
             </td>
