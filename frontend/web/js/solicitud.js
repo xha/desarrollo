@@ -1,110 +1,54 @@
-var num_inspecciones;
 $(function() {
-    trae('transaccion-fecha').value = trae('fecha_e').value;
-    buscar_inspeccion();    
+    buscar_vehiculo();    
+    buscar_detalle();    
 });
 
-function buscar_cliente() {
-    var cliente = trae('transaccion-representante').value;
-    
-    if (cliente!="") {
-        $.get('../transaccion/buscar-cliente',{cliente : cliente},function(data){
-            var data = $.parseJSON(data);
-            if (data!="") {
-                var nombre = trae('c_nombre');
-                var rif = trae('c_rif');
-                var tlf = trae('c_tlf');
-                var email = trae('c_email');
-                var direccion = trae('c_direccion');
-                var cliente = trae('transaccion-representante');
-                
-                cliente.value = data.CodClie;
-                email.value = data.Email;
-                rif.value = data.ID3;
-                tlf.value = data.Telef;
-                nombre.value = data.Descrip;
-                direccion.value = data.Direc1+" "+data.Direc2;
-            }
-        });
-    }
-}
-
 function buscar_vehiculo() {
-    var placa = trae('transaccion-placa').value;
+    var id_vehiculo = trae('transaccion-id_vehiculo').value;
     
-    if (placa!="") {
-        $.get('../transaccion/buscar-vehiculo',{placa : placa},function(data){
-            var data = $.parseJSON(data);
-            if (data!="") {
-                var tipo = trae('v_tipo');
-                var modelo = trae('v_modelo');
-                var anio = trae('v_anio');
-                var color = trae('v_color');
-                var cliente = trae('transaccion-representante');
-                var id_vehiculo = trae('transaccion-id_vehiculo');
-                
-                tipo.value = data.tipo;
-                modelo.value = data.modelo;
-                anio.value = data.anio;
-                color.value = data.color;
-                id_vehiculo.value = data.id_vehiculo;
-                if (cliente.value=="") {
-                    cliente.value = data.propietario;
-                    buscar_cliente();
-                }
-            }
-        });
-    }
+    $.get('../transaccion/buscar-vehiculo',{id_vehiculo : id_vehiculo},function(data){
+        var data = $.parseJSON(data);
+        if (data!="") {
+            var tipo = trae('v_tipo');
+            var modelo = trae('v_modelo');
+            var anio = trae('v_anio');
+            var color = trae('v_color');
+            var placa = trae('v_placa');
+
+            tipo.value = data.tipo;
+            modelo.value = data.modelo;
+            anio.value = data.anio;
+            color.value = data.color;
+            placa.value = data.placa;
+        }
+    });
 }
 
-function buscar_inspeccion() {
-    var izquiero = trae('di_izquierdo');
-    var derecho = trae('di_derecho');
-    num_inspecciones=0;
-    $.get('../transaccion/buscar-inspeccion',{},function(data){
+function buscar_detalle() {
+    var id_transaccion = trae("transaccion-id_transaccion").value;
+    var tabla = trae('listado_detalle');
+    var i;
+    
+    $.get('../transaccion/buscar-detalle-solicitud',{id_transaccion : id_transaccion},function(data){
         var data = $.parseJSON(data);
-        
+        var campos = Array();
         if (data!="") {
-            num_inspecciones = data.length;
-            for (var i = 0; i < data.length; i++) {
-                var div = document.createElement('div');
-                var input1 = document.createElement('input');
-                var b = document.createElement('b');
-                var select = document.createElement('select');
-                    
-                var item = new Option("Sin Detalle","Sin Detalle","","");
-                select[0] = item;
-                item = new Option("Abolladura","Abolladura","","");
-                select[1] = item;
-                item = new Option("Falta","Falta","","");
-                select[2] = item;
-                item = new Option("Golpe","Golpe","","");
-                select[3] = item;
-                item = new Option("R","R","","");
-                select[4] = item;
-                
-                select.className = "texto texto-ec";
-                select.id = "i_inspeccion_"+data[i].id_inspeccion;
-                div.align="left";
-                div.id="d_inspeccion_"+i;
-                div.style= "width: 49%; float: left; padding: 5px";
-                b.style= "padding: 5px";
-                b.innerHTML = data[i].descripcion;
-                
-                if (i<4) {
-                    div.appendChild(b);
-                    div.appendChild(select);
-                    derecho.appendChild(div);
-                } else {
-                    input1.type = "checkbox";
-                    input1.id = "i_inspeccion_"+data[i].id_inspeccion;
-                    input1.style.marginRight = "4px";
-                    
-                    div.appendChild(input1);
-                    div.appendChild(b);
-                    izquiero.appendChild(div);
-                }
-            }
+            for (i = 0; i < data.length; i++) {
+                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp 	Opt
+                //d.CodItem,d.descripcion,d.cantidad,d.costo,d.total ,td.monto
+                campos.length = 0;
+                campos.push(i+1);
+                campos.push(data[i].CodItem);
+                campos.push(data[i].descripcion);
+                campos.push(number_format(data[i].cantidad,2));
+                campos.push(number_format(data[i].costo,2));
+                campos.push(number_format(data[i].monto,2));
+                campos.push(number_format(0));
+                campos.push(number_format(data[i].total,2));
+                campos.push(0);
+                campos.push(data[i].CodTaxs);
+                tabla.appendChild(add_filas(campos, 'td','editar_detalle####borrar_detalle','',9));
+            }     
         }
     });
 }
@@ -140,40 +84,6 @@ function carga_servicios() {
                 });
             }
         });
-    }
-}
-
-function calcula_subtotal() {
-    var cantidad = trae('d_cantidad').value;
-    var precio = trae('d_precio').value;
-    var iva = trae('d_iva');
-    var descuento = trae('d_descuento');
-    var impuesto = trae('d_impuesto');
-    var total = trae('d_total');
-    var sub;
-    var selected;
-
-    if (descuento.value=="") descuento.value=0;
-    selected = iva.options[iva.selectedIndex].text;
-    if (selected=="") selected = 0;
-
-    if ((precio>0) && (cantidad>0)) {
-        sub = (parseFloat(cantidad) * parseFloat(precio)) - parseFloat(descuento.value);
-        impuesto.value = Math.round((parseFloat(sub) * (parseFloat(selected)/100)) * 100) / 100 ;
-        total.value = Math.round((parseFloat(sub) + parseFloat(impuesto.value)) * 100) / 100 ;    
-    }
-}
-
-function valida_detalle() {
-    var cantidad = trae('d_cantidad').value;
-    var precio = trae('d_precio').value;
-    var codigo = trae('transaccion-d_codigo').value;
-    var nombre = trae('d_nombre').value;
-    var tipo_item = trae('tipo_item').value;
-
-    if ((cantidad!="") && (precio!="") && (codigo!="") && (nombre!="") && (tipo_item!="")) {
-        calcula_subtotal();
-        llena_tabla_detalle();
     }
 }
 

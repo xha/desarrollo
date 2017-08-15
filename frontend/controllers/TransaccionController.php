@@ -51,10 +51,35 @@ class TransaccionController extends Controller
     {
         $searchModel = new TransaccionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        
         return $this->render('solicitud', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionSolicitudIndex($id)
+    {
+        $model = $this->findModel($id);
+        $connection = \Yii::$app->db;
+        $items = array();
+        
+        /********************** ITEMS ******************************************/
+        $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
+        $data1 = $connection->createCommand($query)->queryAll();
+        
+        for($i=0;$i<count($data1);$i++) {
+            $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'];
+        }
+        
+        $query = "SELECT CodServ,Descrip FROM SASERV where Activo=1";
+        $data1 = $connection->createCommand($query)->queryAll();
+        
+        for($i=0;$i<count($data1);$i++) {
+            $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'];
+        }
+        return $this->render('solicitud-index', [
+            'model' => $model,
+            'items' => $items,
         ]);
     }
 
@@ -262,13 +287,18 @@ class TransaccionController extends Controller
         echo Json::encode($pendientes);
     }    
     
-    public function actionBuscarVehiculo($placa) {
+    public function actionBuscarVehiculo($placa = null,$id_vehiculo = null) {
         $connection = \Yii::$app->db;
-
+        
+        if ($id_vehiculo!="") {
+            $extra = "and v.id_vehiculo='".$id_vehiculo."'";
+        } else {
+            $extra = "and v.placa='".$placa."'";
+        }
+        
         $query = "SELECT v.id_vehiculo,v.placa,m.descripcion as modelo, t.descripcion as tipo,v.color,v.propietario,v.anio
                 FROM isau_vehiculo v, isau_modelo m, ISAU_TipoVehiculo t
-                WHERE v.activo=1 and v.placa='".$placa."'";
-
+                WHERE v.activo=1 ".$extra;
         $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
@@ -309,4 +339,17 @@ class TransaccionController extends Controller
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
     }  
+    
+    public function actionBuscarDetalleSolicitud($id_transaccion) {
+        $connection = \Yii::$app->db;
+
+        $query = "select d.CodItem,d.descripcion,d.cantidad,d.costo,d.total,td.CodTaxs,td.monto
+                from ISAU_DetalleTransaccion d, ISAU_TaxDetalleTransaccion td
+                where d.id_detalle_transaccion=td.id_detalle_transaccion and 
+                d.EsServ=0 and d.id_transaccion='".$id_transaccion."'";
+
+        $pendientes = $connection->createCommand($query)->queryAll();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }
 }
