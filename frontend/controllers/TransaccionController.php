@@ -50,7 +50,7 @@ class TransaccionController extends Controller
     public function actionSolicitud()
     {
         $searchModel = new TransaccionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchSolicitud();
         
         return $this->render('solicitud', [
             'dataProvider' => $dataProvider,
@@ -60,27 +60,25 @@ class TransaccionController extends Controller
     public function actionSolicitudIndex($id)
     {
         $model = $this->findModel($id);
-        $connection = \Yii::$app->db;
-        $items = array();
         
-        /********************** ITEMS ******************************************/
-        $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
-        $data1 = $connection->createCommand($query)->queryAll();
-        
-        for($i=0;$i<count($data1);$i++) {
-            $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'];
+        if ($model->load(Yii::$app->request->post())) {
+            $this->actionSolicitud();
+        } else {
+            $connection = \Yii::$app->db;
+            $items = array();
+            /********************** ITEMS ******************************************/
+            $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
+            $data1 = $connection->createCommand($query)->queryAll();
+
+            for($i=0;$i<count($data1);$i++) {
+                $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'];
+            }
+
+            return $this->render('solicitud-index', [
+                'model' => $model,
+                'items' => $items,
+            ]);
         }
-        
-        $query = "SELECT CodServ,Descrip FROM SASERV where Activo=1";
-        $data1 = $connection->createCommand($query)->queryAll();
-        
-        for($i=0;$i<count($data1);$i++) {
-            $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'];
-        }
-        return $this->render('solicitud-index', [
-            'model' => $model,
-            'items' => $items,
-        ]);
     }
 
     /**

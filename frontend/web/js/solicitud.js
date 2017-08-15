@@ -182,7 +182,6 @@ function llena_tabla_detalle() {
     }
 
     blanquea_detalle();
-    recorre_tabla();
 }
 
 function editar_detalle(response) {
@@ -211,7 +210,6 @@ function borrar_detalle(response) {
     var tabla = trae('listado_detalle');
     var arreglo = response.split("#");
     tabla.deleteRow(arreglo[0]);
-    recorre_tabla();
 }
 
 function blanquea_detalle() {
@@ -237,89 +235,19 @@ function blanquea_detalle() {
     descuento.value = "";
 }
 
-function recorre_tabla() {
-    var gravable = trae('transaccion-gravable');
-    var impuesto = trae('transaccion-tax');
-    var exento = trae('transaccion-exento');
-    var total = trae('transaccion-total');
-    var d_impuesto = 0;
-    var d_total = 0;
-    var d_descuento = 0;
-    var d_descuento2 = 0;
-    var d_sub_total = 0;
-    var cantidad = 0;
-    var precio = 0;
-
-    $("#listado_detalle tr").each(function (index) {
-        $(this).children("td").each(function (index2) { 
-            switch (index2) {
-                case 3: 
-                    cantidad = parseFloat($(this).text());
-                break;
-                case 4: 
-                    precio = parseFloat($(this).text());
-                break;
-                case 5: 
-                    d_impuesto = d_impuesto + parseFloat($(this).text());
-                break;
-                case 6: 
-                    d_descuento = d_descuento + parseFloat($(this).text());
-                    d_descuento2 = parseFloat($(this).text());
-                break;
-                case 7: 
-                    d_total = d_total + parseFloat($(this).text());
-                break;
-            }
-            //$(this).css("background-color", "#ECF8E0");
-        });
-        d_sub_total = d_sub_total + ((cantidad * precio) - d_descuento2);
-    });
-
-    gravable.value = Math.round(d_sub_total * 100) / 100;   
-    impuesto.value = Math.round(d_impuesto * 100) / 100;   
-    //descuento.value = Math.round(d_descuento * 100) / 100;   
-    total.value = Math.round((d_sub_total + d_impuesto) * 100) / 100;   
-}
-
 function enviar_data() {
     var i_items = document.getElementById('i_items');
-    var i_inspecciones = document.getElementById('i_inspecciones');
-    var id_vehiculo = trae('transaccion-id_vehiculo').value;
-    var cliente = trae('transaccion-representante').value;
-    var km = trae('transaccion-km').value;
-    var hora_e = trae('hora_e').value;
-    var minuto_e = trae('minuto_e').value;
-    var hora = trae('transaccion-hora').value;
     var fila;
     
     i_items.value = "";
-    i_inspecciones.value = "";
-    hora.value = hora_e.toString()+minuto_e.toString();
     
-    if ((id_vehiculo!="") && (cliente!="") && (km!="")) {
-        $("#listado_detalle tr").each(function (index) {
-            var td = $(this).children("td");
-            if (td.eq(0).text()!="") {
-                fila = td.eq(0).text();
-                i_items.value+= trae('add_fila_i_'+fila).tittle+"¬";
-            }
-        });
-        
-        $("#div_inspescciones :input").each(function(){	
-            var campos = this.id.split("_");
-            if (campos[2]<4) {
-                i_inspecciones.value+= campos[2]+"#"+this.value+"¬";
-            } else {
-                if (this.checked) {
-                    i_inspecciones.value+= campos[2]+"#SI¬";
-                } else {
-                    i_inspecciones.value+= campos[2]+"#NO¬";
-                }
-            }
-        });
+    $("#listado_detalle tr").each(function (index) {
+        var td = $(this).children("td");
+        if (td.eq(0).text()!="") {
+            fila = td.eq(0).text();
+            i_items.value+= trae('add_fila_i_'+fila).tittle+"¬";
+        }
+    });
 
-        if ((i_items.value!="") && (i_inspecciones.value!="")) document.forms['w0'].submit();
-    } else {
-        alert("Faltan datos");
-    }
+    if (i_items.value!="") document.forms['w0'].submit();
 }
