@@ -28,7 +28,11 @@
             $menuItems[] = ['label' => 'Generar Orden', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];
             $menuItems[] = ['label' => 'Almacen', 'icon' => 'inbox', 'url' => ['../../frontend/web/transaccion/solicitud']];
             $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/taller-transaccion']];
-            $menuItems[] = ['label' => 'Caja', 'icon' => 'credit-card', 'url' => ['../../frontend/web/transaccion']];
+            $menuItems[] = ['label' => 'Reportes', 'icon' => 'book', 'url' => '#',
+                                'items' => [
+                                    ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],
+                                    ['label' => 'Solicitudes', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
+                            ],];
         }
     ?>
         <?= dmstr\widgets\Menu::widget(
