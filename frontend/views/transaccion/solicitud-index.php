@@ -67,7 +67,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <input id="d_fila" maxlength="5" class="texto texto-xc" onkeypress="return entero(event);" />
                 <input id="tipo_item" type="hidden" />
                 <input id="i_items" name="i_items" type="hidden" />
-                <input id="i_inspecciones" name="i_inspecciones" type="hidden" />
             </td>
             <td>
                 Cod. de Item *<br />

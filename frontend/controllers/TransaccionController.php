@@ -62,7 +62,73 @@ class TransaccionController extends Controller
         $model = $this->findModel($id);
         
         if ($model->load(Yii::$app->request->post())) {
-            $this->actionSolicitud();
+            //print_r(Yii::$app->request->post());
+            
+            $query2 = "DELETE FROM ISAU_DetalleTransaccion WHERE EsServ=0 and id_transaccion=".$id;
+            $connection->createCommand($query2)->query();
+            
+            $query2 = "DELETE FROM isau_taxtransaccion WHERE id_transaccion=".$id;
+            $connection->createCommand($query2)->query();
+            
+            $query2 = "DELETE FROM ISAU_SolicitudTransaccion WHERE id_transaccion=".$id;
+            $connection->createCommand($query2)->query();
+            
+            $detalle = explode("¬",$_POST['i_items']);  
+            
+            $total=0;
+            $gravable=0;
+            for ($i=0;$i < count($detalle) - 1;$i++) {
+                $campos = explode("#",$detalle[$i]);
+                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
+                
+                $total+=$campos[7];
+                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleTransaccion(id_transaccion,EsServ,CodItem,descripcion,cantidad,costo,total) VALUES (".$model->id_transaccion.""
+                        . ",'".$campos[8]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$campos[7].") SELECT Scope_Identity() as ultimo;";
+                $ultimo = $connection->createCommand($query2)->queryOne();
+                
+                if ($campos[5]>0) {
+                    $grav = round(($campos[3] * $campos[4]),2);
+                    $gravable+=$grav;
+                    $monto_tax = 0;
+                    $query3 = "SELECT * FROM SATAXES WHERE CodTaxs='".$campos[9]."'";
+                    $satax = $connection->createCommand($query3)->queryOne();
+                    $monto_tax = $satax['MtoTax'];
+
+                    $query2 = "INSERT INTO ISAU_TaxDetalleTransaccion(id_detalle_transaccion,CodItem,CodTaxs,monto,gravable,mtotax) VALUES ('".$ultimo['ultimo']."',"
+                            . "'".$campos[1]."','".$campos[9]."',".$campos[5].",".$campos[7].",".$monto_tax.")";
+                    $connection->createCommand($query2)->query();
+                }
+                /*************************************** ALMACEN ***********************************************/
+                if ($campos[8]==0) {
+                    $query2 = "INSERT INTO ISAU_SolicitudTransaccion(id_transaccion,CodProd,cantidad) "
+                            . " VALUES (".$model->id_transaccion.",'".$campos[1]."',".$campos[3].")";
+                    $connection->createCommand($query2)->query();
+                }
+            }
+            /******************************************* TAX ***************************************************/
+            $query3 = "SELECT d.CodTaxs,d.mtotax,sum(d.monto) as monto, sum(d.gravable) as gravable
+                    FROM ISAU_TaxDetalleTransaccion d, ISAU_DetalleTransaccion dt
+                    WHERE dt.id_detalle_transaccion=d.id_detalle_transaccion and dt.id_transaccion=".$model->id_transaccion."
+                    GROUP BY d.CodTaxs,d.MtoTax";
+            $sataxvta = $connection->createCommand($query3)->queryAll();
+            
+            $tax=0;
+            for ($i=0;$i<count($sataxvta);$i++) {
+                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,gravable,mtotax) VALUES (".$id.",'".$sataxvta[$i]['CodTaxs']."',"
+                        . "'".$sataxvta[$i]['monto']."',".$sataxvta[$i]['mtotax'].",".$sataxvta[$i]['gravable'].")";
+                $connection->createCommand($query2)->query();
+                $tax+=$sataxvta[$i]['monto'];
+            }
+            /****************************************************************************************************/
+            $query = "UPDATE ISAU_Transaccion SET gravable=".$gravable.", total=".$total.", tax=".$tax." WHERE id_transaccion=".$id;
+            $connection->createCommand($query)->query();
+            
+            $searchModel = new TransaccionSearch();
+            $dataProvider = $searchModel->searchSolicitud();
+
+            return $this->render('solicitud', [
+                'dataProvider' => $dataProvider,
+            ]);
         } else {
             $connection = \Yii::$app->db;
             $items = array();

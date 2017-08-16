@@ -79,7 +79,7 @@ class TransaccionSearch extends Transaccion
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
             ->andFilterWhere(['IN', 'activo', 1])
-            ->orderBy('numero_atencion DESC');
+            ->orderBy('numero_atencion ASC');
 
         return $dataProvider;
     }
@@ -108,7 +108,7 @@ class TransaccionSearch extends Transaccion
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
             ->andFilterWhere(['IN', 'ISAU_SolicitudTransaccion.activo', 1])
-            ->orderBy('numero_atencion DESC');
+            ->orderBy('numero_atencion ASC');
 
         return $dataProvider;
     }

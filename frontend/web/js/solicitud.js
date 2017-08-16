@@ -87,6 +87,18 @@ function carga_servicios() {
     }
 }
 
+function valida_detalle() {
+    var cantidad = trae('d_cantidad').value;
+    var precio = trae('d_precio').value;
+    var codigo = trae('transaccion-d_codigo').value;
+    var nombre = trae('d_nombre').value;
+    var tipo_item = trae('tipo_item').value;
+
+    if ((cantidad!="") && (precio!="") && (codigo!="") && (nombre!="") && (tipo_item!="")) {
+        llena_tabla_detalle();
+    }
+}
+
 function llena_tabla_detalle() {
     var fila = trae('d_fila');
     var tipo_item = trae('tipo_item').value;
@@ -180,7 +192,6 @@ function llena_tabla_detalle() {
             }
         });
     }
-
     blanquea_detalle();
 }
 
