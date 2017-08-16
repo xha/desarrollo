@@ -223,7 +223,6 @@ class TransaccionController extends Controller
             $model->numero_atencion = $data1['numero_atencion'];
             $model->CodSucu = '0000';
             $model->fecha_transaccion = $fecha_transaccion." ".$hora;
-            $model->hora = $hora2;
             $arr_fecha_compra=explode("-",$model->fecha);
             $model->fecha = $arr_fecha_compra[2].$arr_fecha_compra[1].$arr_fecha_compra[0];
             /******************************************* GUARDO ************************************************/

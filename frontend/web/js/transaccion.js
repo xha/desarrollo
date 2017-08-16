@@ -383,7 +383,7 @@ function enviar_data() {
     var km = trae('transaccion-km').value;
     var hora_e = trae('hora_e').value;
     var minuto_e = trae('minuto_e').value;
-    var hora = trae('transaccion-hora').value;
+    var hora = trae('transaccion-hora');
     var fila;
     
     i_items.value = "";
