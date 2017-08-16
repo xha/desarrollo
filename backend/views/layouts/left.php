@@ -9,15 +9,15 @@
         } else {
             $menuItems[] = ['label' => 'Configuración', 'icon' => 'circle-o', 'url' => '#',
                                 'items' => [
-                                    ['label' => 'Preguntas', 'icon' => 'check', 'url' => ['../../backend/web/pregunta']],
-                                    ['label' => 'Acciones', 'icon' => 'check', 'url' => ['../../backend/web/accion']],
-                                    ['label' => 'Roles', 'icon' => 'check', 'url' => ['../../backend/web/rol']],
+                                    ['label' => 'Accion', 'icon' => 'check', 'url' => ['../../backend/web/accion']],
+                                    ['label' => 'Rol', 'icon' => 'check', 'url' => ['../../backend/web/rol']],
                                     ['label' => 'Rol - Accion', 'icon' => 'check', 'url' => ['../../backend/web/rol-accion']],
                                     ['label' => 'Recuperar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/recuperar']],
                                     ['label' => 'Activar Usuario', 'icon' => 'check', 'url' => ['../../backend/web/site/activar']],
                             ],];
             $menuItems[] = ['label' => 'Tablas Básicas', 'icon' => 'folder-o', 'url' => '#',
                                 'items' => [
+                                    ['label' => 'Marca', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],
                                     ['label' => 'Modelo', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
                                     ['label' => 'Tipo de Vehículo', 'icon' => 'check', 'url' => ['../../frontend/web/tipo-vehiculo']],
                                     ['label' => 'Cliente', 'icon' => 'check', 'url' => ['../../frontend/web/cliente']],
@@ -26,6 +26,9 @@
                             ],];
             $menuItems[] = ['label' => 'Vehículo', 'icon' => 'car', 'url' => ['../../frontend/web/vehiculo']];
             $menuItems[] = ['label' => 'Generar Orden', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];
+            $menuItems[] = ['label' => 'Almacen', 'icon' => 'inbox', 'url' => ['../../frontend/web/transaccion/solicitud']];
+            $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/taller-transaccion']];
+            $menuItems[] = ['label' => 'Caja', 'icon' => 'credit-card', 'url' => ['../../frontend/web/transaccion']];
         }
     ?>
         <?= dmstr\widgets\Menu::widget(
