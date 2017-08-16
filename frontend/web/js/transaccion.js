@@ -5,8 +5,8 @@ $(function() {
 });
 
 function buscar_cliente() {
-    var cliente = trae('transaccion-representante').value;
-    
+    var cliente = trae('transaccion-representante').value.split(" - ");
+    cliente = cliente[0];
     if (cliente!="") {
         $.get('../transaccion/buscar-cliente',{cliente : cliente},function(data){
             var data = $.parseJSON(data);
@@ -154,7 +154,11 @@ function calcula_subtotal() {
     var selected;
 
     if (descuento.value=="") descuento.value=0;
-    selected = iva.options[iva.selectedIndex].text;
+    if (iva.value!="") {
+        selected = iva.options[iva.selectedIndex].text;
+    } else {
+        selected = 0;
+    }
     if (selected=="") selected = 0;
 
     if ((precio>0) && (cantidad>0)) {

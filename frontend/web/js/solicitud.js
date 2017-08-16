@@ -34,17 +34,18 @@ function buscar_detalle() {
         var campos = Array();
         if (data!="") {
             for (i = 0; i < data.length; i++) {
-                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp 	Opt
-                //d.CodItem,d.descripcion,d.cantidad,d.costo,d.total ,td.monto
+                if (data[i].CodTaxs==null) data[i].CodTaxs = 0;
+                if (data[i].monto==null) data[i].monto = 0;
                 campos.length = 0;
                 campos.push(i+1);
                 campos.push(data[i].CodItem);
                 campos.push(data[i].descripcion);
-                campos.push(number_format(data[i].cantidad,2));
-                campos.push(number_format(data[i].costo,2));
-                campos.push(number_format(data[i].monto,2));
-                campos.push(number_format(0));
-                campos.push(number_format(data[i].total,2));
+                //campos.push(number_format(data[i].cantidad,2));
+                campos.push(data[i].cantidad);
+                campos.push(data[i].costo);
+                campos.push(data[i].monto);
+                campos.push(0);
+                campos.push(data[i].total);
                 campos.push(0);
                 campos.push(data[i].CodTaxs);
                 tabla.appendChild(add_filas(campos, 'td','editar_detalle####borrar_detalle','',9));
@@ -244,6 +245,32 @@ function blanquea_detalle() {
     total.value = "";
     impuesto.value = "";
     descuento.value = "";
+}
+
+function calcula_subtotal() {
+    var cantidad = trae('d_cantidad').value;
+    var precio = trae('d_precio').value;
+    var iva = trae('d_iva');
+    var descuento = trae('d_descuento');
+    var impuesto = trae('d_impuesto');
+    var total = trae('d_total');
+    var sub;
+    var selected;
+
+    if (descuento.value=="") descuento.value=0;
+    if (iva.value!="") {
+        selected = iva.options[iva.selectedIndex].text;
+    } else {
+        selected = 0;
+    }
+    
+    if (selected=="") selected = 0;
+
+    if ((precio>0) && (cantidad>0)) {
+        sub = (parseFloat(cantidad) * parseFloat(precio)) - parseFloat(descuento.value);
+        impuesto.value = Math.round((parseFloat(sub) * (parseFloat(selected)/100)) * 100) / 100 ;
+        total.value = Math.round((parseFloat(sub) + parseFloat(impuesto.value)) * 100) / 100 ;    
+    }
 }
 
 function enviar_data() {

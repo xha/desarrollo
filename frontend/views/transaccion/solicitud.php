@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'exento',
             'tax',
             'total',
+            //'ISAU_SolicitudTransaccion.activo',
             // 'observacion',
             // 'activo',
             ['class' => 'yii\grid\ActionColumn',

@@ -151,4 +151,9 @@ class Transaccion extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TransaccionInspeccion::className(), ['id_transaccion' => 'id_transaccion']);
     }
+    
+    public function getSolicitudTransaccion()
+    {
+        return $this->hasMany(SolicitudTransaccion::className(), ['id_transaccion' => 'id_transaccion']);
+    }
 }

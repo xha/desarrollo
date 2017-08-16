@@ -73,12 +73,17 @@ class TransaccionSearch extends Transaccion
             'total' => $this->total,
             'activo' => $this->activo,
         ]);
-
+        
+        date_default_timezone_set("America/Caracas");
+        $fecha= time();
+        $fecha=date('d-m-Y',$fecha);
+        
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'CodSucu', $this->CodSucu])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
             ->andFilterWhere(['IN', 'activo', 1])
+            ->andFilterWhere(['=', 'fecha', $fecha])
             ->orderBy('numero_atencion ASC');
 
         return $dataProvider;
@@ -102,11 +107,14 @@ class TransaccionSearch extends Transaccion
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        date_default_timezone_set("America/Caracas");
+        $fecha= time();
+        $fecha=date('d-m-Y',$fecha);
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'CodSucu', $this->CodSucu])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
+            ->andFilterWhere(['=', 'fecha', $fecha])
             ->andFilterWhere(['IN', 'ISAU_SolicitudTransaccion.activo', 1])
             ->orderBy('numero_atencion ASC');
 
