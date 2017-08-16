@@ -190,12 +190,10 @@ function llena_tabla_detalle() {
     var d_iva = trae('d_iva').value;
     var tabla = trae('listado_detalle');
     var otro = "";
-    var sub_total = 0;
     var campos = Array();
     var bandera = true;
     var contador;
     var i = 0;
-    var xxx;
     var total_filas = tabla.rows.length;
 
     if (fila.value > total_filas) fila.value = total_filas;

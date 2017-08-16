@@ -17,6 +17,7 @@
                             ],];
             $menuItems[] = ['label' => 'Tablas Básicas', 'icon' => 'folder-o', 'url' => '#',
                                 'items' => [
+                                    ['label' => 'Marca', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],
                                     ['label' => 'Modelo', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
                                     ['label' => 'Tipo de Vehículo', 'icon' => 'check', 'url' => ['../../frontend/web/tipo-vehiculo']],
                                     ['label' => 'Cliente', 'icon' => 'check', 'url' => ['../../frontend/web/cliente']],
@@ -25,7 +26,7 @@
                             ],];
             $menuItems[] = ['label' => 'Vehículo', 'icon' => 'car', 'url' => ['../../frontend/web/vehiculo']];
             $menuItems[] = ['label' => 'Generar Orden', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];
-            $menuItems[] = ['label' => 'Almacen', 'icon' => 'inbox', 'url' => ['../../frontend/web/transaccion']];
+            $menuItems[] = ['label' => 'Almacen', 'icon' => 'inbox', 'url' => ['../../frontend/web/transaccion/solicitud']];
             $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/taller-transaccion']];
             $menuItems[] = ['label' => 'Caja', 'icon' => 'credit-card', 'url' => ['../../frontend/web/transaccion']];
         }

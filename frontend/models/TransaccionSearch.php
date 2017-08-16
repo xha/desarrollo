@@ -83,4 +83,33 @@ class TransaccionSearch extends Transaccion
 
         return $dataProvider;
     }
+    
+    public function searchSolicitud() {
+        $query = Transaccion::find();
+
+        // add conditions that should always apply here
+
+        $query->leftJoin([
+            'ISAU_SolicitudTransaccion'
+        ], 'ISAU_Transaccion.id_transaccion = ISAU_SolicitudTransaccion.id_transaccion');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere(['like', 'hora', $this->hora])
+            ->andFilterWhere(['like', 'CodSucu', $this->CodSucu])
+            ->andFilterWhere(['like', 'representante', $this->representante])
+            ->andFilterWhere(['like', 'observacion', $this->observacion])
+            ->andFilterWhere(['IN', 'ISAU_SolicitudTransaccion.activo', 1])
+            ->orderBy('numero_atencion DESC');
+
+        return $dataProvider;
+    }
 }
