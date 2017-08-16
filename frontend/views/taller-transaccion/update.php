@@ -8,8 +8,6 @@ use yii\widgets\ActiveForm;
 
 
 $this->title = 'Resumen de la Atención';
-$this->params['breadcrumbs'][] = ['label' => 'Documentos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 
 $this->registerCssFile('@web/css/general.css');
 
@@ -50,9 +48,9 @@ $row = $command->queryAll();
 </fieldset>
 <?php
 //$this->title = 'Asignar Técnico: ' . $model->id_taller;
-$this->params['breadcrumbs'][] = ['label' => 'Taller Transaccions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Taller', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_taller, 'url' => ['view', 'id' => $model->id_taller]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Asignar Técnico';
 ?>
 <div class="taller-transaccion-update">
 
