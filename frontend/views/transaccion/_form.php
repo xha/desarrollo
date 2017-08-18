@@ -140,7 +140,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                         'clientOptions' => [
                             'source' => $clientes,
                         ],
-                        'options' => ['class' => 'texto texto-ec','onblur'=>'js: buscar_cliente()', 'placeHolder' => 'Escriba Cliente'],
+                        'options' => ['class' => 'texto texto-ec','onblur'=>'js: buscar_cliente(this.id)', 'placeHolder' => 'Escriba Cliente'],
                     ]) 
                 ?>
             </td>
@@ -167,6 +167,46 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             <td align="left" colspan="5">
                 <b>Dirección</b><br />
                 <input class="texto texto-xl" id="c_direccion" readonly="true" />
+            </td>
+        </tr>
+        <tr>
+            <th colspan="5" align="center">
+                <b>DATOS DEL RESPONSABLE DEL PAGO</b>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <?= $form->field($model, 'pagador')->widget(\yii\jui\AutoComplete::classname(), [
+                        'clientOptions' => [
+                            'source' => $clientes,
+                        ],
+                        'options' => ['class' => 'texto texto-ec','onblur'=>'js: buscar_cliente(this.id)', 'placeHolder' => 'Escriba Cliente'],
+                    ]) 
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" colspan="2">
+                <b>Nombre</b><br />
+                <input class="texto texto-largo" id="p_nombre" readonly="true" />
+            </td>
+            <td align="left">
+                <b>Cédula - Rif</b><br />
+                <input class="texto texto-corto" id="p_rif" readonly="true" />
+            </td>
+            <td align="left">
+                <b>Teléfono</b><br />
+                <input class="texto texto-corto" id="p_tlf" readonly="true" />
+            </td>
+            <td align="left">
+                <b>Email</b><br />
+                <input class="texto texto-corto" id="p_email" readonly="true" />
+            </td>
+        </tr>
+        <tr>
+            <td align="left" colspan="5">
+                <b>Dirección</b><br />
+                <input class="texto texto-xl" id="p_direccion" readonly="true" />
             </td>
         </tr>
         <tr>

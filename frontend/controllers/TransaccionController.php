@@ -100,8 +100,8 @@ class TransaccionController extends Controller
                 }
                 /*************************************** ALMACEN ***********************************************/
                 if ($campos[8]==0) {
-                    $query2 = "INSERT INTO ISAU_SolicitudTransaccion(id_transaccion,CodProd,cantidad) "
-                            . " VALUES (".$model->id_transaccion.",'".$campos[1]."',".$campos[3].")";
+                    $query2 = "INSERT INTO ISAU_SolicitudTransaccion(id_transaccion,CodProd,cantidad,almacenista) "
+                            . " VALUES (".$model->id_transaccion.",'".$campos[1]."',".$campos[3].",".$_POST['almacenista'].")";
                     $connection->createCommand($query2)->query();
                 }
             }

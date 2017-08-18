@@ -4,19 +4,21 @@ $(function() {
     buscar_inspeccion();    
 });
 
-function buscar_cliente() {
-    var cliente = trae('transaccion-representante').value.split(" - ");
+function buscar_cliente(id) {
+    var cliente = trae(id).value.split(" - ");
+    var ext = 'p';
+    if (id=='transaccion-representante') ext = 'c';
     cliente = cliente[0];
     if (cliente!="") {
         $.get('../transaccion/buscar-cliente',{cliente : cliente},function(data){
             var data = $.parseJSON(data);
             if (data!="") {
-                var nombre = trae('c_nombre');
-                var rif = trae('c_rif');
-                var tlf = trae('c_tlf');
-                var email = trae('c_email');
-                var direccion = trae('c_direccion');
-                var cliente = trae('transaccion-representante');
+                var nombre = trae(ext+'_nombre');
+                var rif = trae(ext+'_rif');
+                var tlf = trae(ext+'_tlf');
+                var email = trae(ext+'_email');
+                var direccion = trae(ext+'_direccion');
+                var cliente = trae(id);
                 
                 cliente.value = data.CodClie;
                 email.value = data.Email;
@@ -41,6 +43,7 @@ function buscar_vehiculo() {
                 var anio = trae('v_anio');
                 var color = trae('v_color');
                 var cliente = trae('transaccion-representante');
+                var cliente2 = trae('transaccion-pagador');
                 var id_vehiculo = trae('transaccion-id_vehiculo');
                 
                 tipo.value = data.tipo;
@@ -50,7 +53,9 @@ function buscar_vehiculo() {
                 id_vehiculo.value = data.id_vehiculo;
                 if (cliente.value=="") {
                     cliente.value = data.propietario;
-                    buscar_cliente();
+                    cliente2.value = data.propietario;
+                    buscar_cliente('transaccion-pagador');
+                    buscar_cliente('transaccion-representante');
                 }
             }
         });
@@ -380,6 +385,7 @@ function enviar_data() {
     var i_inspecciones = document.getElementById('i_inspecciones');
     var id_vehiculo = trae('transaccion-id_vehiculo').value;
     var cliente = trae('transaccion-representante').value;
+    var cliente2 = trae('transaccion-pagador').value;
     var km = trae('transaccion-km').value;
     var hora_e = trae('hora_e').value;
     var minuto_e = trae('minuto_e').value;
@@ -390,7 +396,7 @@ function enviar_data() {
     i_inspecciones.value = "";
     hora.value = hora_e.toString()+minuto_e.toString();
     
-    if ((id_vehiculo!="") && (cliente!="") && (km!="")) {
+    if ((id_vehiculo!="") && (cliente!="") && (cliente2!="") && (km!="")) {
         $("#listado_detalle tr").each(function (index) {
             var td = $(this).children("td");
             if (td.eq(0).text()!="") {

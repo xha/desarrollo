@@ -11,7 +11,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
 
 $this->title = 'Actualizar Solicitud';
 $this->params['breadcrumbs'][] = $this->title;
-
+$id_usuario = Yii::$app->user->identity->id_usuario;
 ?>
 
 <div class="solicitud-form">
@@ -66,6 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 Fila<br />
                 <input id="d_fila" maxlength="5" class="texto texto-xc" onkeypress="return entero(event);" />
                 <input id="tipo_item" type="hidden" />
+                <input id="almacenista" name="almacenista" type="hidden" value="<?= $id_usuario; ?>" />
                 <input id="i_items" name="i_items" type="hidden" />
             </td>
             <td>
