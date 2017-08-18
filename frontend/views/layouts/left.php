@@ -33,6 +33,7 @@
                                 'items' => [
                                     ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],
                                     ['label' => 'Solicitudes', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
+                                    ['label' => 'Facturas de Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
                             ],];
         }
     ?>
