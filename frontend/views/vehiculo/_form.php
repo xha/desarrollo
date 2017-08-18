@@ -29,11 +29,15 @@ $this->registerCssFile('@web/css/general.css');
 
     <?= $form->field($model, 'placa')->textInput(['maxlength' => 10]) ?>
     
+    <?= $form->field($model, 'nro_puestos')->textInput() ?>
+    
     <?= $form->field($model, 'placa')->textInput(['maxlength' => 100]) ?>
     
     <?= $form->field($model, 'serial_motor')->textInput(['maxlength' => 100]) ?>
 
-    <?= $form->field($model, 'serial_carroceria')->textInput(['maxlength' => 4]) ?>
+    <?= $form->field($model, 'serial_carroceria')->textInput(['maxlength' => 100]) ?>
+    
+    <?= $form->field($model, 'venta')->textInput(['maxlength' => 100]) ?>
 
     <?= $form->field($model, 'color')->textInput() ?>
 

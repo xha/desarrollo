@@ -38,9 +38,9 @@ class Vehiculo extends \yii\db\ActiveRecord
     {
         return [
             [['id_modelo', 'id_tipo_vehiculo', 'id_marca', 'placa', 'anio'], 'required'],
-            [['id_modelo', 'id_tipo_vehiculo', 'activo', 'anio', 'id_marca'], 'integer'],
+            [['id_modelo', 'id_tipo_vehiculo', 'activo', 'anio', 'id_marca', 'nro_puestos'], 'integer'],
             [['color', 'propietario', 'placa'], 'string', 'max'=>50],
-            [['serial_carroceria', 'serial_motor'], 'string', 'max'=>100],
+            [['serial_carroceria', 'serial_motor', 'venta'], 'string', 'max'=>100],
             [['propietario'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['propietario' => 'CodClie']],
             [['id_modelo'], 'exist', 'skipOnError' => true, 'targetClass' => Modelo::className(), 'targetAttribute' => ['id_modelo' => 'id_modelo']],
             [['id_tipo_vehiculo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoVehiculo::className(), 'targetAttribute' => ['id_tipo_vehiculo' => 'id_tipo_vehiculo']],
@@ -64,6 +64,8 @@ class Vehiculo extends \yii\db\ActiveRecord
             'serial_carroceria' => 'Serial de Carrocería',
             'color' => 'Color',
             'propietario' => 'Propietario',
+            'nro_puestos' => 'Nro de Puestos',
+            'venta' => 'Venta',
             'activo' => 'Activo',
         ];
     }
