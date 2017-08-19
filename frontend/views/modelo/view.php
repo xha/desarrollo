@@ -10,6 +10,7 @@ $this->title = $model->descripcion;
 $this->params['breadcrumbs'][] = ['label' => 'Modelos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<center>
 <div class="modelo-view">
 
     
@@ -24,14 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
+   
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
 //            'id_modelo',
-            'descripcion',
-            'activo',
+            'descripcion:text:Descripción',
+//            'activo',
         ],
     ]) ?>
 
-</div>
+</div<>
+    </center>

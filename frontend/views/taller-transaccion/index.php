@@ -13,7 +13,8 @@ $this->title = 'Taller';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<center><div class="taller-transaccion-index">
+<center>
+    <div class="taller-transaccion-index">
 
     <!--<h1><?= Html::encode($this->title) ?></h1>-->
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
