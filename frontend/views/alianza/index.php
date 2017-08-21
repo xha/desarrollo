@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id_alianza',
             'CodProv',
+            'Descrip',
             'porcentaje',
-            'activo',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

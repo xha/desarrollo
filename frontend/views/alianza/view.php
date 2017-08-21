@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id_alianza',
             'CodProv',
+            'Descrip',
             'porcentaje',
             'activo',
         ],

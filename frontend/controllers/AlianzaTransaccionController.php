@@ -64,12 +64,25 @@ class AlianzaTransaccionController extends Controller
     public function actionCreate()
     {
         $model = new AlianzaTransaccion();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $connection = \Yii::$app->db;
+        
+        if ($model->load(Yii::$app->request->post())) {
+            
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_at]);
         } else {
+            $items = array();
+            /********************** ITEMS ******************************************/
+            $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
+            $data1 = $connection->createCommand($query)->queryAll();
+
+            for($i=0;$i<count($data1);$i++) {
+                $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'];
+            }
+
             return $this->render('create', [
                 'model' => $model,
+                'items' => $items,
             ]);
         }
     }

@@ -38,6 +38,8 @@ $this->registerCssFile('@web/css/general.css');
     <?= $form->field($model, 'venta')->textInput(['maxlength' => 100]) ?>
 
     <?= $form->field($model, 'color')->textInput() ?>
+    
+    <?= $form->field($model, 'anio')->textInput() ?>
 
     <label>Propietario</label><br /><br />
     <?= $form->field($model, 'propietario')->label(false)->widget(\yii\jui\AutoComplete::classname(), [
@@ -52,7 +54,7 @@ $this->registerCssFile('@web/css/general.css');
     <?php //$form->field($model, 'activo')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

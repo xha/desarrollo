@@ -20,6 +20,7 @@ class AlianzaSearch extends Alianza
         return [
             [['id_alianza', 'activo'], 'integer'],
             [['CodProv'], 'safe'],
+            [['Descrip'], 'string'],
             [['porcentaje'], 'number'],
         ];
     }
@@ -61,6 +62,7 @@ class AlianzaSearch extends Alianza
         // grid filtering conditions
         $query->andFilterWhere([
             'id_alianza' => $this->id_alianza,
+            'Descrip' => $this->Descrip,
             'porcentaje' => $this->porcentaje,
             'activo' => $this->activo,
         ]);

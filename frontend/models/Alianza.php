@@ -32,7 +32,7 @@ class Alianza extends \yii\db\ActiveRecord
     {
         return [
             [['CodProv'], 'required'],
-            [['CodProv'], 'string'],
+            [['CodProv', 'Descrip'], 'string'],
             [['porcentaje'], 'number'],
             [['activo'], 'integer'],
             [['CodProv'], 'exist', 'skipOnError' => true, 'targetClass' => Proveedor::className(), 'targetAttribute' => ['CodProv' => 'CodProv']],
@@ -46,7 +46,8 @@ class Alianza extends \yii\db\ActiveRecord
     {
         return [
             'id_alianza' => 'Id Alianza',
-            'CodProv' => 'Cod Prov',
+            'CodProv' => 'Proveedor',
+            'Descrip' => 'Razón Social',
             'porcentaje' => 'Porcentaje',
             'activo' => 'Activo',
         ];

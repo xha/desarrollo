@@ -27,6 +27,10 @@ class AlianzaTransaccion extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $fecha_transaccion;
+    public $nro;
+    public $d_codigo;
+    
     public static function tableName()
     {
         return 'ISAU_AlianzaTransaccion';
@@ -55,14 +59,15 @@ class AlianzaTransaccion extends \yii\db\ActiveRecord
     {
         return [
             'id_at' => 'Id At',
-            'id_alianza' => 'Id Alianza',
-            'id_transaccion' => 'Id Transaccion',
+            'id_alianza' => 'Alianza',
+            'id_transaccion' => 'Transaccion',
             'nro_factura' => 'Nro Factura',
-            'fecha' => 'Fecha',
+            'fecha' => 'Fecha de Factura',
             'nro_control' => 'Nro Control',
             'CodProv' => 'Cod Prov',
             'almacenista' => 'Almacenista',
             'total' => 'Total',
+            'fecha_transaccion' => 'Fecha de Orden',
             'activo' => 'Activo',
         ];
     }
