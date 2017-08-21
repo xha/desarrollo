@@ -37,7 +37,7 @@ class Vehiculo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_modelo', 'id_tipo_vehiculo', 'id_marca', 'placa', 'anio'], 'required'],
+            [['id_modelo', 'id_tipo_vehiculo', 'id_marca', 'placa', 'anio', 'propietario'], 'required'],
             [['id_modelo', 'id_tipo_vehiculo', 'activo', 'anio', 'id_marca', 'nro_puestos'], 'integer'],
             [['color', 'propietario', 'placa'], 'string', 'max'=>50],
             [['serial_carroceria', 'serial_motor', 'venta'], 'string', 'max'=>100],

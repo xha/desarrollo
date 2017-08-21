@@ -93,7 +93,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             </th>
         </tr>
         <tr>
-            <td colspan="5">
+            <td>
                 <?= $form->field($model, 'placa')->widget(\yii\jui\AutoComplete::classname(), [
                         'clientOptions' => [
                             'source' => $placas,
@@ -101,6 +101,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                         'options' => ['class' => 'texto texto-ec','onblur'=>'js: buscar_vehiculo()', 'placeHolder' => 'Escriba Placa'],
                     ]) 
                 ?>
+            </td>
+            <td align="left" colspan="4">
+                <?= $form->field($model, 'km')->textInput(['class'=>'texto texto-ec']) ?>
             </td>
         </tr>
         <tr>
@@ -116,12 +119,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                 <b>Año</b><br />
                 <input class="texto texto-corto" id="v_anio" readonly="true" />
             </td>
-            <td align="left">
+            <td align="left" colspan="2">
                 <b>Color</b><br />
                 <input class="texto texto-corto" id="v_color" readonly="true" />
-            </td>
-            <td align="left">
-                <?= $form->field($model, 'km')->textInput(['class'=>'texto texto-ec']) ?>
             </td>
         </tr>
         <tr>

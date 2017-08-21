@@ -1,6 +1,99 @@
 $(function() {
-
+    buscar_detalle();
 });
+
+function buscar_detalle() {
+    var id_at = trae("alianzatransaccion-id_at").value;
+    var tabla = trae('listado_detalle');
+    var i;
+    
+    if (id_at!="") {
+        $.get('../alianza-transaccion/buscar-detalle-orden',{id_at : id_at},function(data){
+            var data = $.parseJSON(data);
+            var campos = Array();
+            if (data!="") {
+                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp 	Opt
+                for (i = 0; i < data.length; i++) {
+                    campos.length = 0;
+                    campos.push(i+1);
+                    campos.push(data[i].CodProd);
+                    campos.push('');
+                    //campos.push(number_format(data[i].cantidad,2));
+                    campos.push(data[i].cantidad);
+                    campos.push(data[i].costo);
+                    campos.push(data[i].tax);
+                    campos.push(0);
+                    campos.push(data[i].total);
+                    campos.push(0);
+                    campos.push(0);
+                    tabla.appendChild(add_filas(campos, 'td','editar_detalle####borrar_detalle','',9));
+                }     
+            }
+        });
+    }
+}
+
+function busca_orden() {
+    var nro = trae('alianzatransaccion-nro').value;
+    var fecha_transaccion = trae('alianzatransaccion-fecha_transaccion').value;
+    
+    blanquea_orden();
+    if ((fecha_transaccion!="") && (nro!="")) {
+        $.get('../transaccion/buscar-orden',{nro : nro, fecha_transaccion : fecha_transaccion},function(data){
+            var data = $.parseJSON(data);
+            if (data!="") {
+                var placa = trae('v_placa');
+                var modelo = trae('v_modelo');
+                var tipo = trae('v_tipo');
+                var anio = trae('v_anio');
+                var color = trae('v_color');
+                var km = trae('v_km');
+                var representante = trae('v_representante');
+                var pagador = trae('v_pagador');
+                var id_transaccion = trae('alianzatransaccion-id_transaccion');
+
+                placa.value = data.placa;
+                modelo.value = data.modelo;
+                tipo.value = data.tipo;
+                anio.value = data.anio;
+                color.value = data.color;
+                km.value = data.km;
+                representante.value = data.nombre_representante;
+                pagador.value = data.nombre_pagador;
+                id_transaccion.value = data.id_transaccion;
+            }
+        });
+    }
+}
+
+function blanquea_orden() {
+    var placa = trae('v_placa');
+    var modelo = trae('v_modelo');
+    var tipo = trae('v_tipo');
+    var anio = trae('v_anio');
+    var color = trae('v_color');
+    var km = trae('v_km');
+    var representante = trae('v_representante');
+    var pagador = trae('v_pagador');
+    var id_transaccion = trae('alianzatransaccion-id_transaccion');
+    
+    placa.value = "";
+    modelo.value = "";
+    tipo.value = "";
+    anio.value = "";
+    color.value = "";
+    km.value = "";
+    representante.value = "";
+    pagador.value = "";
+    id_transaccion.value = "";
+}
+
+function copia_codprov() {
+    var id_transaccion = trae('alianzatransaccion-id_alianza');
+    var codprov = trae('alianzatransaccion-codprov');
+    
+    codprov.value = id_transaccion.options[id_transaccion.selectedIndex].text;
+}
 
 function buscar_orden() {
     var id_vehiculo = trae('transaccion-id_vehiculo').value;
@@ -23,40 +116,10 @@ function buscar_orden() {
     });
 }
 
-function buscar_detalle() {
-    var id_transaccion = trae("transaccion-id_transaccion").value;
-    var tabla = trae('listado_detalle');
-    var i;
-    
-    $.get('../transaccion/buscar-detalle-solicitud',{id_transaccion : id_transaccion},function(data){
-        var data = $.parseJSON(data);
-        var campos = Array();
-        if (data!="") {
-            for (i = 0; i < data.length; i++) {
-                if (data[i].CodTaxs==null) data[i].CodTaxs = 0;
-                if (data[i].monto==null) data[i].monto = 0;
-                campos.length = 0;
-                campos.push(i+1);
-                campos.push(data[i].CodItem);
-                campos.push(data[i].descripcion);
-                //campos.push(number_format(data[i].cantidad,2));
-                campos.push(data[i].cantidad);
-                campos.push(data[i].costo);
-                campos.push(data[i].monto);
-                campos.push(0);
-                campos.push(data[i].total);
-                campos.push(0);
-                campos.push(data[i].CodTaxs);
-                tabla.appendChild(add_filas(campos, 'td','editar_detalle####borrar_detalle','',9));
-            }     
-        }
-    });
-}
-
 function carga_servicios() {
     var d_nombre = trae("d_nombre");
     var d_iva = trae("d_iva");
-    var d_codigo = trae("transaccion-d_codigo");
+    var d_codigo = trae("alianzatransaccion-d_codigo");
     var tipo_item = trae("tipo_item");
     var precio = trae("d_precio");
     
@@ -90,7 +153,7 @@ function carga_servicios() {
 function valida_detalle() {
     var cantidad = trae('d_cantidad').value;
     var precio = trae('d_precio').value;
-    var codigo = trae('transaccion-d_codigo').value;
+    var codigo = trae('alianzatransaccion-d_codigo').value;
     var nombre = trae('d_nombre').value;
     var tipo_item = trae('tipo_item').value;
 
@@ -102,7 +165,7 @@ function valida_detalle() {
 function llena_tabla_detalle() {
     var fila = trae('d_fila');
     var tipo_item = trae('tipo_item').value;
-    var codigo = trae('transaccion-d_codigo').value;
+    var codigo = trae('alianzatransaccion-d_codigo').value;
     var nombre = trae('d_nombre').value.trim();
     var cantidad = trae('d_cantidad').value;
     var precio = trae('d_precio').value;
@@ -193,12 +256,13 @@ function llena_tabla_detalle() {
         });
     }
     blanquea_detalle();
+    recorre_tabla();
 }
 
 function editar_detalle(response) {
     var d_fila = trae('d_fila');
     var d_nombre = trae('d_nombre');
-    var d_codigo = trae('transaccion-d_codigo');
+    var d_codigo = trae('alianzatransaccion-d_codigo');
     var d_cantidad = trae('d_cantidad');
     var d_precio = trae('d_precio');
     var d_impuesto = trae('d_impuesto');
@@ -221,11 +285,12 @@ function borrar_detalle(response) {
     var tabla = trae('listado_detalle');
     var arreglo = response.split("#");
     tabla.deleteRow(arreglo[0]);
+    recorre_tabla();
 }
 
 function blanquea_detalle() {
     var fila = trae('d_fila');
-    var codigo = trae('transaccion-d_codigo');
+    var codigo = trae('alianzatransaccion-d_codigo');
     var nombre = trae('d_nombre');
     var cantidad = trae('d_cantidad');
     var precio = trae('d_precio');
@@ -270,6 +335,44 @@ function calcula_subtotal() {
         impuesto.value = Math.round((parseFloat(sub) * (parseFloat(selected)/100)) * 100) / 100 ;
         total.value = Math.round((parseFloat(sub) + parseFloat(impuesto.value)) * 100) / 100 ;    
     }
+}
+
+function recorre_tabla() {
+    var total = trae('alianzatransaccion-total');
+    var d_impuesto = 0;
+    var d_total = 0;
+    var d_descuento = 0;
+    var d_descuento2 = 0;
+    var d_sub_total = 0;
+    var cantidad = 0;
+    var precio = 0;
+
+    $("#listado_detalle tr").each(function (index) {
+        $(this).children("td").each(function (index2) { 
+            switch (index2) {
+                case 3: 
+                    cantidad = parseFloat($(this).text());
+                break;
+                case 4: 
+                    precio = parseFloat($(this).text());
+                break;
+                case 5: 
+                    d_impuesto = d_impuesto + parseFloat($(this).text());
+                break;
+                case 6: 
+                    d_descuento = d_descuento + parseFloat($(this).text());
+                    d_descuento2 = parseFloat($(this).text());
+                break;
+                case 7: 
+                    d_total = d_total + parseFloat($(this).text());
+                break;
+            }
+            //$(this).css("background-color", "#ECF8E0");
+        });
+        d_sub_total = d_sub_total + ((cantidad * precio) - d_descuento2);
+    });
+
+    total.value = Math.round((d_sub_total + d_impuesto) * 100) / 100;   
 }
 
 function enviar_data() {

@@ -8,6 +8,8 @@ use frontend\models\AlianzaTransaccionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Query;
+use yii\helpers\Json;
 
 /**
  * AlianzaTransaccionController implements the CRUD actions for AlianzaTransaccion model.
@@ -67,8 +69,20 @@ class AlianzaTransaccionController extends Controller
         $connection = \Yii::$app->db;
         
         if ($model->load(Yii::$app->request->post())) {
-            
+            /******************************************* GUARDO ************************************************/
             $model->save();
+            /******************************************* DETALLE ***********************************************/
+            $detalle = explode("¬",$_POST['i_items']);  
+            
+            for ($i=0;$i < count($detalle) - 1;$i++) {
+                $campos = explode("#",$detalle[$i]);
+                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
+                $total = ($campos[3]*$campos[4]);
+                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleAlianzaTransaccion(id_at,CodProd,cantidad,costo,tax,total) VALUES (".$model->id_at.""
+                        . ",'".$campos[1]."',".$campos[3].",".$campos[4].",".$campos[5].",".$total.");";
+                $connection->createCommand($query2)->query();
+            }
+            
             return $this->redirect(['view', 'id' => $model->id_at]);
         } else {
             $items = array();
@@ -96,16 +110,52 @@ class AlianzaTransaccionController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $connection = \Yii::$app->db;
+        
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            
+            $query2 = "DELETE FROM ISAU_DetalleAlianzaTransaccion WHERE id_at=".$model->id_at;
+            $connection->createCommand($query2)->query();
+            /******************************************* DETALLE ***********************************************/
+            $detalle = explode("¬",$_POST['i_items']);  
+            
+            for ($i=0;$i < count($detalle) - 1;$i++) {
+                $campos = explode("#",$detalle[$i]);
+                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
+                $total = ($campos[3]*$campos[4]);
+                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleAlianzaTransaccion(id_at,CodProd,cantidad,costo,tax,total) VALUES (".$model->id_at.""
+                        . ",'".$campos[1]."',".$campos[3].",".$campos[4].",".$campos[5].",".$total.");";
+                $connection->createCommand($query2)->query();
+            }
+            
             return $this->redirect(['view', 'id' => $model->id_at]);
         } else {
+            $items = array();
+            /********************** ITEMS ******************************************/
+            $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
+            $data1 = $connection->createCommand($query)->queryAll();
+
+            for($i=0;$i<count($data1);$i++) {
+                $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'];
+            }
+            
             return $this->render('update', [
                 'model' => $model,
+                'items' => $items,
             ]);
         }
     }
 
+    public function actionBuscarDetalleOrden($id_at) {
+        $connection = \Yii::$app->db;
+
+        $query = "select * from ISAU_DetalleAlianzaTransaccion where id_at=".$id_at;
+
+        $pendientes = $connection->createCommand($query)->queryAll();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }
     /**
      * Deletes an existing AlianzaTransaccion model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

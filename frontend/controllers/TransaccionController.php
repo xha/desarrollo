@@ -425,4 +425,18 @@ class TransaccionController extends Controller
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
     }
+    
+    public function actionBuscarOrden($id_transaccion = null, $nro = null, $fecha_transaccion = null) {
+        $connection = \Yii::$app->db;
+        $extra = "";
+        if ($id_transaccion!="") $extra.= " and id_transaccion=".$id_transaccion;
+        if ($nro!="") $extra.= " and numero_atencion=".$nro;
+        if ($fecha_transaccion!="") $extra.= " and fecha='".$fecha_transaccion."'";
+        
+        $query = "SELECT * from vw_resumen_transaccion WHERE 1=1 ".$extra;
+
+        $pendientes = $connection->createCommand($query)->queryOne();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    } 
 }

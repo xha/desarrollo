@@ -10,27 +10,21 @@ use yii\grid\GridView;
 $this->title = 'Modelos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<center>
-    <div class="modelo-index">
+<div class="modelo-index">
 
+<p>
+    <?= Html::a('Crear Marca', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
 
-        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        'id_modelo',
+        'descripcion',
+        'activo',
 
-        <p>
-            <?= Html::a('Registrar Modelo', ['create'], ['class' => 'btn btn-success']) ?>
-        </p>
-
-
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-    //            'id_modelo',
-                'descripcion:text:Descripción',
-    //            'activo',
-
-                ['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]); ?>
-    </div>
-</center>
+        ['class' => 'yii\grid\ActionColumn'],
+    ],
+]); ?>
+</div>

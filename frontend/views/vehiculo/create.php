@@ -12,8 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="vehiculo-create">
 
-    
-
     <?= $this->render('_form', [
         'model' => $model,
         'data' => $data,

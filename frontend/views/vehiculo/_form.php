@@ -27,7 +27,7 @@ $this->registerCssFile('@web/css/general.css');
     <?= $form->field($model, 'id_marca')->dropDownList(ArrayHelper::map(Marca::find()->where('activo=1')->OrderBy('descripcion')->all(), 
         'id_marca', 'descripcion'), ['prompt' => 'Seleccione']); ?>
 
-    <?= $form->field($model, 'placa')->textInput(['maxlength' => 10]) ?>
+    <?= $form->field($model, 'placa')->textInput(['maxlength' => 10, 'style' => 'text-transform: uppercase']) ?>
     
     <?= $form->field($model, 'nro_puestos')->textInput() ?>
     

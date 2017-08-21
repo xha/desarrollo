@@ -55,7 +55,7 @@ use Yii;
  * @property string $Volumen
  * @property string $UndVol
  */
-class Saprod extends \yii\db\ActiveRecord
+class Producto extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -85,13 +85,13 @@ class Saprod extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'CodProd' => 'Cod Prod',
-            'Descrip' => 'Descrip',
-            'CodInst' => 'Cod Inst',
+            'CodProd' => 'Código',
+            'Descrip' => 'Descripción',
+            'CodInst' => 'Instancia',
             'Activo' => 'Activo',
-            'Descrip2' => 'Descrip2',
-            'Descrip3' => 'Descrip3',
-            'Refere' => 'Refere',
+            'Descrip2' => 'Descripción 2',
+            'Descrip3' => 'Descripción 3',
+            'Refere' => 'Referencia',
             'Marca' => 'Marca',
             'Unidad' => 'Unidad',
             'UndEmpaq' => 'Und Empaq',

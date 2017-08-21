@@ -17,7 +17,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
 <div class="alianza-transaccion-form">
 
     <div class="inicial00" align="center">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear Registro' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton("Crear Nueva Orden",array('class'=>'btn btn-success','onclick'=>'js:enviar_data();')); ?>
     </div>
     
     <?php $form = ActiveForm::begin(); ?>
@@ -26,7 +26,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
         <tr>
             <td>
                 <b>Nro. de Orden</b>
-                <?= $form->field($model, 'nro')->textInput(['class'=>'texto texto-ec'])->label(false) ?>
+                <?= $form->field($model, 'nro')->textInput(['class'=>'texto texto-ec','onblur'=>'js: busca_orden()'])->label(false) ?>
             </td>
             <td>
                 <b>Fecha</b>
@@ -36,19 +36,13 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                         'clientOptions' => [
                             'changeYear' => true
                         ],
-                        'options' => ['class' => 'texto texto-ec', 'readonly' => true]
+                        'options' => ['class' => 'texto texto-ec', 'readonly' => true, 'onchange'=>'js: busca_orden()']
                     ]) 
                 ?>
             </td>
             <td>
                 <b>Total</b>
                 <?= $form->field($model, 'total')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
-            </td>
-        </tr>
-            <td colspan="3">
-                <b>Alianza</b>
-                <?= Html::activeDropDownList($model, 'id_alianza',ArrayHelper::map(Alianza::find()->where(['activo' => '1'])->OrderBy('CodProv')->all(), 
-                    'id_alianza', 'CodProv'), ['class'=>'form-control','prompt'=>'Seleccione','onblur'=>'js: alert(this.id)']) ?>
             </td>
         </tr>
     </table>
@@ -83,28 +77,49 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
         </tr>
         <tr>
             <td align="left">
-                <b>Placa</b><br />
-                <input class="texto texto-corto" id="v_placa" readonly="true" />
+                <b>Km</b><br />
+                <input class="texto texto-corto" id="v_km" readonly="true" />
             </td>
-            <td align="left">
-                <b>Modelo</b><br />
-                <input class="texto texto-corto" id="v_modelo" readonly="true" />
+            <td align="left" colspan="2">
+                <b>Representante</b><br />
+                <input class="texto texto-largo" id="v_representante" readonly="true" />
             </td>
-            <td align="left">
-                <b>Tipo</b><br />
-                <input class="texto texto-corto" id="v_tipo" readonly="true" />
+            <td align="left" colspan="2">
+                <b>Pagador</b><br />
+                <input class="texto texto-largo" id="v_pagador" readonly="true" />
             </td>
-            <td align="left">
-                <b>Año</b><br />
-                <input class="texto texto-corto" id="v_anio" readonly="true" />
+        </tr>
+        <tr>
+            <th colspan="5" align="center">
+                <b>DATOS DE LA FACTURA</b>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <b>Alianza</b><br/>
+                <?= Html::activeDropDownList($model, 'id_alianza',ArrayHelper::map(Alianza::find()->where(['activo' => '1'])->OrderBy('CodProv')->all(), 
+                    'id_alianza', 'CodProv'), ['class'=>'texto texto-largo','prompt'=>'Seleccione','onblur'=>'js: copia_codprov()']) ?>
             </td>
-            <td align="left">
-                <b>Color</b><br />
-                <input class="texto texto-corto" id="v_color" readonly="true" />
+            <td>
+                <?= $form->field($model, 'nro_factura')->textInput() ?>
+            </td>
+            <td>
+                <?= $form->field($model, 'nro_control')->textInput() ?>
+            </td>
+            <td>
+                <?= $form->field($model,'fecha')->
+                    widget(DatePicker::className("form-control"),[
+                        'dateFormat' => 'dd-MM-yyyy',
+                        'clientOptions' => [
+                            'changeYear' => true
+                        ],
+                        'options' => ['class' => 'form-control', 'readonly' => true]
+                    ]) 
+                ?>
             </td>
         </tr>
     </table>
-    
+
     <table class="tablas tablas1">
         <tr>
             <th colspan="8" align="center">
@@ -181,16 +196,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             <th>Opt</th>
         </tr>
     </table>
-    <?= $form->field($model, 'id_alianza')->textInput() ?>
-
+    
+    <?= $form->field($model, 'id_at')->hiddenInput()->label(false); ?>
     <?= $form->field($model, 'id_transaccion')->hiddenInput()->label(false); ?>
-
-    <?= $form->field($model, 'nro_factura')->textInput() ?>
-
-    <?= $form->field($model, 'fecha')->textInput() ?>
-
-    <?= $form->field($model, 'nro_control')->textInput() ?>
-
     <?= $form->field($model, 'CodProv')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'almacenista')->hiddenInput(['value' => $id_usuario])->label(false) ?>
     <?= $form->field($model, 'activo')->hiddenInput(['value' => 1])->label(false) ?>

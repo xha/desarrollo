@@ -12,10 +12,9 @@ $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="alianza-transaccion-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
+        'items' => $items,
     ]) ?>
 
 </div>
