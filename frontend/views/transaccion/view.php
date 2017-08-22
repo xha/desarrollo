@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Transaccion */
 
-$this->title = $model->id_transaccion;
+$this->title = "Transacción: ".$model->id_transaccion;
 $this->params['breadcrumbs'][] = ['label' => 'Transaccions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,14 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
     
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->id_transaccion], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Desactivar', ['delete', 'id' => $model->id_transaccion], [
+        <?php //Html::a('Actualizar', ['update', 'id' => $model->id_transaccion], ['class' => 'btn btn-primary']) ?>
+        <?php /*/*Html::a('Desactivar', ['delete', 'id' => $model->id_transaccion], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Confirmar Desactivado',
                 'method' => 'post',
             ],
-        ]) ?>
+        ])*/ ?>
     </p>
 
     <?= DetailView::widget([

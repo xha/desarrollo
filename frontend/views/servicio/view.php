@@ -11,9 +11,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Servicios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="servicio-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Actualizar', ['update', 'id' => $model->CodServ], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Desactivar', ['delete', 'id' => $model->CodServ], [
@@ -37,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'Activo',
             'Unidad',
             'Precio1',
-            'PrecioI1',
+            /*'PrecioI1',
             'Precio2',
             'PrecioI2',
             'Precio3',
@@ -53,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'FechaUC',
             'EsImport',
             'EsVenta',
-            'EsCompra',
+            'EsCompra',*/
         ],
     ]) ?>
 

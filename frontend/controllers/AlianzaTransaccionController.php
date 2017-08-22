@@ -72,14 +72,16 @@ class AlianzaTransaccionController extends Controller
             /******************************************* GUARDO ************************************************/
             $model->save();
             /******************************************* DETALLE ***********************************************/
+            //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp 	Opt
             $detalle = explode("¬",$_POST['i_items']);  
             
             for ($i=0;$i < count($detalle) - 1;$i++) {
                 $campos = explode("#",$detalle[$i]);
                 //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
                 $total = ($campos[3]*$campos[4]);
-                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleAlianzaTransaccion(id_at,CodProd,cantidad,costo,tax,total) VALUES (".$model->id_at.""
-                        . ",'".$campos[1]."',".$campos[3].",".$campos[4].",".$campos[5].",".$total.");";
+                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleAlianzaTransaccion(id_at,CodProd,descripcion,CodTaxs,cantidad,costo,tax,total) "
+                        . "VALUES (".$model->id_at.",'".$campos[1]."','".$campos[2]."','".$campos[9]."',".$campos[3].",".$campos[4].",".$campos[5].","
+                        . "".$total.");";
                 $connection->createCommand($query2)->query();
             }
             
@@ -124,8 +126,8 @@ class AlianzaTransaccionController extends Controller
                 $campos = explode("#",$detalle[$i]);
                 //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
                 $total = ($campos[3]*$campos[4]);
-                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleAlianzaTransaccion(id_at,CodProd,cantidad,costo,tax,total) VALUES (".$model->id_at.""
-                        . ",'".$campos[1]."',".$campos[3].",".$campos[4].",".$campos[5].",".$total.");";
+                $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleAlianzaTransaccion(id_at,CodProd,descripcion,CodTaxs,cantidad,costo,tax,total) "
+                        . "VALUES (".$model->id_at.",'".$campos[1]."','".$campos[2]."','".$campos[9]."',".$campos[3].",".$campos[4].",".$campos[5].",".$total.");";
                 $connection->createCommand($query2)->query();
             }
             
@@ -153,6 +155,18 @@ class AlianzaTransaccionController extends Controller
         $query = "select * from ISAU_DetalleAlianzaTransaccion where id_at=".$id_at;
 
         $pendientes = $connection->createCommand($query)->queryAll();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }
+    
+    public function actionBuscarAt($id_at) {
+        $connection = \Yii::$app->db;
+
+        $query = "SELECT t.numero_atencion,FORMAT(t.fecha, 'dd-MM-yyyy') as fecha 
+                  FROM ISAU_AlianzaTransaccion a, ISAU_Transaccion t 
+                  WHERE a.id_transaccion=t.id_transaccion and a.id_at=".$id_at;
+
+        $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
     }

@@ -39,6 +39,9 @@ class Servicio extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $iva;
+    public $mtotax;
+    
     public static function tableName()
     {
         return 'SASERV';
@@ -50,10 +53,10 @@ class Servicio extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['CodServ'], 'required'],
-            [['CodServ', 'Descrip', 'Descrip2', 'Descrip3', 'Clase', 'Unidad'], 'string'],
+            [['CodServ', 'Descrip', 'CodInst', 'Precio1'], 'required'],
+            [['CodServ', 'Descrip', 'Descrip2', 'Descrip3', 'Clase', 'Unidad' ,'iva'], 'string'],
             [['CodInst', 'Activo', 'EsExento', 'EsReten', 'EsPorCost', 'UsaServ', 'EsPorComi', 'EsImport', 'EsVenta', 'EsCompra'], 'integer'],
-            [['Precio1', 'PrecioI1', 'Precio2', 'PrecioI2', 'Precio3', 'PrecioI3', 'Costo', 'Comision'], 'number'],
+            [['Precio1', 'PrecioI1', 'Precio2', 'PrecioI2', 'Precio3', 'PrecioI3', 'Costo', 'Comision', 'mtotax'], 'number'],
             [['FechaUV', 'FechaUC'], 'safe'],
         ];
     }
@@ -72,7 +75,7 @@ class Servicio extends \yii\db\ActiveRecord
             'Clase' => 'Clase',
             'Activo' => 'Activo',
             'Unidad' => 'Unidad',
-            'Precio1' => 'Precio1',
+            'Precio1' => 'Precio 1',
             'PrecioI1' => 'Precio I1',
             'Precio2' => 'Precio2',
             'PrecioI2' => 'Precio I2',

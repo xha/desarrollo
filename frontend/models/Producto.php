@@ -60,6 +60,9 @@ class Producto extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $iva;
+    public $mtotax;
+    
     public static function tableName()
     {
         return 'SAPROD';
@@ -71,10 +74,10 @@ class Producto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['CodProd'], 'required'],
-            [['CodProd', 'Descrip', 'Descrip2', 'Descrip3', 'Refere', 'Marca', 'Unidad', 'UndEmpaq', 'UndVol'], 'string'],
+            [['CodProd', 'Descrip', 'CodInst', 'Precio1'], 'required'],
+            [['CodProd', 'Descrip', 'Descrip2', 'Descrip3', 'Refere', 'Marca', 'Unidad', 'UndEmpaq', 'UndVol', 'iva'], 'string'],
             [['CodInst', 'Activo', 'DEsComp', 'DEsComi', 'DEsSeri', 'EsReten', 'DEsLote', 'DEsVence', 'EsImport', 'EsExento', 'EsEnser', 'EsOferta', 'EsPesa', 'EsEmpaque', 'ExDecimal', 'DiasEntr', 'DiasTole'], 'integer'],
-            [['CantEmpaq', 'Precio1', 'Precio2', 'PrecioU2', 'Precio3', 'PrecioU3', 'PrecioU', 'CostAct', 'CostPro', 'CostAnt', 'Existen', 'ExUnidad', 'Compro', 'Pedido', 'Minimo', 'Maximo', 'Tara', 'Peso', 'Volumen'], 'number'],
+            [['CantEmpaq', 'Precio1', 'Precio2', 'PrecioU2', 'Precio3', 'PrecioU3', 'PrecioU', 'CostAct', 'CostPro', 'CostAnt', 'Existen', 'ExUnidad', 'Compro', 'Pedido', 'Minimo', 'Maximo', 'Tara', 'Peso', 'Volumen', 'mtotax'], 'number'],
             [['FechaUV', 'FechaUC'], 'safe'],
         ];
     }
@@ -96,16 +99,16 @@ class Producto extends \yii\db\ActiveRecord
             'Unidad' => 'Unidad',
             'UndEmpaq' => 'Und Empaq',
             'CantEmpaq' => 'Cant Empaq',
-            'Precio1' => 'Precio1',
-            'Precio2' => 'Precio2',
+            'Precio1' => 'Precio 1',
+            'Precio2' => 'Precio 2',
             'PrecioU2' => 'Precio U2',
-            'Precio3' => 'Precio3',
+            'Precio3' => 'Precio 3',
             'PrecioU3' => 'Precio U3',
             'PrecioU' => 'Precio U',
             'CostAct' => 'Cost Act',
             'CostPro' => 'Cost Pro',
             'CostAnt' => 'Cost Ant',
-            'Existen' => 'Existen',
+            'Existen' => 'Existencia',
             'ExUnidad' => 'Ex Unidad',
             'Compro' => 'Compro',
             'Pedido' => 'Pedido',

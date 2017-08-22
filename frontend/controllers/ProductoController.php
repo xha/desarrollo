@@ -64,8 +64,21 @@ class ProductoController extends Controller
     public function actionCreate()
     {
         $model = new Producto();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $connection = \Yii::$app->db;
+        
+        if ($model->load(Yii::$app->request->post())) {
+            //print_r(Yii::$app->request->post());die;
+            if ($model->EsExento==1) $model->iva = "";
+            if ($model->iva=="") $model->EsExento = 1;
+            
+            $model->save();
+            
+            if ($model->iva!="") {
+                $query = "SET NOCOUNT ON; INSERT INTO SATAXPRD(CodProd,CodTaxs,Monto,EsPorct) VALUES ('".$model->CodProd."'"
+                        . ",'".$model->iva."',".$model->mtotax.",1);";
+                $connection->createCommand($query)->query();
+            }
+            
             return $this->redirect(['view', 'id' => $model->CodProd]);
         } else {
             return $this->render('create', [
@@ -83,8 +96,24 @@ class ProductoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $connection = \Yii::$app->db;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            //print_r(Yii::$app->request->post());
+            if ($model->EsExento==1) $model->iva = "";
+            
+            if ($model->iva=="") $model->EsExento = 1;
+            
+            $model->save();
+            
+            if ($model->iva!="") {
+                $query = "DELETE FROM SATAXPRD WHERE CodProd='".$model->CodProd."' and CodTaxs='".$model->iva."';";
+                $connection->createCommand($query)->query();
+                
+                $query = "SET NOCOUNT ON; INSERT INTO SATAXPRD(CodProd,CodTaxs,Monto,EsPorct) VALUES ('".$model->CodProd."'"
+                        . ",'".$model->iva."',".$model->mtotax.",1);";
+                $connection->createCommand($query)->query();
+            }
             return $this->redirect(['view', 'id' => $model->CodProd]);
         } else {
             return $this->render('update', [

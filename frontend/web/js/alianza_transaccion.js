@@ -1,6 +1,27 @@
 $(function() {
+    buscar_encabezado();
     buscar_detalle();
 });
+
+function buscar_encabezado() {
+    var id_at = trae("alianzatransaccion-id_at").value;
+    var i;
+    
+    if (id_at!="") {
+        $.get('../alianza-transaccion/buscar-at',{id_at : id_at},function(data){
+            var data = $.parseJSON(data);
+            var campos = Array();
+            if (data!="") {
+                var nro = trae("alianzatransaccion-nro");
+                var fecha = trae("alianzatransaccion-fecha_transaccion");
+                
+                nro.value = data.numero_atencion;
+                fecha.value = data.fecha;
+                busca_orden();                
+            }
+        });
+    }
+}
 
 function buscar_detalle() {
     var id_at = trae("alianzatransaccion-id_at").value;
@@ -17,7 +38,7 @@ function buscar_detalle() {
                     campos.length = 0;
                     campos.push(i+1);
                     campos.push(data[i].CodProd);
-                    campos.push('');
+                    campos.push(data[i].descripcion);
                     //campos.push(number_format(data[i].cantidad,2));
                     campos.push(data[i].cantidad);
                     campos.push(data[i].costo);
@@ -25,7 +46,7 @@ function buscar_detalle() {
                     campos.push(0);
                     campos.push(data[i].total);
                     campos.push(0);
-                    campos.push(0);
+                    campos.push(data[i].CodTaxs);
                     tabla.appendChild(add_filas(campos, 'td','editar_detalle####borrar_detalle','',9));
                 }     
             }
@@ -95,7 +116,7 @@ function copia_codprov() {
     codprov.value = id_transaccion.options[id_transaccion.selectedIndex].text;
 }
 
-function buscar_orden() {
+function buscar_vehiculo() {
     var id_vehiculo = trae('transaccion-id_vehiculo').value;
     
     $.get('../transaccion/buscar-vehiculo',{id_vehiculo : id_vehiculo},function(data){

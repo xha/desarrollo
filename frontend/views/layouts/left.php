@@ -29,8 +29,9 @@
             $menuItems[] = ['label' => 'Vehículo', 'icon' => 'car', 'url' => ['../../frontend/web/vehiculo']];
             $menuItems[] = ['label' => 'Generar Orden', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];
             $menuItems[] = ['label' => 'Almacen', 'icon' => 'inbox', 'url' => ['../../frontend/web/transaccion/solicitud']];
-            $menuItems[] = ['label' => 'Factura de Alianza', 'icon' => 'inbox', 'url' => ['../../frontend/web/alianza-transaccion']];
-            $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/taller-transaccion']];
+            $menuItems[] = ['label' => 'Factura de Alianza', 'icon' => 'pencil', 'url' => ['../../frontend/web/alianza-transaccion']];
+            $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/transaccion/taller']];
+            $menuItems[] = ['label' => 'Cerrar Orden', 'icon' => 'close', 'url' => ['../../frontend/web/transaccion/cerrar']];
             $menuItems[] = ['label' => 'Reportes', 'icon' => 'book', 'url' => '#',
                                 'items' => [
                                     ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],
