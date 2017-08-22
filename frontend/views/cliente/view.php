@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'Descrip',
             'ID3',
             'Activo',
+            'Direc1',
             /*'TipoID3',
             'TipoID',
             'DescOrder',

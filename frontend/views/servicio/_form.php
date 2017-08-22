@@ -14,7 +14,7 @@ use frontend\models\Sataxes;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'CodServ')->textInput() ?>
+    <?= $form->field($model, 'CodServ')->textInput(['maxlength' => 15]) ?>
 
     <label class="control-label">Instancia</label>
     <?= Html::activeDropDownList($model, 'CodInst',ArrayHelper::map(Instancia::find()->OrderBy('Descrip')->all(), 'CodInst', 'Descrip'), 

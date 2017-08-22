@@ -76,7 +76,7 @@ class Cliente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['CodClie'], 'required'],
+            [['CodClie', 'ID3', 'Descrip'], 'required'],
             [['CodClie', 'Descrip', 'ID3', 'DescOrder', 'Clase', 'Represent', 'Direc1', 'Direc2', 'ZipCode', 'Telef', 'Movil', 'Email', 'Fax', 'CodZona', 'CodVend', 'CodConv', 'CodAlte', 'Observa', 'NumeroUV', 'NumeroUP', 'DescripExt'], 'string'],
             [['TipoID3', 'TipoID', 'Activo', 'Pais', 'Estado', 'Ciudad', 'Municipio', 'TipoCli', 'TipoPVP', 'EsMoneda', 'EsCredito', 'DiasCred', 'EsToleran', 'DiasTole', 'IntMora'], 'integer'],
             [['FechaE', 'FechaUV', 'FechaUP'], 'safe'],
@@ -94,7 +94,7 @@ class Cliente extends \yii\db\ActiveRecord
             'Descrip' => 'Descripción',
             'ID3' => 'Rif',
             'TipoID3' => 'Tipo',
-            'TipoID' => 'Tipo ID',
+            'TipoID' => 'Tipo',
             'Activo' => 'Activo',
             'DescOrder' => 'Desc Order',
             'Clase' => 'Clase',

@@ -12,108 +12,59 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'CodClie')->textInput() ?>
+    <?= $form->field($model, 'CodClie')->textInput(['maxlength' => 15]) ?>
 
-    <?= $form->field($model, 'Descrip')->textInput() ?>
+    <?= $form->field($model, 'Descrip')->textInput(['maxlength' => 60]) ?>
 
-    <?= $form->field($model, 'ID3')->textInput() ?>
+    <?= $form->field($model, 'ID3')->textInput(['maxlength' => 15]) ?>
 
-    <?= $form->field($model, 'TipoID3')->textInput() ?>
+    <?= $form->field($model, 'TipoCli')->dropDownList(['0' => 'Contribuyente', '1' => 'Consumidor Final', '2' => 'Exportación', 
+         '3' => 'Interno no gravable', '4' => 'Contribuyente Especial',]); ?>
+    
+    <?= $form->field($model, 'TipoID3')->dropDownList(['1' => 'Natural', '0' => 'Jurídico']); ?>
+    
+    <?= $form->field($model, 'Telef')->textInput(['maxlength' => 30]) ?>
+    
+    <?= $form->field($model, 'Movil')->textInput(['maxlength' => 15]) ?>
+    
+    <?= $form->field($model, 'Email')->textInput(['maxlength' => 60]) ?>
 
-    <?= $form->field($model, 'TipoID')->textInput() ?>
+    <?= $form->field($model, 'Direc1')->textInput(['maxlength' => 60]) ?>
 
-    <?= $form->field($model, 'Activo')->textInput() ?>
+    <?= $form->field($model, 'Direc2')->textInput(['maxlength' => 60]) ?>
+    
+    <?= $form->field($model, 'Observa')->textInput(['maxlength' => 40]) ?>
+    
+    <?= $form->field($model, 'Activo')->dropDownList(['1' => 'SI', '0' => 'NO']); ?>
 
-    <?= $form->field($model, 'DescOrder')->textInput() ?>
-
-    <?= $form->field($model, 'Clase')->textInput() ?>
-
-    <?= $form->field($model, 'Represent')->textInput() ?>
-
-    <?= $form->field($model, 'Direc1')->textInput() ?>
-
-    <?= $form->field($model, 'Direc2')->textInput() ?>
-
-    <?= $form->field($model, 'Pais')->textInput() ?>
-
-    <?= $form->field($model, 'Estado')->textInput() ?>
-
-    <?= $form->field($model, 'Ciudad')->textInput() ?>
-
-    <?= $form->field($model, 'Municipio')->textInput() ?>
-
-    <?= $form->field($model, 'ZipCode')->textInput() ?>
-
-    <?= $form->field($model, 'Telef')->textInput() ?>
-
-    <?= $form->field($model, 'Movil')->textInput() ?>
-
-    <?= $form->field($model, 'Email')->textInput() ?>
-
-    <?= $form->field($model, 'Fax')->textInput() ?>
-
-    <?= $form->field($model, 'FechaE')->textInput() ?>
-
-    <?= $form->field($model, 'CodZona')->textInput() ?>
-
-    <?= $form->field($model, 'CodVend')->textInput() ?>
-
-    <?= $form->field($model, 'CodConv')->textInput() ?>
-
-    <?= $form->field($model, 'CodAlte')->textInput() ?>
-
-    <?= $form->field($model, 'TipoCli')->textInput() ?>
-
-    <?= $form->field($model, 'TipoPVP')->textInput() ?>
-
-    <?= $form->field($model, 'Observa')->textInput() ?>
-
-    <?= $form->field($model, 'EsMoneda')->textInput() ?>
-
-    <?= $form->field($model, 'EsCredito')->textInput() ?>
-
-    <?= $form->field($model, 'LimiteCred')->textInput() ?>
-
-    <?= $form->field($model, 'DiasCred')->textInput() ?>
-
-    <?= $form->field($model, 'EsToleran')->textInput() ?>
-
-    <?= $form->field($model, 'DiasTole')->textInput() ?>
-
-    <?= $form->field($model, 'IntMora')->textInput() ?>
-
-    <?= $form->field($model, 'Descto')->textInput() ?>
-
-    <?= $form->field($model, 'Saldo')->textInput() ?>
-
-    <?= $form->field($model, 'PagosA')->textInput() ?>
-
-    <?= $form->field($model, 'FechaUV')->textInput() ?>
-
-    <?= $form->field($model, 'MontoUV')->textInput() ?>
-
-    <?= $form->field($model, 'NumeroUV')->textInput() ?>
-
-    <?= $form->field($model, 'FechaUP')->textInput() ?>
-
-    <?= $form->field($model, 'MontoUP')->textInput() ?>
-
-    <?= $form->field($model, 'NumeroUP')->textInput() ?>
-
-    <?= $form->field($model, 'MontoMax')->textInput() ?>
-
-    <?= $form->field($model, 'MtoMaxCred')->textInput() ?>
-
-    <?= $form->field($model, 'PromPago')->textInput() ?>
-
-    <?= $form->field($model, 'RetenIVA')->textInput() ?>
-
-    <?= $form->field($model, 'SaldoPtos')->textInput() ?>
-
-    <?= $form->field($model, 'DescripExt')->textInput() ?>
+    <?= $form->field($model, 'Pais')->hiddenInput(['value' => 1])->label(false); ?>
+    <?= $form->field($model, 'Estado')->hiddenInput(['value' => 1])->label(false); ?>
+    <?= $form->field($model, 'Ciudad')->hiddenInput(['value' => 1])->label(false); ?>
+    <?= $form->field($model, 'Municipio')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'DescOrder')->hiddenInput(['value' => 13])->label(false); ?>
+    <?= $form->field($model, 'FechaE')->hiddenInput()->label(false); ?>
+    <?= $form->field($model, 'TipoID')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'TipoPVP')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'EsMoneda')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'EsCredito')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'LimiteCred')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'DiasCred')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'EsToleran')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'DiasTole')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'IntMora')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'Descto')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'Saldo')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'PagosA')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'MontoUV')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'MontoUP')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'MontoMax')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'MtoMaxCred')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'PromPago')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'RetenIVA')->hiddenInput(['value' => 0])->label(false); ?>
+    <?= $form->field($model, 'SaldoPtos')->hiddenInput(['value' => 0])->label(false); ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

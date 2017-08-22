@@ -14,7 +14,7 @@ use frontend\models\Sataxes;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'CodProd')->textInput() ?>
+    <?= $form->field($model, 'CodProd')->textInput(['maxlength' => 15]) ?>
 
     <?= $form->field($model, 'Descrip')->textInput(['maxlength' => 40]) ?>
     

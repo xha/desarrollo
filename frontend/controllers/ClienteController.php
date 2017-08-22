@@ -65,7 +65,12 @@ class ClienteController extends Controller
     public function actionCreate()
     {
         $model = new Cliente();
-
+        date_default_timezone_set("America/Caracas");
+        $fecha = time();
+        $fecha = date('Ymd H:i:s',$fecha);
+        
+        $model->FechaE = $fecha;
+            
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->CodClie]);
         } else {

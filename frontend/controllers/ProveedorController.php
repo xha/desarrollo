@@ -65,7 +65,12 @@ class ProveedorController extends Controller
     public function actionCreate()
     {
         $model = new Proveedor();
-
+        date_default_timezone_set("America/Caracas");
+        $fecha = time();
+        $fecha = date('Ymd H:i:s',$fecha);
+        
+        $model->FechaE = $fecha;
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->CodProv]);
         } else {
