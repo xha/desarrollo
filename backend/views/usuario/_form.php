@@ -3,9 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use app\models\Cliente;
-use app\models\Pregunta;
-use app\models\Rol;
+use backend\models\Pregunta;
+use backend\models\Rol;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
@@ -47,10 +46,6 @@ use app\models\Rol;
     <label class="control-label">Pregunta</label>
     <?= Html::activeDropDownList($model, 'id_pregunta',
       ArrayHelper::map(Pregunta::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 'id_pregunta', 'descripcion'), ['class'=>'form-control']) ?>
-
-    <label class="control-label">Cliente</label>
-    <?= Html::activeDropDownList($model, 'id_cliente',
-      ArrayHelper::map(Cliente::find()->where(['activo' => '1'])->OrderBy('razon_social')->all(), 'id_cliente', 'razon_social'), ['class'=>'form-control']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'id_rol')->dropDownList(ArrayHelper::map(Rol::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 'id_rol', 'descripcion')); ?>
 
-    <?= $form->field($model, "activado")->checkbox(); ?><br /><br />
+    <?= $form->field($model, 'activado')->checkbox(); ?><br /><br />
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Actualizar' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

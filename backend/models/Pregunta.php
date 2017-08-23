@@ -50,8 +50,8 @@ class Pregunta extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIsUsuarios()
+    public function getUsuarios()
     {
-        return $this->hasMany(IsUsuario::className(), ['id_pregunta' => 'id_pregunta']);
+        return $this->hasMany(Usuario::className(), ['id_pregunta' => 'id_pregunta']);
     }
 }

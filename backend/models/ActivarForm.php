@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 use Yii;
 use yii\base\Model;
 use common\models\Usuario;
@@ -18,6 +18,14 @@ class ActivarForm extends model{
         return [
             [['usuario', 'id_rol', 'activado'], 'required', 'message' => 'Campo requerido'],
             [['id_rol'], 'exist', 'skipOnError' => true, 'targetClass' => Rol::className(), 'targetAttribute' => ['id_rol' => 'id_rol']],
+        ];
+    }
+    
+    public function attributeLabels()
+    {
+        return [
+            'usuario' => 'Usuario',
+            'id_rol' => 'Rol',
         ];
     }
 }

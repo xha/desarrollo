@@ -37,6 +37,9 @@ class Transaccion extends \yii\db\ActiveRecord
     public $placa;
     public $CodClie;
     public $d_codigo;
+    public $tecnico;
+    public $observacion;
+    public $observacion2;
     /**
      * @inheritdoc
      */
@@ -85,6 +88,9 @@ class Transaccion extends \yii\db\ActiveRecord
             'observacion' => 'Observaciones',
             'activo' => 'Activo',
             'CodClie' => 'Cliente',
+            'tecnico' => 'Mecánico Asignado',
+            'observacion' => 'Observación',
+            'observacion2' => 'Respuesta',
         ];
     }
 

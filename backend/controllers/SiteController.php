@@ -6,11 +6,11 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\AccessHelpers;
-use app\models\LoginForm;
-use app\models\RegisterForm;
-use app\models\RecuperarClaveForm;
-use app\models\ActivarForm;
 use common\models\Usuario;
+use backend\models\LoginForm;
+use backend\models\RegisterForm;
+use backend\models\RecuperarClaveForm;
+use backend\models\ActivarForm;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\helpers\Url;
@@ -148,7 +148,6 @@ class SiteController extends Controller
                 $table->id_pregunta = $model->id_pregunta;
                 $table->respuesta_seguridad = $model->respuesta_seguridad;
                 $table->activo = 0;
-                $table->log_in = 0;
                 $table->clave = md5("is".$model->clave);
                 
                 //Si el registro es guardado correctamente
@@ -230,7 +229,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $query = "UPDATE ISAU_USUARIO
             SET id_rol=".$model->id_rol."
-            where id_usuario='".$model->id_usuario."'";
+            where usuario='".$model->usuario."'";
             $msg = $connection->createCommand($query)->execute();
             
             if ($msg > 0) {

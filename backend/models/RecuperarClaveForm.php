@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 use Yii;
 use yii\base\Model;
-use app\models\Usuario;
+use common\models\Usuario;
 
 class RecuperarClaveForm extends model{
     
