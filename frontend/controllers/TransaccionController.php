@@ -47,6 +47,28 @@ class TransaccionController extends Controller
         ]);
     }
     
+    public function actionCerrar()
+    {
+        $searchModel = new TransaccionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('cerrar', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionAbrir()
+    {
+        $searchModel = new TransaccionSearch();
+        $dataProvider = $searchModel->searchAbrir();
+
+        return $this->render('abrir', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
     public function actionSolicitud()
     {
         $searchModel = new TransaccionSearch();
@@ -326,10 +348,10 @@ class TransaccionController extends Controller
             $hora2 = date('Hi',$fecha_transaccion);
             $fecha_transaccion = date('Ymd',$fecha_transaccion);
             
-            $query = "SELECT count(*)+1 as numero_atencion FROM ISAU_Transaccion where fecha_transaccion "
+            /*$query = "SELECT count(*)+1 as numero_atencion FROM ISAU_Transaccion where fecha_transaccion "
                     . "between '$fecha_transaccion 00:00:00' and '$fecha_transaccion 23:59:59'";
             $data1 = $connection->createCommand($query)->queryOne();
-            $model->numero_atencion = $data1['numero_atencion'];
+            $model->numero_atencion = $data1['numero_atencion'];*/
             $model->CodSucu = '0000';
             $model->fecha_transaccion = $fecha_transaccion." ".$hora;
             $arr_fecha_compra=explode("-",$model->fecha);

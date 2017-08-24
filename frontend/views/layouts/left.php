@@ -31,7 +31,8 @@
             $menuItems[] = ['label' => 'Almacen', 'icon' => 'inbox', 'url' => ['../../frontend/web/transaccion/solicitud']];
             $menuItems[] = ['label' => 'Factura de Alianza', 'icon' => 'pencil', 'url' => ['../../frontend/web/alianza-transaccion']];
             $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/transaccion/taller']];
-            $menuItems[] = ['label' => 'Cerrar Orden', 'icon' => 'close', 'url' => ['../../frontend/web/transaccion/cerrar']];
+            $menuItems[] = ['label' => 'Cerrar Orden', 'icon' => 'folder', 'url' => ['../../frontend/web/transaccion/cerrar']];
+            $menuItems[] = ['label' => 'Reabrir Orden', 'icon' => 'folder-open', 'url' => ['../../frontend/web/transaccion/abrir']];
             $menuItems[] = ['label' => 'Reportes', 'icon' => 'book', 'url' => '#',
                                 'items' => [
                                     ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],

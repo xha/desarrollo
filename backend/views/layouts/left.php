@@ -21,14 +21,18 @@
                                     ['label' => 'Modelo', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
                                     ['label' => 'Tipo de Vehículo', 'icon' => 'check', 'url' => ['../../frontend/web/tipo-vehiculo']],
                                     ['label' => 'Cliente', 'icon' => 'check', 'url' => ['../../frontend/web/cliente']],
-                                    ['label' => 'Proveedor', 'icon' => 'check', 'url' => ['../../frontend/web/site/proveedor']],
+                                    ['label' => 'Proveedor', 'icon' => 'check', 'url' => ['../../frontend/web/proveedor']],
                                     ['label' => 'Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/alianza']],
+                                    ['label' => 'Productos', 'icon' => 'check', 'url' => ['../../frontend/web/producto']],
+                                    ['label' => 'Servicios', 'icon' => 'check', 'url' => ['../../frontend/web/servicio']],
                             ],];
             $menuItems[] = ['label' => 'Vehículo', 'icon' => 'car', 'url' => ['../../frontend/web/vehiculo']];
             $menuItems[] = ['label' => 'Generar Orden', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];
             $menuItems[] = ['label' => 'Almacen', 'icon' => 'inbox', 'url' => ['../../frontend/web/transaccion/solicitud']];
-            $menuItems[] = ['label' => 'Factura de Alianza', 'icon' => 'inbox', 'url' => ['../../frontend/web/alianza-transaccion']];
-            $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/taller-transaccion']];
+            $menuItems[] = ['label' => 'Factura de Alianza', 'icon' => 'pencil', 'url' => ['../../frontend/web/alianza-transaccion']];
+            $menuItems[] = ['label' => 'Taller', 'icon' => 'wrench', 'url' => ['../../frontend/web/transaccion/taller']];
+            $menuItems[] = ['label' => 'Cerrar Orden', 'icon' => 'folder', 'url' => ['../../frontend/web/transaccion/cerrar']];
+            $menuItems[] = ['label' => 'Reabrir Orden', 'icon' => 'folder-open', 'url' => ['../../frontend/web/transaccion/abrir']];
             $menuItems[] = ['label' => 'Reportes', 'icon' => 'book', 'url' => '#',
                                 'items' => [
                                     ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],

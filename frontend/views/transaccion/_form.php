@@ -93,6 +93,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             </th>
         </tr>
         <tr>
+            <td align="left">
+                <?= $form->field($model, 'numero_atencion')->textInput(['class'=>'texto texto-ec']) ?>
+            </td>
             <td>
                 <?= $form->field($model, 'placa')->widget(\yii\jui\AutoComplete::classname(), [
                         'clientOptions' => [
@@ -102,7 +105,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                     ]) 
                 ?>
             </td>
-            <td align="left" colspan="4">
+            <td align="left" colspan="3">
                 <?= $form->field($model, 'km')->textInput(['class'=>'texto texto-ec']) ?>
             </td>
         </tr>
@@ -304,7 +307,6 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
     
     <?= $form->field($model, 'asesor')->hiddenInput(['value' => $id_usuario])->label(false) ?>
     <?= $form->field($model, 'CodSucu')->hiddenInput()->label(false) ?>
-    <?= $form->field($model, 'numero_atencion')->hiddenInput(['value' => 0])->label(false) ?>
     <?= $form->field($model, 'id_vehiculo')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'hora')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'activo')->hiddenInput(['value' => 1])->label(false); ?>

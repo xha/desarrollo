@@ -54,7 +54,7 @@ class Transaccion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_vehiculo', 'asesor', 'representante', 'pagador', 'placa'], 'required'],
+            [['id_vehiculo', 'asesor', 'representante', 'pagador', 'placa', 'numero_atencion'], 'required'],
             [['id_vehiculo', 'asesor', 'numero_atencion', 'activo'], 'integer'],
             [['fecha_transaccion', 'fecha'], 'safe'],
             ['placa', 'placaExiste'],
