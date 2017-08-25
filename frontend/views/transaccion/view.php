@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Transaccion */
 
 $this->title = "Transacción: ".$model->id_transaccion;
-$this->params['breadcrumbs'][] = ['label' => 'Transaccions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Transacciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaccion-view">

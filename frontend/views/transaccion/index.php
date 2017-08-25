@@ -44,6 +44,23 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'total',
             // 'observacion',
             // 'activo',
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{print}',
+                'buttons' => [
+                    'print' => function ($url, $model) {
+                        return Html::a('<span style="cursor: pointer" class="glyphicon glyphicon-print"></span>', $url, [
+                                    'title' => Yii::t('app', 'Orden '.$model->numero_atencion),
+                        ]);
+                    }
+                ],
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    if ($action === 'print') {
+                        $url = Yii::$app->urlManager->createUrl(['transaccion/imprime-orden?id='.$model->id_transaccion]); // your own url generation logic
+                        return $url;
+                    }
+                }
+                          
+            ],
         ],
     ]); ?>
 </div>

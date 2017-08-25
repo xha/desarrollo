@@ -62,6 +62,21 @@ function buscar_vehiculo() {
     }
 }
 
+function buscar_numero() {
+    var numero_atencion = trae('transaccion-numero_atencion');
+    
+    if (numero_atencion.value!="") {
+        $.get('../transaccion/buscar-numero',{numero_atencion : numero_atencion.value},function(data){
+            var data = $.parseJSON(data);
+            if (data.conteo>0) {
+                alert("Ya existe el número "+numero_atencion.value);
+                numero_atencion.value = data.conteo;
+                numero_atencion.focus();
+            }
+        });
+    }
+}
+
 function buscar_inspeccion() {
     var izquiero = trae('di_izquierdo');
     var derecho = trae('di_derecho');
@@ -85,7 +100,7 @@ function buscar_inspeccion() {
                 select[2] = item;
                 item = new Option("Golpe","Golpe","","");
                 select[3] = item;
-                item = new Option("R","R","","");
+                item = new Option("Rayadura","Rayadura","","");
                 select[4] = item;
                 
                 select.className = "texto texto-ec";

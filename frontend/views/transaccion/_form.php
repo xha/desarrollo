@@ -94,7 +94,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
         </tr>
         <tr>
             <td align="left">
-                <?= $form->field($model, 'numero_atencion')->textInput(['class'=>'texto texto-ec']) ?>
+                <?= $form->field($model, 'numero_atencion')->textInput(['class'=>'texto texto-ec','onblur'=>'js: buscar_numero()']) ?>
             </td>
             <td>
                 <?= $form->field($model, 'placa')->widget(\yii\jui\AutoComplete::classname(), [
@@ -129,7 +129,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
         </tr>
         <tr>
             <td colspan="5">
-                <?= $form->field($model, 'observacion')->textInput() ?>
+                <?= $form->field($model, 'observacion')->textArea(['maxlength' => 2000]) ?>
             </td>
         </tr>
         <tr>
@@ -222,6 +222,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                 <div id="div_inspescciones">
                     <div id="di_izquierdo" style="width: 60%; float: left"></div>
                     <div id="di_derecho" style="width: 38%; float: right"></div>
+                </div>
+                <div style="width: 38%; float: right">
+                    <?= $form->field($model, 'observacion3')->textArea(['maxlength' => 2000, 'rows' => 6]) ?>
                 </div>
             </td>
         </tr>

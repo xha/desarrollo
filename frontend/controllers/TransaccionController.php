@@ -339,7 +339,7 @@ class TransaccionController extends Controller
         for($i=0;$i<count($data1);$i++) {
             $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'];
         }
-                
+        
         if ($model->load(Yii::$app->request->post())) {
             //print_r(Yii::$app->request->post());die;
             date_default_timezone_set("America/Caracas");
@@ -383,11 +383,11 @@ class TransaccionController extends Controller
                     $connection->createCommand($query2)->query();
                 }
                 /*************************************** ALMACEN ***********************************************/
-                if ($campos[8]==0) {
+                /*if ($campos[8]==0) {
                     $query2 = "INSERT INTO ISAU_SolicitudTransaccion(id_transaccion,CodProd,cantidad,almacenista) "
                             . " VALUES (".$model->id_transaccion.",'".$campos[1]."',".$campos[3].",".$model->asesor.")";
                     $connection->createCommand($query2)->query();
-                }
+                }*/
             }
             /******************************************* TAX ***************************************************/
             $query3 = "SELECT d.CodTaxs,d.mtotax,sum(d.monto) as monto, sum(d.gravable) as gravable
@@ -571,4 +571,53 @@ class TransaccionController extends Controller
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
     } 
+    
+    public function actionBuscarNumero($numero_atencion) {
+        $connection = \Yii::$app->db;
+        date_default_timezone_set("America/Caracas");
+        $fecha = time();
+        $fecha = date('Ymd',$fecha);
+        
+        $query = "SELECT count(numero_atencion) as conteo from ISAU_Transaccion WHERE numero_atencion=$numero_atencion "
+                . " and fecha='$fecha'";
+
+        $pendientes = $connection->createCommand($query)->queryOne();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    } 
+    
+    /**************************************** IMPRIMIR ORDEN ***************************************/
+    public function actionImprimeOrden($id = null) {
+        $connection = \Yii::$app->db;
+        require_once ('reporte_pdf.php');
+        $extra = "";
+        
+        if($id!="") $extra=" and id_transaccion=".$id;
+        
+        $query = "SELECT * FROM vw_resumen_transaccion 
+                WHERE 1=1 ".$extra;
+        $pendientes = $connection->createCommand($query)->queryAll();
+        $pdf = new \fpdf\FPDF('P','mm','Letter');
+        $pdf->SetAutoPageBreak(false,35);
+        /*****************************************************************************************************************/
+        $pdf->AddPage(); 
+        $logo = "../../img/saint.jpg";
+        $pdf->Image($logo,12,11,20,20);     
+        $yactual = $pdf->getY(); 
+        /*****************************************************************************************************************/
+        $pdf->SetFont('Arial','B',13); 
+        $pdf->SetFillColor(255,255,255);
+        $pdf->MultiCell(193,5,"Automotores IPSFA",0,'C');
+        $pdf->MultiCell(193,5,"Los Proceres",0,'C');
+        $pdf->SetFont('Arial','',9);    
+        $pdf->MultiCell(193,5,"Rif: G-20003692-3",0,'C');
+        $pdf->ln();
+        $pdf->SetFont('Arial','B',9);    
+        $pdf->MultiCell(193,5,"RECEPCION DE VEHICULOS",0,'C');
+
+
+        //$pdf->Row(array(utf8_decode('CÃ©dula'),'Nombre','Fecha de Nacimiento','Sexo','Nutricionista','Estatus'), false, 'DF');
+        $pdf->Output('');
+        exit;
+    }
 }
