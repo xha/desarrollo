@@ -181,7 +181,7 @@ class TransaccionController extends Controller
     public function actionTaller()
     {
         $searchModel = new TransaccionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchSolicitud();
         
         return $this->render('taller', [
             'dataProvider' => $dataProvider,
@@ -196,13 +196,13 @@ class TransaccionController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             //print_r(Yii::$app->request->post());
             
-            $query2 = "DELETE FROM ISAU_DetalleTransaccion WHERE EsServ=0 and id_transaccion=".$id;
+            $query2 = "DELETE FROM ISAU_DetalleTransaccion WHERE EsServ=1 and id_transaccion=".$id;
             $connection->createCommand($query2)->query();
             
             $query2 = "DELETE FROM isau_taxtransaccion WHERE id_transaccion=".$id;
             $connection->createCommand($query2)->query();
             
-            $query2 = "DELETE FROM ISAU_SolicitudTransaccion WHERE id_transaccion=".$id;
+            $query2 = "DELETE FROM ISAU_TallerTransaccion WHERE id_transaccion=".$id;
             $connection->createCommand($query2)->query();
             
             $detalle = explode("¬",$_POST['i_items']);  
@@ -211,28 +211,28 @@ class TransaccionController extends Controller
             $gravable=0;
             for ($i=0;$i < count($detalle) - 1;$i++) {
                 $campos = explode("#",$detalle[$i]);
-                //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
+                //Nro Código Descripción Cantidad Precio Tax Total Serv Imp Mecanico Observacion
                 
                 $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleTransaccion(id_transaccion,EsServ,CodItem,descripcion,cantidad,costo,total) VALUES (".$model->id_transaccion.""
-                        . ",'".$campos[8]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$campos[7].") SELECT Scope_Identity() as ultimo;";
+                        . ",'".$campos[7]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$campos[6].") SELECT Scope_Identity() as ultimo;";
                 $ultimo = $connection->createCommand($query2)->queryOne();
                 
                 if ($campos[5]>0) {
                     $grav = round(($campos[3] * $campos[4]),2);
                     $gravable+=$grav;
                     $monto_tax = 0;
-                    $query3 = "SELECT * FROM SATAXES WHERE CodTaxs='".$campos[9]."'";
+                    $query3 = "SELECT * FROM SATAXES WHERE CodTaxs='".$campos[8]."'";
                     $satax = $connection->createCommand($query3)->queryOne();
                     $monto_tax = $satax['MtoTax'];
 
                     $query2 = "INSERT INTO ISAU_TaxDetalleTransaccion(id_detalle_transaccion,CodItem,CodTaxs,monto,gravable,mtotax) VALUES ('".$ultimo['ultimo']."',"
-                            . "'".$campos[1]."','".$campos[9]."',".$campos[5].",".$campos[7].",".$monto_tax.")";
+                            . "'".$campos[1]."','".$campos[8]."',".$campos[5].",".$campos[6].",".$monto_tax.")";
                     $connection->createCommand($query2)->query();
                 }
-                /*************************************** ALMACEN ***********************************************/
-                if ($campos[8]==0) {
-                    $query2 = "INSERT INTO ISAU_SolicitudTransaccion(id_transaccion,CodProd,cantidad,almacenista) "
-                            . " VALUES (".$model->id_transaccion.",'".$campos[1]."',".$campos[3].",".$_POST['almacenista'].")";
+                /*************************************** TALLER ***********************************************/
+                if ($campos[9]!="") {
+                    $query2 = "INSERT INTO ISAU_TallerTransaccion(id_transaccion,tecnico,observacion,asignador) "
+                            . " VALUES (".$model->id_transaccion.",".$campos[9].",'".$campos[10]."',".$_POST['asignador'].")";
                     $connection->createCommand($query2)->query();
                 }
             }
@@ -259,9 +259,6 @@ class TransaccionController extends Controller
             $total = $d_total['total'] + $tax;
             $query = "UPDATE ISAU_Transaccion SET gravable=".$gravable.", total=".$total.", tax=".$tax." WHERE id_transaccion=".$id;
             $connection->createCommand($query)->query();
-            
-            $query = "UPDATE ISAU_SolicitudTransaccion set activo=0 WHERE id_transaccion=".$id;
-            $connection->createCommand($query)->query();
             /****************************************************************************************************/
             $searchModel = new TransaccionSearch();
             $dataProvider = $searchModel->searchSolicitud();
@@ -273,16 +270,28 @@ class TransaccionController extends Controller
             $connection = \Yii::$app->db;
             $items = array();
             /********************** ITEMS ******************************************/
-            $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
+            $query = "SELECT CodServ,Descrip FROM SASERV where Activo=1";
             $data1 = $connection->createCommand($query)->queryAll();
 
             for($i=0;$i<count($data1);$i++) {
-                $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'];
+                $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'];
             }
+            /********************** MECANICOS ******************************************/
+            $query = "SELECT u.id_usuario,  CONCAT(u.apellido,', ',u.nombre) as nombre "
+                    . "FROM ISAU_usuario u, ISAU_Rol r "
+                    . "WHERE u.id_rol=r.id_rol and u.activo=1 and "
+                    . "(r.descripcion='Mecanico' OR r.descripcion='Administrador')";
+            $data1 = $connection->createCommand($query)->queryAll();
 
+            $mecanico="";
+            for($i=0;$i<count($data1);$i++) {
+                $mecanico.= "<option value='".$data1[$i]['id_usuario']."'>".$data1[$i]['nombre']."</option>";
+            }
+            
             return $this->render('taller-index', [
                 'model' => $model,
                 'items' => $items,
+                'mecanico' => $mecanico,
             ]);
         }
     }
@@ -551,7 +560,23 @@ class TransaccionController extends Controller
         $query = "select d.CodItem,d.descripcion,d.cantidad,d.costo,d.total,td.CodTaxs,td.monto
                 from ISAU_DetalleTransaccion d
                 left join ISAU_TaxDetalleTransaccion td on d.id_detalle_transaccion=td.id_detalle_transaccion 
-                where d.EsServ=$serv and d.id_transaccion='".$id_transaccion."'";
+                where d.EsServ=$serv and d.id_transaccion=".$id_transaccion;
+
+        $pendientes = $connection->createCommand($query)->queryAll();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }
+    
+    public function actionBuscarDetalleTaller($id_transaccion) {
+        $connection = \Yii::$app->db;
+        
+        $query = "select dt.id_detalle_transaccion, dt.CodItem, dt.descripcion, dt.cantidad, dt.costo, dt.total, 
+                tdt.CodTaxs, tdt.monto, tdt.mtotax,t.tecnico,t.observacion, u.nombre, u.apellido
+                from ISAU_DetalleTransaccion dt
+                left join ISAU_TaxDetalleTransaccion tdt on tdt.id_detalle_transaccion=dt.id_detalle_transaccion
+                left join ISAU_TallerTransaccion t on dt.id_transaccion=t.id_transaccion
+                left join ISAU_Usuario u on t.tecnico=u.id_usuario
+                where dt.id_transaccion=$id_transaccion and dt.EsServ=1";
 
         $pendientes = $connection->createCommand($query)->queryAll();
         //$pendientes = $comand->readAll();

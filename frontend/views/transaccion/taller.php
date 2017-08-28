@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'fecha_transaccion',
             [
-               'attribute' => 'fecha',
+                'attribute' => 'fecha',
                 'format' =>  ['date', 'php:d-m-Y'],
             ],
             //'hora',
