@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
     
     <?= $form->field($model, 'Telef')->textInput(['maxlength' => 30]) ?>
     
+    <?= $form->field($model, 'Fax')->textInput(['maxlength' => 30]) ?>
+    
     <?= $form->field($model, 'Movil')->textInput(['maxlength' => 15]) ?>
     
     <?= $form->field($model, 'Email')->textInput(['maxlength' => 60]) ?>

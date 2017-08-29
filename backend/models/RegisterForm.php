@@ -18,12 +18,13 @@ class RegisterForm extends model{
     public $apellido;
     public $sexo;
     public $telefono;
+    public $CodUbic;
     public $isNewRecord = true;
 
     public function rules()
     {
         return [
-            [['usuario', 'correo', 'clave', 'repetir_clave', 'cedula', 'nombre' , 'apellido', 'respuesta_seguridad'], 'required', 'message' => 'Campo requerido'],
+            [['usuario', 'correo', 'clave', 'repetir_clave', 'cedula', 'nombre' , 'apellido', 'respuesta_seguridad', 'CodUbic'], 'required', 'message' => 'Campo requerido'],
             ['usuario', 'match', 'pattern' => "/^.{3,50}$/", 'message' => 'Mínimo 3 y máximo 50 caracteres'],
             ['usuario', 'match', 'pattern' => "/^[0-9a-z]+$/i", 'message' => 'Sólo se aceptan letras y números'],
             ['correo', 'match', 'pattern' => "/^.{5,80}$/", 'message' => 'Mínimo 5 y máximo 80 caracteres'],
@@ -32,7 +33,7 @@ class RegisterForm extends model{
             ['correo', 'correo_existe'],
             ['clave', 'match', 'pattern' => "/^.{4,16}$/", 'message' => 'Mínimo 4 y máximo 16 caracteres'],
             ['repetir_clave', 'compare', 'compareAttribute' => 'clave', 'message' => 'Las claves no coinciden'],
-            [['cedula'], 'string', 'max' => 15],
+            [['cedula', 'CodUbic'], 'string', 'max' => 15],
             [['sexo'], 'string', 'max' => 1],
             [['respuesta_seguridad'], 'string', 'max' => 1000],
             [['id_pregunta'], 'exist', 'skipOnError' => true, 'targetClass' => Pregunta::className(), 'targetAttribute' => ['id_pregunta' => 'id_pregunta']],

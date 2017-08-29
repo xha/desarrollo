@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Proveedor */
 
 $this->title = $model->CodProv;
-$this->params['breadcrumbs'][] = ['label' => 'Proveedors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Proveedores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proveedor-view">

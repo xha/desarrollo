@@ -5,6 +5,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Usuario;
 use backend\models\Rol;
+use backend\models\Sadepo;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Rol */
@@ -31,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <?= $form->field($model, 'id_rol')->dropDownList(ArrayHelper::map(Rol::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 'id_rol', 'descripcion')); ?>
+    
+    <?= $form->field($model, 'CodUbic')->dropDownList(ArrayHelper::map(Sadepo::find()->where(['activo' => '1'])->OrderBy('Descrip')->all(), 'CodUbic', 'Descrip')); ?>
 
     <?= $form->field($model, 'activado')->checkbox(); ?><br /><br />
 

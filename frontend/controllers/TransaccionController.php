@@ -150,9 +150,6 @@ class TransaccionController extends Controller
             $total = $d_total['total'] + $tax;
             $query = "UPDATE ISAU_Transaccion SET gravable=".$gravable.", total=".$total.", tax=".$tax." WHERE id_transaccion=".$id;
             $connection->createCommand($query)->query();
-            
-            $query = "UPDATE ISAU_SolicitudTransaccion set activo=0 WHERE id_transaccion=".$id;
-            $connection->createCommand($query)->query();
             /****************************************************************************************************/
             $searchModel = new TransaccionSearch();
             $dataProvider = $searchModel->searchSolicitud();
@@ -361,7 +358,6 @@ class TransaccionController extends Controller
                     . "between '$fecha_transaccion 00:00:00' and '$fecha_transaccion 23:59:59'";
             $data1 = $connection->createCommand($query)->queryOne();
             $model->numero_atencion = $data1['numero_atencion'];*/
-            $model->CodSucu = '0000';
             $model->fecha_transaccion = $fecha_transaccion." ".$hora;
             $arr_fecha_compra=explode("-",$model->fecha);
             $model->fecha = $arr_fecha_compra[2].$arr_fecha_compra[1].$arr_fecha_compra[0];
@@ -517,6 +513,20 @@ class TransaccionController extends Controller
         echo Json::encode($pendientes);
     }    
     
+    public function actionBuscarVehiculoActivo($placa) {
+        $connection = \Yii::$app->db;
+        date_default_timezone_set("America/Caracas");
+        $fecha = time();
+        $fecha = date('Ymd',$fecha);
+        
+        $query = "SELECT count(t.id_transaccion) as conteo 
+                  FROM ISAU_Transaccion t, ISAU_Vehiculo v 
+                  WHERE t.activo=1 and t.fecha='$fecha' and v.placa='".$placa."'";
+        $pendientes = $connection->createCommand($query)->queryOne();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }
+    
     public function actionBuscarItems($codigo) {
         $connection = \Yii::$app->db;
 
@@ -640,8 +650,7 @@ class TransaccionController extends Controller
         $pdf->SetFont('Arial','B',9);    
         $pdf->MultiCell(193,5,"RECEPCION DE VEHICULOS",0,'C');
 
-
-        //$pdf->Row(array(utf8_decode('CÃ©dula'),'Nombre','Fecha de Nacimiento','Sexo','Nutricionista','Estatus'), false, 'DF');
+        $pdf->Row(array(utf8_decode('Cédula'),'Nombre','Fecha de Nacimiento','Sexo','Nutricionista','Estatus'), false, 'DF');
         $pdf->Output('');
         exit;
     }

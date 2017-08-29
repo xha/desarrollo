@@ -32,31 +32,39 @@ function buscar_cliente(id) {
 }
 
 function buscar_vehiculo() {
-    var placa = trae('transaccion-placa').value;
+    var placa = trae('transaccion-placa');
     
-    if (placa!="") {
-        $.get('../transaccion/buscar-vehiculo',{placa : placa},function(data){
+    if (placa.value!="") {
+        $.get('../transaccion/buscar-vehiculo-activo',{placa : placa.value},function(data){
             var data = $.parseJSON(data);
-            if (data!="") {
-                var tipo = trae('v_tipo');
-                var modelo = trae('v_modelo');
-                var anio = trae('v_anio');
-                var color = trae('v_color');
-                var cliente = trae('transaccion-representante');
-                var cliente2 = trae('transaccion-pagador');
-                var id_vehiculo = trae('transaccion-id_vehiculo');
-                
-                tipo.value = data.tipo;
-                modelo.value = data.modelo;
-                anio.value = data.anio;
-                color.value = data.color;
-                id_vehiculo.value = data.id_vehiculo;
-                if (cliente.value=="") {
-                    cliente.value = data.propietario;
-                    cliente2.value = data.propietario;
-                    buscar_cliente('transaccion-pagador');
-                    buscar_cliente('transaccion-representante');
-                }
+            if (data.conteo < 1) {
+                $.get('../transaccion/buscar-vehiculo',{placa : placa.value},function(data){
+                    data = $.parseJSON(data);
+                    if (data!="") {
+                        var tipo = trae('v_tipo');
+                        var modelo = trae('v_modelo');
+                        var anio = trae('v_anio');
+                        var color = trae('v_color');
+                        var cliente = trae('transaccion-representante');
+                        var cliente2 = trae('transaccion-pagador');
+                        var id_vehiculo = trae('transaccion-id_vehiculo');
+
+                        tipo.value = data.tipo;
+                        modelo.value = data.modelo;
+                        anio.value = data.anio;
+                        color.value = data.color;
+                        id_vehiculo.value = data.id_vehiculo;
+                        if (cliente.value=="") {
+                            cliente.value = data.propietario;
+                            cliente2.value = data.propietario;
+                            buscar_cliente('transaccion-pagador');
+                            buscar_cliente('transaccion-representante');
+                        }
+                    }
+                });
+            } else {
+                alert('Vehiculo ya esta en cola para hoy');
+                placa.focus();
             }
         });
     }

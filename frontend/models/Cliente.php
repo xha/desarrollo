@@ -78,6 +78,7 @@ class Cliente extends \yii\db\ActiveRecord
         return [
             [['CodClie', 'ID3', 'Descrip'], 'required'],
             [['CodClie', 'Descrip', 'ID3', 'DescOrder', 'Clase', 'Represent', 'Direc1', 'Direc2', 'ZipCode', 'Telef', 'Movil', 'Email', 'Fax', 'CodZona', 'CodVend', 'CodConv', 'CodAlte', 'Observa', 'NumeroUV', 'NumeroUP', 'DescripExt'], 'string'],
+            [['CodClie', 'ID3'], 'match', 'pattern' => "/^[0-9a-z]+$/i", 'message' => 'Sólo se aceptan letras y números'],
             [['TipoID3', 'TipoID', 'Activo', 'Pais', 'Estado', 'Ciudad', 'Municipio', 'TipoCli', 'TipoPVP', 'EsMoneda', 'EsCredito', 'DiasCred', 'EsToleran', 'DiasTole', 'IntMora'], 'integer'],
             [['FechaE', 'FechaUV', 'FechaUP'], 'safe'],
             [['LimiteCred', 'Descto', 'Saldo', 'PagosA', 'MontoUV', 'MontoUP', 'MontoMax', 'MtoMaxCred', 'PromPago', 'RetenIVA', 'SaldoPtos'], 'number'],
@@ -91,7 +92,7 @@ class Cliente extends \yii\db\ActiveRecord
     {
         return [
             'CodClie' => 'Codigo',
-            'Descrip' => 'Descripción',
+            'Descrip' => 'Razón Social',
             'ID3' => 'Rif',
             'TipoID3' => 'Tipo',
             'TipoID' => 'Tipo',
@@ -106,10 +107,10 @@ class Cliente extends \yii\db\ActiveRecord
             'Ciudad' => 'Ciudad',
             'Municipio' => 'Municipio',
             'ZipCode' => 'Zip Code',
-            'Telef' => 'Telef',
+            'Telef' => 'Telefono',
             'Movil' => 'Movil',
             'Email' => 'Email',
-            'Fax' => 'Fax',
+            'Fax' => 'Teléfono 2',
             'FechaE' => 'Fecha Creación',
             'CodZona' => 'Cod Zona',
             'CodVend' => 'Cod Vend',

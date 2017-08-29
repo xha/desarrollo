@@ -10,6 +10,7 @@ class ActivarForm extends model{
     
     public $usuario;
     public $id_rol;
+    public $CodUbic;
     public $activado = true;
     public $isNewRecord = true;
 
@@ -18,6 +19,7 @@ class ActivarForm extends model{
         return [
             [['usuario', 'id_rol', 'activado'], 'required', 'message' => 'Campo requerido'],
             [['id_rol'], 'exist', 'skipOnError' => true, 'targetClass' => Rol::className(), 'targetAttribute' => ['id_rol' => 'id_rol']],
+            [['CodUbic'], 'string'],
         ];
     }
     

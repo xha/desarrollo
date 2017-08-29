@@ -19,7 +19,7 @@ class TransaccionSearch extends Transaccion
     {
         return [
             [['id_transaccion', 'id_vehiculo', 'asesor', 'numero_atencion', 'activo'], 'integer'],
-            [['fecha_transaccion', 'fecha', 'hora', 'CodSucu', 'representante', 'observacion'], 'safe'],
+            [['fecha_transaccion', 'fecha', 'hora', 'representante', 'observacion'], 'safe'],
             [['km', 'gravable', 'exento', 'tax', 'total'], 'number'],
         ];
     }
@@ -79,7 +79,6 @@ class TransaccionSearch extends Transaccion
         $fecha=date('d-m-Y',$fecha);
         
         $query->andFilterWhere(['like', 'hora', $this->hora])
-            ->andFilterWhere(['like', 'CodSucu', $this->CodSucu])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
             ->andFilterWhere(['IN', 'activo', 1])
@@ -129,7 +128,6 @@ class TransaccionSearch extends Transaccion
         $fecha=date('d-m-Y',$fecha);
         
         $query->andFilterWhere(['like', 'hora', $this->hora])
-            ->andFilterWhere(['like', 'CodSucu', $this->CodSucu])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
             ->andFilterWhere(['IN', 'activo', 1])
@@ -174,7 +172,6 @@ class TransaccionSearch extends Transaccion
         ]);
         
         $query->andFilterWhere(['like', 'hora', $this->hora])
-            ->andFilterWhere(['like', 'CodSucu', $this->CodSucu])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
             ->andFilterWhere(['IN', 'activo', 0])

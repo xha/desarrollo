@@ -147,6 +147,7 @@ class SiteController extends Controller
                 $table->id_rol = 1;
                 $table->id_pregunta = $model->id_pregunta;
                 $table->respuesta_seguridad = $model->respuesta_seguridad;
+                $table->CodUbic = $model->CodUbic;
                 $table->activo = 0;
                 $table->clave = md5("is".$model->clave);
                 
@@ -228,7 +229,7 @@ class SiteController extends Controller
         
         if ($model->load(Yii::$app->request->post())) {
             $query = "UPDATE ISAU_USUARIO
-            SET id_rol=".$model->id_rol."
+            SET id_rol=".$model->id_rol.", CodUbic='".$model->CodUbic."', activo=".$model->activado."
             where usuario='".$model->usuario."'";
             $msg = $connection->createCommand($query)->execute();
             

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="modelo-index">
 
 <p>
-    <?= Html::a('Crear Marca', ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Crear Modelo', ['create'], ['class' => 'btn btn-success']) ?>
 </p>
 
 <?= GridView::widget([

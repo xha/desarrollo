@@ -34,7 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' =>  ['date', 'php:d-m-Y'],
             ],
             'hora',
-            // 'CodSucu',
             // 'asesor',
             // 'km',
             'representante',
@@ -48,8 +47,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{print}',
                 'buttons' => [
                     'print' => function ($url, $model) {
-                        return Html::a('<span style="cursor: pointer" class="glyphicon glyphicon-print"></span>', $url, [
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', $url, [
                                     'title' => Yii::t('app', 'Orden '.$model->numero_atencion),
+                                    'target' => '_blank',
                         ]);
                     }
                 ],

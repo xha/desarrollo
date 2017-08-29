@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model frontend\models\Transaccion */
 
 $this->title = 'Generar Nueva Orden';
-$this->params['breadcrumbs'][] = ['label' => 'Transaccions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Transacciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaccion-create">
