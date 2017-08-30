@@ -64,7 +64,7 @@ class TallerTransaccionSearch extends TallerTransaccion
             return $dataProvider;
         }
         //Agregamos los join de las tablas para realizar las relaciones
-        $query->joinWith('transaccion')->LeftJoin('ISAU_Vehiculo', 'ISAU_Transaccion.id_vehiculo = ISAU_Vehiculo.id_vehiculo')
+        $query->joinWith('transaccion')->LeftJoin('ISAU_VehiculoS', 'ISAU_Transaccion.id_vehiculo = ISAU_Vehiculo.id_vehiculo')
               ->LeftJoin('ISAU_Usuario', 'ISAU_Transaccion.asesor = ISAU_Usuario.id_usuario');
 //        $query->rightJoin('ISAU_Transaccion','ISAU_TallerTransaccion.id_transaccion = ISAU_Transaccion.id_transaccion')->leftJoin('ISAU_Vehiculo', 'ISAU_Transaccion.id_vehiculo = ISAU_Vehiculo.id_vehiculo');s
         

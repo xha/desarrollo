@@ -421,7 +421,7 @@ class TransaccionController extends Controller
                 $connection->createCommand($query2)->query();
             }
             /******************************************************************************************************/
-            return $this->redirect(['view', 'id' => $model->id_transaccion]);
+            return $this->redirect(['index', 'id' => $model->id_transaccion]);
         } else {
             return $this->render('create', [
                 'model' => $model,

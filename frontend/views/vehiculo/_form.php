@@ -17,30 +17,43 @@ $this->registerCssFile('@web/css/general.css');
 <div class="vehiculo-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'id_modelo')->dropDownList(ArrayHelper::map(Modelo::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 
+    <div class="col-md-3">
+        <?= $form->field($model, 'id_modelo')->dropDownList(ArrayHelper::map(Modelo::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 
         'id_modelo', 'descripcion'), ['prompt' => 'Seleccione']); ?>
-
-    <?= $form->field($model, 'id_tipo_vehiculo')->dropDownList(ArrayHelper::map(TipoVehiculo::find()->where('activo=1')->OrderBy('descripcion')->all(), 
+    </div>
+    <div class="col-md-3">
+        <?= $form->field($model, 'id_tipo_vehiculo')->dropDownList(ArrayHelper::map(TipoVehiculo::find()->where('activo=1')->OrderBy('descripcion')->all(), 
         'id_tipo_vehiculo', 'descripcion'), ['prompt' => 'Seleccione']); ?>
-    
-    <?= $form->field($model, 'id_marca')->dropDownList(ArrayHelper::map(Marca::find()->where('activo=1')->OrderBy('descripcion')->all(), 
+    </div>
+    <div class="col-md-3">
+        <?= $form->field($model, 'id_marca')->dropDownList(ArrayHelper::map(Marca::find()->where('activo=1')->OrderBy('descripcion')->all(), 
         'id_marca', 'descripcion'), ['prompt' => 'Seleccione']); ?>
-
-    <?= $form->field($model, 'placa')->textInput(['maxlength' => 10, 'style' => 'text-transform: uppercase']) ?>
+    </div>
+    <div class="col-md-3">
+        <?= $form->field($model, 'placa')->textInput(['maxlength' => 10, 'style' => 'text-transform: uppercase']) ?>
+    </div>
     
-    <?= $form->field($model, 'nro_puestos')->textInput() ?>
-    
-    <?= $form->field($model, 'serial_motor')->textInput(['maxlength' => 100]) ?>
-
+    <div class="col-md-3">
+        <?= $form->field($model, 'nro_puestos')->textInput() ?>
+    </div>
+    <div class="col-md-3">
+        <?= $form->field($model, 'serial_motor')->textInput(['maxlength' => 100]) ?>
+    </div>
+    <div class="col-md-3">
     <?= $form->field($model, 'serial_carroceria')->textInput(['maxlength' => 100]) ?>
-    
+    </div>
+    <div class="col-md-3">
     <?= $form->field($model, 'venta')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'color')->textInput() ?>
+    </div>
     
+    <div class="col-md-3">
+        <?= $form->field($model, 'color')->textInput() ?>
+    </div>
+    
+    <div class="col-md-3">
     <?= $form->field($model, 'anio')->textInput() ?>
-
+    </div>
+    <div class="col-md-6">
     <label>Propietario</label><br /><br />
     <?= $form->field($model, 'propietario')->label(false)->widget(\yii\jui\AutoComplete::classname(), [
             'clientOptions' => [
@@ -49,8 +62,11 @@ $this->registerCssFile('@web/css/general.css');
             'options' => ['class' => 'form-control','onblur'=>'js: split_clientes()'],
         ]) 
     ?>
+    </div>
     
-    <?= $form->field($model, 'activo')->dropDownList(['1' => 'SI', '0' => 'NO']); ?>
+    <?php 
+    //=$form->field($model, 'activo')->dropDownList(['1' => 'SI', '0' => 'NO']);
+    ?>
     <?php //$form->field($model, 'activo')->checkbox() ?>
 
     <div class="form-group">
