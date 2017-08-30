@@ -110,7 +110,10 @@ class ModeloController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $connection = \Yii::$app->db;
+        $query = "UPDATE ISAU_Modelo SET activo=0 WHERE id_modelo=".$id;
+        $connection->createCommand($query)->query();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

@@ -65,7 +65,7 @@ class Vehiculo extends \yii\db\ActiveRecord
             'color' => 'Color',
             'propietario' => 'Propietario',
             'nro_puestos' => 'Nro de Puestos',
-            'venta' => 'Venta',
+            'venta' => 'Medio de adquisición del Vehiculo',
             'activo' => 'Activo',
         ];
     }

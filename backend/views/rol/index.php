@@ -25,8 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
             if($model->activo == 0) return ['style' => 'background-color: #FADCAC'];
         },
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id_rol',
             'descripcion',
 

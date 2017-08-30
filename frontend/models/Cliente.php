@@ -100,7 +100,7 @@ class Cliente extends \yii\db\ActiveRecord
             'DescOrder' => 'Desc Order',
             'Clase' => 'Clase',
             'Represent' => 'Representante',
-            'Direc1' => 'Dirección 1',
+            'Direc1' => 'Dirección',
             'Direc2' => 'Dirección 2',
             'Pais' => 'Pais',
             'Estado' => 'Estado',

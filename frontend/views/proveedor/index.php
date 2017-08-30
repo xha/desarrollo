@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function ($model, $index, $widget, $grid){
+            if($model->Activo == 0) return ['style' => 'background-color: #FADCAC'];
+        },
         'columns' => [
             'CodProv',
             'Descrip',

@@ -21,8 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function ($model, $index, $widget, $grid){
+            if($model->activo == 0) return ['style' => 'background-color: #FADCAC'];
+        },
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             'id_accion',
             'descripcion',

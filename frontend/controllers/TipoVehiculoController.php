@@ -110,7 +110,10 @@ class TipoVehiculoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $connection = \Yii::$app->db;
+        $query = "UPDATE ISAU_TipoVehiculo SET activo=0 WHERE id_tipo_vehiculo=".$id;
+        $connection->createCommand($query)->query();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
