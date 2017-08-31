@@ -136,7 +136,7 @@ class TransaccionController extends Controller
             
             $tax=0;
             for ($i=0;$i<count($sataxvta);$i++) {
-                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,gravable,mtotax) VALUES (".$id.",'".$sataxvta[$i]['CodTaxs']."',"
+                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,mtotax,gravable) VALUES (".$id.",'".$sataxvta[$i]['CodTaxs']."',"
                         . "'".$sataxvta[$i]['monto']."',".$sataxvta[$i]['mtotax'].",".$sataxvta[$i]['gravable'].")";
                 $connection->createCommand($query2)->query();
                 $tax+=$sataxvta[$i]['monto'];
@@ -242,7 +242,7 @@ class TransaccionController extends Controller
             
             $tax=0;
             for ($i=0;$i<count($sataxvta);$i++) {
-                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,gravable,mtotax) VALUES (".$id.",'".$sataxvta[$i]['CodTaxs']."',"
+                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,mtotax,gravable) VALUES (".$id.",'".$sataxvta[$i]['CodTaxs']."',"
                         . "'".$sataxvta[$i]['monto']."',".$sataxvta[$i]['mtotax'].",".$sataxvta[$i]['gravable'].")";
                 $connection->createCommand($query2)->query();
                 $tax+=$sataxvta[$i]['monto'];
@@ -402,7 +402,7 @@ class TransaccionController extends Controller
             $sataxvta = $connection->createCommand($query3)->queryAll();
             
             for ($i=0;$i<count($sataxvta);$i++) {
-                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,gravable,mtotax) VALUES (".$model->id_transaccion.",'".$sataxvta[$i]['CodTaxs']."',"
+                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,mtotax,gravable) VALUES (".$model->id_transaccion.",'".$sataxvta[$i]['CodTaxs']."',"
                         . "'".$sataxvta[$i]['monto']."',".$sataxvta[$i]['mtotax'].",".$sataxvta[$i]['gravable'].")";
                 $connection->createCommand($query2)->query();
             }
