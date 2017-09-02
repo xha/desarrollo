@@ -47,23 +47,14 @@ function respuesta(response) {
         response='A';
     }
     switch (response) {
-        case "A":
-            alert("Registro Actualizado");
+        case "0":
+            alert("No se encontro registro");
         break;
-        case "C":
-            alert("Registro Insertado");
-        break;
-        case "N":
-            alert("Registro No Encontrado");
-        break;
-        case "D":
-            alert("Registro Eliminado");
-        break;
-        case "X":
-            alert("Error, información no coincide");
+        case "-1":
+            alert("Error en el SP");
         break;
     default:
-        alert(response);
+        alert("Registro Actualizado");
     }
 }
 
@@ -78,6 +69,22 @@ function entero(e){
         key = String.fromCharCode(whichCode); // Get key value from key code
         if (strCheck.indexOf(key) == -1) 
             return false; // Not a valid key
+}
+
+function valida_cantidad(campo){
+    var cantidad = trae(campo);
+    var i;
+    var aux=0;
+    
+    for (i=0;i<cantidad.value.length;i++){
+        if (cantidad.value.charAt(i)=='.'){
+            aux++;
+        }
+    }
+    
+    if (aux>1) {
+        cantidad.value = Math.round((cantidad.value.slice(0,(cantidad.value.length-1))) * 100) / 100; 
+    }
 }
 
 function validar_campo(id_campo,id_div_msj,msj){
@@ -172,27 +179,27 @@ function add_filas(row, clase, funcion, falso, limite, identi) {
                     imagen.id = "add_fila_i_"+row[identi];
                     switch(i) {
                         case 0:
-                            imagen.src = "../../img/edit.png";
+                            imagen.src = "../../../img/edit.png";
                             eval("imagen.onclick = function(){"+funciones[i]+"(this.tittle);}");
                         break;
                         case 1:
-                            imagen.src = "../../img/imprimir.png";
+                            imagen.src = "../../../img/imprimir.png";
                             eval("imagen.onclick = function(){"+funciones[i]+"(this.tittle);}");
                         break;
                         case 2:
-                            imagen.src = "../../img/buscar.png";
+                            imagen.src = "../../../img/buscar.png";
                             eval("imagen.onclick = function(){"+funciones[i]+"(this.tittle);}");
                         break;
                         case 3:
-                            imagen.src = "../../img/devolver.png";
+                            imagen.src = "../../../img/devolver.png";
                             eval("imagen.onclick = function(){"+funciones[i]+"(this.tittle);}");
                         break;
                         case 4:
-                            imagen.src = "../../img/delete.png";
+                            imagen.src = "../../../img/delete.png";
                             eval("imagen.onclick = function(){"+funciones[i]+"(this.tittle);}");
                         break;
                         default:
-                            imagen.src = "../../img/delete.png";
+                            imagen.src = "../../../img/delete.png";
                             eval("imagen.onclick = function(){"+funciones[i]+"(this.tittle);}");
                     }
                     td.appendChild(imagen);
@@ -293,3 +300,32 @@ function deshabilita_opcion(btn,img,opt) {
         boton.disabled = false;
     }
 }
+
+    function convertDateFormat(string) {
+        var info2 = string.split(' ');
+        var info = info2[0].split('-');
+        return info[2] + '/' + info[1] + '/' + info[0];
+    }
+
+    function number_format(amount, decimals) {
+
+        amount += ''; // por si pasan un numero en vez de un string
+        amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+
+        decimals = decimals || 0; // por si la variable no fue fue pasada
+
+        // si no es un numero o es igual a cero retorno el mismo cero
+        if (isNaN(amount) || amount === 0) 
+            return parseFloat(0).toFixed(decimals);
+
+        // si es mayor o menor que cero retorno el valor formateado como numero
+        amount = '' + amount.toFixed(decimals);
+
+        var amount_parts = amount.split('.'),
+            regexp = /(\d+)(\d{3})/;
+
+        while (regexp.test(amount_parts[0]))
+            amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+
+        return amount_parts.join('.');
+    }

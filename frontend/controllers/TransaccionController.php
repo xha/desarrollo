@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Query;
 use yii\helpers\Json;
-
+use common\models\AccessHelpers;
 
 /**
  * TransaccionController implements the CRUD actions for Transaccion model.
@@ -32,6 +32,15 @@ class TransaccionController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return AccessHelpers::chequeo();
+    }
+    
     /**
      * Lists all Transaccion models.
      * @return mixed
@@ -50,22 +59,69 @@ class TransaccionController extends Controller
     public function actionCerrar()
     {
         $searchModel = new TransaccionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchAbrir(0,1);
 
         return $this->render('cerrar', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'mensaje' => '',
+        ]);
+    }
+    
+    public function actionCerrarOrden($id,$num) {
+        $codubic = Yii::$app->user->identity->CodUbic;
+        $connection = \Yii::$app->db;
+        
+        $query = "SET NOCOUNT ON; EXEC SP_ISAU_CERRAR_ORDEN $id, '".$codubic."'";
+        $salida = $connection->createCommand($query)->queryOne();
+        
+        if ($salida['salida']==0) {
+            $msg = "Orden $num Cerrada con éxito ";
+        } else {
+            $msg = "Error al Cerrar la Orden $num";
+        }
+        
+        $searchModel = new TransaccionSearch();
+        $dataProvider = $searchModel->searchAbrir(0,1);
+
+        return $this->render('cerrar', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'mensaje' => $msg,
         ]);
     }
     
     public function actionAbrir()
     {
         $searchModel = new TransaccionSearch();
-        $dataProvider = $searchModel->searchAbrir();
+        $dataProvider = $searchModel->searchAbrir(0,0);
 
         return $this->render('abrir', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'mensaje' => '',
+        ]);
+    }
+    
+    public function actionAbrirOrden($id, $num) {
+        $connection = \Yii::$app->db;
+        
+        $query = "SET NOCOUNT ON; EXEC SP_ISAU_REABRIR_ORDEN $id, ".$num;
+        $salida = $connection->createCommand($query)->queryOne();
+        
+        if ($salida['salida']==0) {
+            $msg = "Orden $num Abierta con éxito ";
+        } else {
+            $msg = "Error al Abrir la Orden $num";
+        }
+        
+        $searchModel = new TransaccionSearch();
+        $dataProvider = $searchModel->searchAbrir(0,0);
+
+        return $this->render('abrir', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'mensaje' => $msg,
         ]);
     }
     

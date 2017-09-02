@@ -8,11 +8,10 @@ class AccessHelpers {
     public static function getAcceso($accion,$rol) {
         $connection = \Yii::$app->db;
         $sql = "SELECT u.usuario as nombre
-                FROM isau_usuario u, is_rol_usuario ru, isau_rol_accion ra, isau_accion a
+                FROM ISAU_Usuario u, ISAU_RolAccion ra, ISAU_Accion a
                 WHERE a.descripcion =:accion
                 AND ra.id_accion=a.id_accion
-                AND u.id_usuario=ru.id_usuario 
-                AND ru.id_rol=ra.id_rol 
+                AND u.id_rol=ra.id_rol 
                 AND ra.id_rol =:id_rol";
         $command = $connection->createCommand($sql);
         $command->bindValue(":accion", $accion);
@@ -34,13 +33,10 @@ class AccessHelpers {
         }
      
         $rol = Yii::$app->user->identity->id_rol;
-        if ($rol<3) {
-            if (!AccessHelpers::getAcceso($operacion,$rol)) {
-                echo $this->render('../no_permitido');
-                return false;
-            }
+        if (!AccessHelpers::getAcceso($operacion,$rol)) {
+            echo $this->render('../no_permitido');
+            return false;
         }
-     
         return true;
     }
     

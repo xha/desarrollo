@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\AlianzaTransaccion;
 use frontend\models\AlianzaTransaccionSearch;
+use common\models\AccessHelpers;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -31,8 +32,18 @@ class AlianzaTransaccionController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return AccessHelpers::chequeo();
+    }
+    
     /**
-     * Lists all AlianzaTransaccion models.
+
+     *      * Lists all AlianzaTransaccion models.
      * @return mixed
      */
     public function actionIndex()

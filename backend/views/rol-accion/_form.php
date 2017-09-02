@@ -6,27 +6,28 @@ use yii\helpers\ArrayHelper;
 use backend\models\Accion;
 use backend\models\Rol;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\RolAccion */
-/* @var $form yii\widgets\ActiveForm */
+$this->registerJsFile('@web/general.js');
+$this->registerJsFile('@web/js/rol-accion.js');
+$this->registerCssFile('@web/css/general.css');
 ?>
 
-<div class="rol-accion-form">
+<div class="rol-accion-form" style="min-height: 800px">
 
+    <div class="form-group">
+        <?= Html::submitButton("Crear",array('class'=>'btn btn-success','onclick'=>'js:enviar_data();')); ?>
+    </div>
+    
     <?php $form = ActiveForm::begin(); ?>
-
-    <label class="control-label">Acción</label>
-    <?= Html::activeDropDownList($model, 'id_accion',
-      ArrayHelper::map(Accion::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 'id_accion', 'descripcion'), ['prompt'=>'Seleccione','class'=>'form-control']) ?>
 
     <label class="control-label">Rol</label>
     <?= Html::activeDropDownList($model, 'id_rol',
-      ArrayHelper::map(Rol::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 'id_rol', 'descripcion'), ['prompt'=>'Seleccione','class'=>'form-control']) ?>
-      <br />
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
+      ArrayHelper::map(Rol::find()->where(['activo' => '1'])->OrderBy('descripcion')->all(), 'id_rol', 'descripcion'), 
+            ['prompt'=>'Seleccione','class'=>'form-control','onchange'=>'js: buscar_rol_accion()']) ?>
+    <br />
+    <input type="checkbox" id='seleccionar' onclick='seleccionar_todos()' /> <b>Seleccionar Todos</b>
+    <div id="div_accion" style="width: 100%; height: 600px; float: left; overflow-y: scroll"></div>
+    <input id="i_items" name="i_items" type="hidden" />
+    
     <?php ActiveForm::end(); ?>
 
 </div>

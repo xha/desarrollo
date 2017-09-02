@@ -138,7 +138,7 @@ class TransaccionSearch extends Transaccion
         return $dataProvider;
     }
     
-    public function searchAbrir() {
+    public function searchAbrir($params, $valor) {
         $query = Transaccion::find();
 
         // add conditions that should always apply here
@@ -174,7 +174,7 @@ class TransaccionSearch extends Transaccion
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
-            ->andFilterWhere(['IN', 'activo', 0])
+            ->andFilterWhere(['IN', 'activo', $valor])
             ->andFilterWhere(['like', 'fecha', $this->fecha])
             ->orderBy('numero_atencion ASC');
 

@@ -29,6 +29,15 @@ class TallerTransaccionController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return AccessHelpers::chequeo();
+    }
+    
     /**
      * Lists all TallerTransaccion models.
      * @return mixed

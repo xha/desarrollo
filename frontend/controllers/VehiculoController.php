@@ -30,6 +30,15 @@ class VehiculoController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return AccessHelpers::chequeo();
+    }
+
     /**
      * Lists all Vehiculo models.
      * @return mixed

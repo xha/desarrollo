@@ -13,9 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaccion-index">
 
+    <h3><?= $mensaje ?></h3>
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             //'id_transaccion',
             'numero_atencion',
@@ -51,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],*/
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if ($action === 'update') {
-                        $url = Yii::$app->urlManager->createUrl(['transaccion/cerrar']); // your own url generation logic
+                        $url = Yii::$app->urlManager->createUrl(['transaccion/abrir-orden?id='.$model->id_transaccion.'&num='.$model->numero_atencion]); // your own url generation logic
                         return $url;
                     }
                 }

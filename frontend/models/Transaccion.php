@@ -36,7 +36,6 @@ class Transaccion extends \yii\db\ActiveRecord
 {   
     public $placa;
     public $CodClie;
-    public $CodSucu;
     public $d_codigo;
     public $tecnico;
     public $observacion;

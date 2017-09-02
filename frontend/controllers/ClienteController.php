@@ -30,6 +30,15 @@ class ClienteController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return AccessHelpers::chequeo();
+    }
+
     /**
      * Lists all Cliente models.
      * @return mixed
