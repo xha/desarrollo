@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'rowOptions' => function ($model, $index, $widget, $grid){
-            if($model->activo == 0) return ['style' => 'background-color: #FADCAC'];
+            if($model->Activo == 0) return ['style' => 'background-color: #FADCAC'];
         },
         'columns' => [
             'CodClie',
