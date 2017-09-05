@@ -30,6 +30,9 @@ class Usuario extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    
+    public $clave_actual;
+    
     public static function tableName()
     {
         return 'isau_usuario';

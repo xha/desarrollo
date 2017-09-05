@@ -11,6 +11,7 @@ use backend\models\LoginForm;
 use backend\models\RegisterForm;
 use backend\models\RecuperarClaveForm;
 use backend\models\ActivarForm;
+use backend\models\CambiarClaveForm;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\helpers\Url;
@@ -167,6 +168,51 @@ class SiteController extends Controller
           }
 
         return $this->render('register', [
+            'model' => $model,
+            'msg' => $msg
+        ]);  
+    }
+    
+    public function actionCambiar() {
+        $model = new CambiarClaveForm;
+           
+        $msg = null;
+        
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            if($model->validate()) {
+                //Preparamos la consulta para guardar el usuario
+                $table = new Usuario;
+                $table->id_usuario = $model->id_usuario;
+                $table->clave = md5("is".$model->clave);
+                $table->clave_actual = md5("is".$model->clave_actual);
+                
+                $connection = \Yii::$app->db;
+
+                $query = "UPDATE ISAU_usuario
+                SET clave='".$table->clave."'
+                OUTPUT INSERTED.clave
+                where id_usuario='".$table->id_usuario."' and clave='".$table->clave_actual."'";
+                $salida = $connection->createCommand($query)->queryOne();
+        
+                if ($salida['clave']!="") {
+                    $msg = "Clave Actualizada";
+                } else {
+                    $msg = "Error al actualizar la clave";
+                }
+                
+            } else {
+                $model->getErrors();
+            }
+          }
+
+        return $this->render('cambiar', [
             'model' => $model,
             'msg' => $msg
         ]);  
