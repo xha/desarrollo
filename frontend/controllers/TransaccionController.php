@@ -563,7 +563,7 @@ class TransaccionController extends Controller
         
         $query = "SELECT v.id_vehiculo,v.placa,m.descripcion as modelo, t.descripcion as tipo,v.color,v.propietario,v.anio
                 FROM isau_vehiculo v, isau_modelo m, ISAU_TipoVehiculo t
-                WHERE v.activo=1 ".$extra;
+                WHERE v.activo=1 and v.id_modelo=m.id_modelo and v.id_tipo_vehiculo=t.id_tipo_vehiculo ".$extra;
         $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);

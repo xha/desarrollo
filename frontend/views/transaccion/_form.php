@@ -68,22 +68,6 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                     ]) 
                 ?>
             </td>
-            <td>
-                <b>Gravable</b>
-                <?= $form->field($model, 'gravable')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
-            </td>
-            <td>
-                <b>Exento</b>
-                <?= $form->field($model, 'exento')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
-            </td>
-            <td>
-                <b>Impuesto</b>
-                <?= $form->field($model, 'tax')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
-            </td>
-            <td>
-                <b>Total</b>
-                <?= $form->field($model, 'total')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
-            </td>
         </tr>
     </table>
     <table class="tablas tablas1">
@@ -305,6 +289,27 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             <th>Serv</th>
             <th>Imp</th>
             <th>Opt</th>
+        </tr>
+    </table>
+    
+    <table class="tablas tablas1">
+        <tr>
+            <td>
+                <b>Gravable</b>
+                <?= $form->field($model, 'gravable')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
+            </td>
+            <td>
+                <b>Exento</b>
+                <?= $form->field($model, 'exento')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
+            </td>
+            <td>
+                <b>Impuesto</b>
+                <?= $form->field($model, 'tax')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
+            </td>
+            <td>
+                <b>Total</b>
+                <?= $form->field($model, 'total')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
+            </td>
         </tr>
     </table>
     

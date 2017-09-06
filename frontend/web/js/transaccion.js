@@ -125,6 +125,7 @@ function buscar_inspeccion() {
                     derecho.appendChild(div);
                 } else {
                     input1.type = "checkbox";
+                    input1.checked = true;
                     input1.id = "i_inspeccion_"+data[i].id_inspeccion;
                     input1.style.marginRight = "4px";
                     
