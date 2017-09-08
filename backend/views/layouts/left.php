@@ -26,6 +26,7 @@
                                     ['label' => 'Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/alianza']],
                                     ['label' => 'Productos', 'icon' => 'check', 'url' => ['../../frontend/web/producto']],
                                     ['label' => 'Servicios', 'icon' => 'check', 'url' => ['../../frontend/web/servicio']],
+                                    ['label' => 'Técnicos', 'icon' => 'check', 'url' => ['../../frontend/web/tecnico']],
                             ],];
             $menuItems[] = ['label' => 'Vehículo', 'icon' => 'car', 'url' => ['../../frontend/web/vehiculo']];
             $menuItems[] = ['label' => 'Generar Orden', 'icon' => 'gear', 'url' => ['../../frontend/web/transaccion']];

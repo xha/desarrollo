@@ -284,8 +284,8 @@ class TransaccionController extends Controller
                 }
                 /*************************************** TALLER ***********************************************/
                 if ($campos[9]!="") {
-                    $query2 = "INSERT INTO ISAU_TallerTransaccion(id_transaccion,tecnico,observacion,asignador) "
-                            . " VALUES (".$model->id_transaccion.",".$campos[9].",'".$campos[10]."',".$_POST['asignador'].")";
+                    $query2 = "INSERT INTO ISAU_TallerTransaccion(id_transaccion,CodMeca,observacion,asignador) "
+                            . " VALUES (".$model->id_transaccion.",'".$campos[9]."','".$campos[10]."',".$_POST['asignador'].")";
                     $connection->createCommand($query2)->query();
                 }
             }
@@ -330,15 +330,14 @@ class TransaccionController extends Controller
                 $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'];
             }
             /********************** MECANICOS ******************************************/
-            $query = "SELECT u.id_usuario,  CONCAT(u.apellido,', ',u.nombre) as nombre "
-                    . "FROM ISAU_usuario u, ISAU_Rol r "
-                    . "WHERE u.id_rol=r.id_rol and u.activo=1 and "
-                    . "(r.descripcion='Mecanico' OR r.descripcion='Administrador')";
+            $query = "SELECT CodMeca, Descrip "
+                    . "FROM SAMECA "
+                    . "WHERE Activo=1";
             $data1 = $connection->createCommand($query)->queryAll();
 
             $mecanico="";
             for($i=0;$i<count($data1);$i++) {
-                $mecanico.= "<option value='".$data1[$i]['id_usuario']."'>".$data1[$i]['nombre']."</option>";
+                $mecanico.= "<option value='".$data1[$i]['CodMeca']."'>".$data1[$i]['Descrip']."</option>";
             }
             
             return $this->render('taller-index', [
@@ -637,12 +636,12 @@ class TransaccionController extends Controller
         $connection = \Yii::$app->db;
         
         $query = "select dt.id_detalle_transaccion, dt.CodItem, dt.descripcion, dt.cantidad, dt.costo, dt.total, 
-                tdt.CodTaxs, tdt.monto, tdt.mtotax,t.tecnico,t.observacion, u.nombre, u.apellido
-                from ISAU_DetalleTransaccion dt
-                left join ISAU_TaxDetalleTransaccion tdt on tdt.id_detalle_transaccion=dt.id_detalle_transaccion
-                left join ISAU_TallerTransaccion t on dt.id_transaccion=t.id_transaccion
-                left join ISAU_Usuario u on t.tecnico=u.id_usuario
-                where dt.id_transaccion=$id_transaccion and dt.EsServ=1";
+                    tdt.CodTaxs, tdt.monto, tdt.mtotax,t.CodMeca,t.observacion, sa.Descrip
+                    from ISAU_DetalleTransaccion dt
+                    left join ISAU_TaxDetalleTransaccion tdt on tdt.id_detalle_transaccion=dt.id_detalle_transaccion
+                    left join ISAU_TallerTransaccion t on dt.id_transaccion=t.id_transaccion
+                    left join SAMECA sa on t.CodMeca=sa.CodMeca
+                    where dt.id_transaccion=$id_transaccion and dt.EsServ=1";
 
         $pendientes = $connection->createCommand($query)->queryAll();
         //$pendientes = $comand->readAll();
@@ -670,7 +669,7 @@ class TransaccionController extends Controller
         $fecha = date('Ymd',$fecha);
         
         $query = "SELECT count(numero_atencion) as conteo from ISAU_Transaccion WHERE numero_atencion=$numero_atencion "
-                . " and fecha='$fecha'";
+                . " and CONVERT(varchar(10), fecha, 112)='$fecha'";
 
         $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();

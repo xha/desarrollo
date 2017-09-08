@@ -38,7 +38,7 @@ function buscar_detalle() {
 //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Total 	Serv 	Imp 	Mecánico 	Observación
                 if (data[i].CodTaxs==null) data[i].CodTaxs = 0;
                 if (data[i].monto==null) data[i].monto = 0;
-                if (data[i].tecnico==null) data[i].tecnico = "";
+                if (data[i].CodMeca==null) data[i].CodMeca = "";
                 if (data[i].observacion==null) data[i].observacion = "";
                 campos.length = 0;
                 campos.push(i+1);
@@ -50,7 +50,7 @@ function buscar_detalle() {
                 campos.push(data[i].total);
                 campos.push(1);
                 campos.push(data[i].CodTaxs);
-                campos.push(data[i].tecnico);
+                campos.push(data[i].CodMeca);
                 campos.push(data[i].observacion);
                 tabla.appendChild(add_filas(campos, 'td','editar_detalle####borrar_detalle','',10));
             }
