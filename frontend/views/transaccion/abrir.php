@@ -25,11 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
               'attribute'=>'id_vehiculo',
               'value'=>'idVehiculo.placa',
             ],
+            'fecha',
             //'fecha_transaccion',
-            [
+            /*[
                'attribute' => 'fecha',
                 'format' =>  ['date', 'php:d-m-Y'],
-            ],
+            ],*/
             //'hora',
             // 'CodSucu',
             // 'asesor',
