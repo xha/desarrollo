@@ -143,6 +143,12 @@ class TransaccionSearch extends Transaccion
 
         // add conditions that should always apply here
 
+        if ($valor==0) {
+            $query->RightJoin([
+                'SAFACT'
+            ], "ISAU_Transaccion.id_transaccion = SAFACT.Notas10 and SAFACT.TipoFac='G'");
+        }
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -155,22 +161,7 @@ class TransaccionSearch extends Transaccion
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id_transaccion' => $this->id_transaccion,
-            'id_vehiculo' => $this->id_vehiculo,
-            'fecha_transaccion' => $this->fecha_transaccion,
-            'fecha' => $this->fecha,
-            'asesor' => $this->asesor,
-            'km' => $this->km,
-            'numero_atencion' => $this->numero_atencion,
-            'gravable' => $this->gravable,
-            'exento' => $this->exento,
-            'tax' => $this->tax,
-            'total' => $this->total,
-            'activo' => $this->activo,
-        ]);
-        
+        $extra="";
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])

@@ -23,7 +23,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'id_vehiculo')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'id_transaccion')->hiddenInput()->label(false) ?>
-    <?= $form->field($model, 'numero_atencion')->textInput(['readonly'=>true, 'class'=>'texto texto-ec']) ?>
+    <?= $form->field($model, 'numero_atencion')->textInput(['readonly'=>true, 'class'=>'texto texto-ec']) ?><br />
     
     <table class="tablas tablas1">
         <tr>

@@ -27,6 +27,7 @@ function buscar_vehiculo() {
 function buscar_detalle() {
     var id_transaccion = trae("transaccion-id_transaccion").value;
     var tabla = trae('listado_detalle');
+    var t_total = 0;
     var i;
     
     $.get('../transaccion/buscar-detalle-solicitud',{id_transaccion : id_transaccion},function(data){
@@ -45,7 +46,8 @@ function buscar_detalle() {
                 campos.push(data[i].costo);
                 campos.push(data[i].monto);
                 campos.push(0);
-                campos.push(data[i].total);
+                t_total = parseFloat(data[i].total) + parseFloat(data[i].monto);
+                campos.push(t_total);
                 campos.push(0);
                 campos.push(data[i].CodTaxs);
                 tabla.appendChild(add_filas(campos, 'td','editar_detalle####borrar_detalle','',9));

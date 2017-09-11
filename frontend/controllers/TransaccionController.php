@@ -160,20 +160,19 @@ class TransaccionController extends Controller
                 $campos = explode("#",$detalle[$i]);
                 //Nro 	Código 	Descripción 	Cantidad 	Precio 	Tax 	Descuento 	Total 	Serv 	Imp
                 
+                $total = $campos[3] * $campos[4];
                 $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleTransaccion(id_transaccion,EsServ,CodItem,descripcion,cantidad,costo,total) VALUES (".$model->id_transaccion.""
-                        . ",'".$campos[8]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$campos[7].") SELECT Scope_Identity() as ultimo;";
+                        . ",'".$campos[8]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$total.") SELECT Scope_Identity() as ultimo;";
                 $ultimo = $connection->createCommand($query2)->queryOne();
                 
                 if ($campos[5]>0) {
-                    $grav = round(($campos[3] * $campos[4]),2);
-                    $gravable+=$grav;
                     $monto_tax = 0;
                     $query3 = "SELECT * FROM SATAXES WHERE CodTaxs='".$campos[9]."'";
                     $satax = $connection->createCommand($query3)->queryOne();
                     $monto_tax = $satax['MtoTax'];
 
                     $query2 = "INSERT INTO ISAU_TaxDetalleTransaccion(id_detalle_transaccion,CodItem,CodTaxs,monto,gravable,mtotax) VALUES ('".$ultimo['ultimo']."',"
-                            . "'".$campos[1]."','".$campos[9]."',".$campos[5].",".$campos[7].",".$monto_tax.")";
+                            . "'".$campos[1]."','".$campos[9]."',".$campos[5].",".$total.",".$monto_tax.")";
                     $connection->createCommand($query2)->query();
                 }
                 /*************************************** ALMACEN ***********************************************/
@@ -204,7 +203,7 @@ class TransaccionController extends Controller
             $d_total = $connection->createCommand($query3)->queryOne();
             
             $total = $d_total['total'] + $tax;
-            $query = "UPDATE ISAU_Transaccion SET gravable=".$gravable.", total=".$total.", tax=".$tax." WHERE id_transaccion=".$id;
+            $query = "UPDATE ISAU_Transaccion SET gravable=".$d_total['total'].", total=".$total.", tax=".$tax." WHERE id_transaccion=".$id;
             $connection->createCommand($query)->query();
             /****************************************************************************************************/
             $searchModel = new TransaccionSearch();
@@ -252,7 +251,7 @@ class TransaccionController extends Controller
             $query2 = "DELETE FROM ISAU_DetalleTransaccion WHERE EsServ=1 and id_transaccion=".$id;
             $connection->createCommand($query2)->query();
             
-            $query2 = "DELETE FROM isau_taxtransaccion WHERE id_transaccion=".$id;
+            $query2 = "DELETE FROM isau_TaxTransaccion WHERE id_transaccion=".$id;
             $connection->createCommand($query2)->query();
             
             $query2 = "DELETE FROM ISAU_TallerTransaccion WHERE id_transaccion=".$id;
@@ -261,25 +260,23 @@ class TransaccionController extends Controller
             $detalle = explode("¬",$_POST['i_items']);  
             
             $total=0;
-            $gravable=0;
             for ($i=0;$i < count($detalle) - 1;$i++) {
                 $campos = explode("#",$detalle[$i]);
                 //Nro Código Descripción Cantidad Precio Tax Total Serv Imp Mecanico Observacion
-                
+                $total = $campos[3] * $campos[4];
                 $query2 = "SET NOCOUNT ON; INSERT INTO ISAU_DetalleTransaccion(id_transaccion,EsServ,CodItem,descripcion,cantidad,costo,total) VALUES (".$model->id_transaccion.""
-                        . ",'".$campos[7]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$campos[6].") SELECT Scope_Identity() as ultimo;";
+                        . ",'".$campos[7]."','".$campos[1]."','".$campos[2]."',".$campos[3].",".$campos[4].",".$total.") SELECT Scope_Identity() as ultimo;";
                 $ultimo = $connection->createCommand($query2)->queryOne();
                 
                 if ($campos[5]>0) {
-                    $grav = round(($campos[3] * $campos[4]),2);
-                    $gravable+=$grav;
+                    //$grav = round(($campos[3] * $campos[4]),2);
                     $monto_tax = 0;
                     $query3 = "SELECT * FROM SATAXES WHERE CodTaxs='".$campos[8]."'";
                     $satax = $connection->createCommand($query3)->queryOne();
                     $monto_tax = $satax['MtoTax'];
 
                     $query2 = "INSERT INTO ISAU_TaxDetalleTransaccion(id_detalle_transaccion,CodItem,CodTaxs,monto,gravable,mtotax) VALUES ('".$ultimo['ultimo']."',"
-                            . "'".$campos[1]."','".$campos[8]."',".$campos[5].",".$campos[6].",".$monto_tax.")";
+                            . "'".$campos[1]."','".$campos[8]."',".$campos[5].",".$total.",".$monto_tax.")";
                     $connection->createCommand($query2)->query();
                 }
                 /*************************************** TALLER ***********************************************/
@@ -298,7 +295,7 @@ class TransaccionController extends Controller
             
             $tax=0;
             for ($i=0;$i<count($sataxvta);$i++) {
-                $query2 = "INSERT INTO isau_taxtransaccion(id_transaccion,CodTaxs,monto,mtotax,gravable) VALUES (".$id.",'".$sataxvta[$i]['CodTaxs']."',"
+                $query2 = "INSERT INTO isau_TaxTransaccion(id_transaccion,CodTaxs,monto,mtotax,gravable) VALUES (".$id.",'".$sataxvta[$i]['CodTaxs']."',"
                         . "'".$sataxvta[$i]['monto']."',".$sataxvta[$i]['mtotax'].",".$sataxvta[$i]['gravable'].")";
                 $connection->createCommand($query2)->query();
                 $tax+=$sataxvta[$i]['monto'];
@@ -310,7 +307,7 @@ class TransaccionController extends Controller
             $d_total = $connection->createCommand($query3)->queryOne();
             
             $total = $d_total['total'] + $tax;
-            $query = "UPDATE ISAU_Transaccion SET gravable=".$gravable.", total=".$total.", tax=".$tax." WHERE id_transaccion=".$id;
+            $query = "UPDATE ISAU_Transaccion SET gravable=".$d_total['total'].", total=".$total.", tax=".$tax." WHERE id_transaccion=".$id;
             $connection->createCommand($query)->query();
             /****************************************************************************************************/
             $searchModel = new TransaccionSearch();
@@ -431,23 +428,15 @@ class TransaccionController extends Controller
                 $ultimo = $connection->createCommand($query2)->queryOne();
                 
                 if ($campos[5]>0) {
-                    $grav = round(($campos[3] * $campos[4]),2);
-                    
                     $monto_tax = 0;
                     $query3 = "SELECT * FROM SATAXES WHERE CodTaxs='".$campos[9]."'";
                     $satax = $connection->createCommand($query3)->queryOne();
                     $monto_tax = $satax['MtoTax'];
 
                     $query2 = "INSERT INTO ISAU_TaxDetalleTransaccion(id_detalle_transaccion,CodItem,CodTaxs,monto,gravable,mtotax) VALUES ('".$ultimo['ultimo']."',"
-                            . "'".$campos[1]."','".$campos[9]."',".$campos[5].",".$campos[7].",".$monto_tax.")";
+                            . "'".$campos[1]."','".$campos[9]."',".$campos[5].",".$total.",".$monto_tax.")";
                     $connection->createCommand($query2)->query();
                 }
-                /*************************************** ALMACEN ***********************************************/
-                /*if ($campos[8]==0) {
-                    $query2 = "INSERT INTO ISAU_SolicitudTransaccion(id_transaccion,CodProd,cantidad,almacenista) "
-                            . " VALUES (".$model->id_transaccion.",'".$campos[1]."',".$campos[3].",".$model->asesor.")";
-                    $connection->createCommand($query2)->query();
-                }*/
             }
             /******************************************* TAX ***************************************************/
             $query3 = "SELECT d.CodTaxs,d.mtotax,sum(d.monto) as monto, sum(d.gravable) as gravable
@@ -705,7 +694,7 @@ class TransaccionController extends Controller
         $pdf->SetFont('Arial','B',9);    
         $pdf->MultiCell(193,5,"RECEPCION DE VEHICULOS",0,'C');
 
-        $pdf->Row(array(utf8_decode('Cédula'),'Nombre','Fecha de Nacimiento','Sexo','Nutricionista','Estatus'), false, 'DF');
+        //$pdf->Row(array(utf8_decode('Cédula'),'Nombre','Fecha de Nacimiento','Sexo','Nutricionista','Estatus'), false, 'DF');
         $pdf->Output('');
         exit;
     }
