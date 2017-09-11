@@ -694,7 +694,8 @@ class TransaccionController extends Controller
         $pdf->SetFont('Arial','B',9);    
         $pdf->MultiCell(193,5,utf8_decode("RECEPCIÓN DE VEHÍCULOS"),0,'C');
         $pdf->ln();
-        $pdf->Cell(60,6,utf8_decode('Hora de recepción vehículo: ').$pendientes['hora'],0,0,'C');
+        $hora = substr($pendientes['hora'], 0,2).":".substr($pendientes['hora'], 2,2);
+        $pdf->Cell(60,6,utf8_decode('Hora de recepción vehículo: ').$hora,0,0,'C');
         $pdf->Cell(210,6,utf8_decode('Fecha: ').$pendientes['fecha'],0,1,'C');
         
         $pdf->Cell(60,6,utf8_decode('Hora de entrada en Caja:___________ '),0,0,'C');
