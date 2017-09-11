@@ -146,7 +146,7 @@ class TransaccionSearch extends Transaccion
         if ($valor==0) {
             $query->RightJoin([
                 'SAFACT'
-            ], "ISAU_Transaccion.id_transaccion = SAFACT.Notas10 and SAFACT.TipoFac='G'");
+            ], "ISAU_Transaccion.id_transaccion = SAFACT.Notas10 and SAFACT.TipoFac='E'");
         }
         
         $dataProvider = new ActiveDataProvider([

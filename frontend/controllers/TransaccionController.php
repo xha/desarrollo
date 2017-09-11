@@ -675,13 +675,13 @@ class TransaccionController extends Controller
         
         $query = "SELECT * FROM vw_resumen_transaccion 
                 WHERE 1=1 ".$extra;
-        $pendientes = $connection->createCommand($query)->queryAll();
+        $pendientes = $connection->createCommand($query)->queryone();
         $pdf = new \fpdf\FPDF('P','mm','Letter');
         $pdf->SetAutoPageBreak(false,35);
         /*****************************************************************************************************************/
         $pdf->AddPage(); 
         $logo = "../../img/saint.jpg";
-        $pdf->Image($logo,12,11,20,20);     
+        $pdf->Image($logo,12,11,20,15);     
         $yactual = $pdf->getY(); 
         /*****************************************************************************************************************/
         $pdf->SetFont('Arial','B',13); 
@@ -692,9 +692,136 @@ class TransaccionController extends Controller
         $pdf->MultiCell(193,5,"Rif: G-20003692-3",0,'C');
         $pdf->ln();
         $pdf->SetFont('Arial','B',9);    
-        $pdf->MultiCell(193,5,"RECEPCION DE VEHICULOS",0,'C');
+        $pdf->MultiCell(193,5,utf8_decode("RECEPCIÓN DE VEHÍCULOS"),0,'C');
+        $pdf->ln();
+        $pdf->Cell(60,6,utf8_decode('Hora de recepción vehículo: ').$pendientes['hora'],0,0,'C');
+        $pdf->Cell(210,6,utf8_decode('Fecha: ').$pendientes['fecha'],0,1,'C');
+        
+        $pdf->Cell(60,6,utf8_decode('Hora de entrada en Caja:___________ '),0,0,'C');
+        $pdf->Cell(210,6,utf8_decode('Número de Atención: ').$pendientes['numero_atencion'],0,1,'C');
+        
+        $pdf->MultiCell(185,7,utf8_decode("DATOS DEL CLIENTE"),0,'C');
+        
+        $pdf->SetFillColor(192,192,192); 
+        $pdf->Cell(33,6,'Nombre del Cliente',1,0,'L', true);
+        $pdf->Cell(85,6,$pendientes['nombre_pagador'],1,0,'L');
+        $pdf->Cell(22,6,utf8_decode('Cédula o RIF'),1,0,'L', true);
+        $pdf->Cell(45,6,$pendientes['pagador'],1,1,'L');
+        
+        $pdf->Cell(33,6,utf8_decode('Teléfonos'),1,0,'L', true);
+        $pdf->Cell(85,6,$pendientes['Movil'],1,0,'L');
+        $pdf->Cell(22,6,utf8_decode('Email'),1,0,'L', true);
+        $pdf->Cell(45,6,$pendientes['Email'],1,1,'L');
+   
+        $pdf->MultiCell(185,7,utf8_decode("DATOS DEL VEHÍCULOS"),0,'C');
+        
+        $pdf->SetFillColor(192,192,192); //Gris 
+        $pdf->Cell(15,6,'Modelo',1,0,'L', true);
+        $pdf->Cell(23,6,$pendientes['modelo'],1,0,'L');
+        $pdf->Cell(15,6,utf8_decode('Año'),1,0,'L', true);
+        $pdf->Cell(15,6,$pendientes['anio'],1,0,'L');
+        $pdf->Cell(15,6,utf8_decode('Color'),1,0,'L', true);
+        $pdf->Cell(15,6,$pendientes['color'],1,0,'L');
+        $pdf->Cell(15,6,utf8_decode('Placa'),1,0,'L', true);
+        $pdf->Cell(25,6,$pendientes['placa'],1,0,'L');
+        $pdf->Cell(24,6,utf8_decode('Km de Entrada'),1,0,'L', true);
+        $pdf->Cell(23,6,$pendientes['km'],1,1,'L');
+                
+        //Servicio Solictado
+        $query_serv = "select CodItem,descripcion
+                       from ISAU_DetalleTransaccion
+                       where EsServ=1 and id_transaccion=".$id;
+        $servicio = $connection->createCommand($query_serv)->queryAll();
+        $conteo= count($servicio);
+        $i=0;
+        $cadena_serv="";
+        $pdf->MultiCell(185,7,'Servicio Solicitado',1,1,'C');
+        $pdf->SetFillColor(255,255,255); 
+        while ($i<$conteo) {
+            $pdf->MultiCell(185,7,"(".$servicio[$i]['CodItem'].") ".$servicio[$i]['descripcion'],1,1,'C');
+            $i++;
+        }
+        $pdf->SetFillColor(192,192,192); //Gris 
+        $pdf->Cell(185,6,'Observaciones',1,1,'L', true);
+        $pdf->SetFillColor(255,255,255); //BLANCO
+        $pdf->MultiCell(185,7,'',1,1,'C');
+        
+        //Repuestos Solicitados
+        $pdf->MultiCell(185,8,utf8_decode("REPUESTOS REQUERIDOS PARA EL SERVICIO"),0,'C');
+        $query_rep = "select CodItem, descripcion, cantidad
+                       from ISAU_DetalleTransaccion
+                       where EsServ=0 and id_transaccion=".$id;
+        $repuesto = $connection->createCommand($query_rep)->queryAll();
+        $conteo= count($repuesto);
+        $i=0;
+        $pdf->SetFillColor(192,192,192); //Gris 
+        $pdf->Cell(185,6,'Repuestos Solicitados',1,1,'L', true);
+        $pdf->SetFillColor(255,255,255);
 
-        //$pdf->Row(array(utf8_decode('Cédula'),'Nombre','Fecha de Nacimiento','Sexo','Nutricionista','Estatus'), false, 'DF');
+        while ($i<$conteo) {
+            $pdf->MultiCell(185,10,"(".$repuesto[$i]['CodItem'].") ".$repuesto[$i]['descripcion']." cant. (".$repuesto[$i]['cantidad'].") \n",1,1,'L');
+            $i++;
+        }
+         
+        
+        //Tecnico Asignado
+        $pdf->MultiCell(185,8,utf8_decode(""),0,'C');
+        $query_tec = "select a.CodMeca, Descrip from ISAU_TallerTransaccion a
+                left join SAMECA b on a.CodMeca=b.CodMeca where id_transaccion=".$id;
+        $tecnico = $connection->createCommand($query_tec)->queryOne();
+        $pdf->SetY(165);
+        $pdf->Cell(185,6,utf8_decode('Técnico Asignado: ').$tecnico['CodMeca']." ".$tecnico['Descrip'],0,1,'R');
+        $pdf->Cell(185,6,utf8_decode('Monto Total del Servicio: ').$pendientes['total']." Bs.",0,1,'R');
+
+        //Inseccion del Vehiculo
+        $pdf->MultiCell(185,8,utf8_decode("INSPECCIÓN DEL VEHÍCULO"),0,'C');
+        $query_inp = "select a.id_inspeccion, descripcion, observacion
+        from ISAU_TransaccionInspeccion a
+        inner join ISAU_Inspeccion b on a.id_inspeccion=b.id_inspeccion
+        where id_transaccion=".$id." order by a.id_inspeccion";
+        $inspeccion = $connection->createCommand($query_inp)->queryAll();
+        $conteo_inp= count($inspeccion);
+        $y=0;
+        
+        $pdf->SetFillColor(192,192,192); //Gris 
+        $pdf->SetY(185);
+        $pdf->SetX(125);
+        
+        
+        $pdf->Cell(70,4,utf8_decode('Inspección exterior'),1,1,'C', true);
+        while ($y < 4) {
+            $pdf->SetX(125);
+            $pdf->Cell(35,4,$inspeccion[$y]['descripcion'],1,0,'L', FALSE);
+            $pdf->Cell(35,4,$inspeccion[$y]['observacion'],1,1,'L', FALSE);
+            $y++;
+        }
+        
+        //Mostramos los accesorios
+        $pdf->Sety(185);
+        $pdf->Cell(100,4,utf8_decode('Inspección de accesorios'),1,1,'C', true);
+        while ($y <= 13) {
+            $pdf->Cell(40,4,$inspeccion[$y]['descripcion'],1,0,'L', FALSE);
+            $pdf->Cell(10,4,$inspeccion[$y]['observacion'],1,1,'L', FALSE);
+            $y++;
+        }
+        $pdf->Sety(189);
+        while ($y < $conteo_inp) {
+        $pdf->SetX(60);
+            $pdf->Cell(40,4,$inspeccion[$y]['descripcion'],1,0,'L', FALSE);
+            $pdf->Cell(10,4,$inspeccion[$y]['observacion'],1,1,'L', FALSE);
+            $y++;
+        }
+        
+        
+        
+        //ACEPTACION DE LOS TERMINOS
+        $pdf->SetFillColor(255,255,255); //Gris 
+        $pdf->Sety(230);
+        $pdf->SetFont('Arial','',9); 
+        $pdf->MultiCell(185,4,utf8_decode("Por la presente, autorizo que sea realizado el servcio solicitado. Estoy de acuerdo que la empresa no se hace responsable por perdidas o daños al vehiculo dejados en el. Asimismo acepto que el personal autorizado, haga las pruebas necesarias con el fin de verificar el òptimo funcionamiento del mismo, me comprometo a retirar el vehiculo una vez terminado el servicio y pagando los gastos ocasionados por la presentación del servicio y/o venta de repuesto respectivo"),0,'L'); 
+        $pdf->MultiCell(185,8,utf8_decode("                ________________________                                                                        _____________________________"),0,1,'C');
+        $pdf->MultiCell(185,8,utf8_decode("                             Firma del Cliente                                                                                            Firma del Asesor         "),0,1,'C');
+        
         $pdf->Output('');
         exit;
     }
