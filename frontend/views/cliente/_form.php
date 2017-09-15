@@ -2,10 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use yii\jui\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Cliente */
 /* @var $form yii\widgets\ActiveForm */
+
+date_default_timezone_set("America/Caracas");
 ?>
 
 <div class="cliente-form">
@@ -21,6 +23,16 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'TipoCli')->dropDownList(['0' => 'Contribuyente', '1' => 'Consumidor Final', '2' => 'Exportación', 
          '3' => 'Interno no gravable', '4' => 'Contribuyente Especial',]); ?>
     
+    <?= $form->field($model,'FechaE')->
+        widget(DatePicker::className("form-control"),[
+            'dateFormat' => 'dd-MM-yyyy',
+            'clientOptions' => [
+                'changeYear' => true
+            ],
+            'options' => ['class' => 'form-control', 'readonly' => true]
+        ]) 
+    ?>
+
     <?= $form->field($model, 'TipoID3')->dropDownList(['1' => 'Natural', '0' => 'Jurídico']); ?>
     
     <?= $form->field($model, 'Telef')->textInput(['maxlength' => 30]) ?>
@@ -44,7 +56,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'Ciudad')->hiddenInput(['value' => 1])->label(false); ?>
     <?= $form->field($model, 'Municipio')->hiddenInput(['value' => 0])->label(false); ?>
     <?= $form->field($model, 'DescOrder')->hiddenInput(['value' => 13])->label(false); ?>
-    <?= $form->field($model, 'FechaE')->hiddenInput()->label(false); ?>
     <?= $form->field($model, 'TipoID')->hiddenInput(['value' => 0])->label(false); ?>
     <?= $form->field($model, 'TipoPVP')->hiddenInput(['value' => 0])->label(false); ?>
     <?= $form->field($model, 'EsMoneda')->hiddenInput(['value' => 0])->label(false); ?>
