@@ -162,4 +162,16 @@ class Transaccion extends \yii\db\ActiveRecord
     {
         return $this->hasMany(SolicitudTransaccion::className(), ['id_transaccion' => 'id_transaccion']);
     }
+    
+    //FUNCIONA QUE MUESTRAR TODO LOS DATOS DE LA TRANSACCION
+        public function getOrden($id_transaccion)
+    {
+            $connection= \Yii::$app->db;
+            $command = $connection->createCommand("select * from vw_resumen_orden where id_transaccion = $id_transaccion");
+            $row = $command->queryAll();
+
+            return $row;
+    }
+    
+    
 }

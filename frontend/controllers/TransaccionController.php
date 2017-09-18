@@ -133,8 +133,40 @@ class TransaccionController extends Controller
         return $this->render('solicitud', [
             'dataProvider' => $dataProvider,
         ]);
-    }
-    
+    }            
+        
+        
+   
+    public function actionConsultaEstatus()
+    {
+        $model = new Transaccion();
+       
+        if ($model->load(Yii::$app->request->post())) {            
+            $connection= \Yii::$app->db;
+            $command = $connection->createCommand(" select * from  vw_resumen_orden
+                where numero_atencion= $model->numero_atencion and fecha_transaccion between '$model->fecha_transaccion 00:00'"
+                    . " and '$model->fecha_transaccion 23:59'");
+            $row = $command->queryone();
+            if($row){
+                $id_transaccion = $row["id_transaccion"];
+                $model = $this->findModel($id_transaccion);
+                return $this->render('flujo_transaccion', [
+                    'model' => $model,
+                ]);
+            }else{
+                \Yii::$app->getSession()->setFlash('danger', 'El número de atención proporcionado, no posee registro para la fecha indicada');
+                    return $this->render('consultaEstatus', [
+                    'model' => $model,
+                ]);
+            }
+        } else {
+            return $this->render('consultaEstatus', [
+                'model' => $model,
+            ]);
+        }
+
+    }    
+       
     public function actionSolicitudIndex($id)
     {
         $model = $this->findModel($id);

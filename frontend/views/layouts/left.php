@@ -36,11 +36,12 @@
             $menuItems[] = ['label' => 'Cerrar Orden', 'icon' => 'folder', 'url' => ['../../frontend/web/transaccion/cerrar']];
             $menuItems[] = ['label' => 'Reabrir Orden', 'icon' => 'folder-open', 'url' => ['../../frontend/web/transaccion/abrir']];
             $menuItems[] = ['label' => 'Reportes', 'icon' => 'book', 'url' => '#',
-                                'items' => [
-                                    ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/marca']],
-                                    ['label' => 'Solicitudes', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
-                                    ['label' => 'Facturas de Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
-                            ],];
+                'items' => [
+                    ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/vw-resumen-orden/reporte-ordenes']],
+                    ['label' => 'Consulta de Orden', 'icon' => 'check', 'url' => ['../../frontend/web/transaccion/consulta-estatus']],
+                    ['label' => 'Solicitudes', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
+                    ['label' => 'Facturas de Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
+            ],];
         }
     ?>
         <?= dmstr\widgets\Menu::widget(
