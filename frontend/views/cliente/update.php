@@ -12,10 +12,9 @@ $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="cliente-update">
 
-    
-
     <?= $this->render('_form', [
         'model' => $model,
+        'msg' => $msg,
     ]) ?>
 
 </div>

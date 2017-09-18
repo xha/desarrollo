@@ -12,10 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cliente-create">
 
-    
-
     <?= $this->render('_form', [
         'model' => $model,
+        'msg' => $msg,
     ]) ?>
 
 </div>

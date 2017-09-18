@@ -79,12 +79,28 @@ class ClienteController extends Controller
         $fecha = date('Ymd H:i:s',$fecha);
         
         $model->FechaE = $fecha;
-            
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->CodClie]);
+        $msg = "";    
+        
+        if ($model->load(Yii::$app->request->post())) {
+            $connection = \Yii::$app->db;
+            $query = "SELECT count(*) as conteo from SACLIE where CodClie='".$model->CodClie."'";
+            $conteo = $connection->createCommand($query)->queryOne();
+            if ($conteo['conteo']>0) $model->CodClie = ""; 
+                
+            if ($model->validate()) {
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->CodClie]);
+            } else {
+                $msg = "El Cliente ya Existe";
+                return $this->render('create', [
+                    'model' => $model,
+                    'msg' => $msg,
+                ]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'msg' => $msg,
             ]);
         }
     }
@@ -98,12 +114,13 @@ class ClienteController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $msg = "";
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->CodClie]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'msg' => $msg,
             ]);
         }
     }

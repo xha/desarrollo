@@ -65,6 +65,7 @@ class Cliente extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $msg;
     public static function tableName()
     {
         return 'SACLIE';

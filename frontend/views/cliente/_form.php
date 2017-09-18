@@ -11,11 +11,11 @@ date_default_timezone_set("America/Caracas");
 ?>
 
 <div class="cliente-form">
-
+    <h3 style="color: red"><?= $msg ?></h3>
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'CodClie')->textInput(['maxlength' => 15]) ?>
-
+    <?= $form->field($model, 'CodClie')->textInput(['maxlength' => 15, 'readonly' => !$model->isNewRecord]); ?>
+    
     <?= $form->field($model, 'Descrip')->textInput(['maxlength' => 60]) ?>
 
     <?= $form->field($model, 'ID3')->textInput(['maxlength' => 15]) ?>
