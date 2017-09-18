@@ -111,7 +111,7 @@ class Cliente extends \yii\db\ActiveRecord
             'Movil' => 'Movil',
             'Email' => 'Email',
             'Fax' => 'Teléfono 2',
-            'FechaE' => 'Fecha Creación',
+            'FechaE' => 'Fecha de Nacimiento',
             'CodZona' => 'Cod Zona',
             'CodVend' => 'Cod Vend',
             'CodConv' => 'Cod Conv',

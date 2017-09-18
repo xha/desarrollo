@@ -384,18 +384,18 @@ class TransaccionController extends Controller
             $placas[]= $data1[$i]['placa'];
         }
         /********************** ITEMS ******************************************/
-        $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
+        $query = "SELECT CodProd,Descrip,Descrip2,Descrip3 FROM SAPROD where Activo=1";
         $data1 = $connection->createCommand($query)->queryAll();
         
         for($i=0;$i<count($data1);$i++) {
-            $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'];
+            $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'].$data1[$i]['Descrip2'].$data1[$i]['Descrip3'];
         }
         
-        $query = "SELECT CodServ,Descrip FROM SASERV where Activo=1";
+        $query = "SELECT CodServ,Descrip,Descrip2,Descrip3 FROM SASERV where Activo=1";
         $data1 = $connection->createCommand($query)->queryAll();
         
         for($i=0;$i<count($data1);$i++) {
-            $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'];
+            $items[]= $data1[$i]['CodServ']." - ".$data1[$i]['Descrip'].$data1[$i]['Descrip2'].$data1[$i]['Descrip3'];
         }
         
         if ($model->load(Yii::$app->request->post())) {
@@ -557,15 +557,19 @@ class TransaccionController extends Controller
         echo Json::encode($pendientes);
     }    
     
-    public function actionBuscarVehiculoActivo($placa) {
+    public function actionBuscarVehiculoActivo($placa,$fecha = null) {
         $connection = \Yii::$app->db;
         date_default_timezone_set("America/Caracas");
-        $fecha = time();
-        $fecha = date('Ymd',$fecha);
+        if ($fecha=="") {
+            $fecha = time();
+            $fecha = date('Ymd',$fecha);
+        }
         
         $query = "SELECT count(t.id_transaccion) as conteo 
                   FROM ISAU_Transaccion t, ISAU_Vehiculo v 
-                  WHERE t.activo=1 and t.fecha='$fecha' and v.placa='".$placa."'";
+                  WHERE t.activo=1 and CONVERT(varchar(10), t.fecha, 112)='$fecha' and v.id_vehiculo=t.id_vehiculo
+                  and v.placa='".$placa."'";
+        //echo $query;
         $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
@@ -630,7 +634,9 @@ class TransaccionController extends Controller
                     left join ISAU_TaxDetalleTransaccion tdt on tdt.id_detalle_transaccion=dt.id_detalle_transaccion
                     left join ISAU_TallerTransaccion t on dt.id_transaccion=t.id_transaccion
                     left join SAMECA sa on t.CodMeca=sa.CodMeca
-                    where dt.id_transaccion=$id_transaccion and dt.EsServ=1";
+                    where dt.id_transaccion=$id_transaccion and dt.EsServ=1
+                    group by dt.id_detalle_transaccion, dt.CodItem, dt.descripcion, dt.cantidad, dt.costo, dt.total, 
+                    tdt.CodTaxs, tdt.monto, tdt.mtotax,t.CodMeca,t.observacion, sa.Descrip";
 
         $pendientes = $connection->createCommand($query)->queryAll();
         //$pendientes = $comand->readAll();
@@ -651,21 +657,22 @@ class TransaccionController extends Controller
         echo Json::encode($pendientes);
     } 
     
-    public function actionBuscarNumero($numero_atencion) {
+    public function actionBuscarNumero($numero_atencion,$fecha = null) {
         $connection = \Yii::$app->db;
         date_default_timezone_set("America/Caracas");
-        $fecha = time();
-        $fecha = date('Ymd',$fecha);
+        if ($fecha=="") {
+            $fecha = time();
+            $fecha = date('Ymd',$fecha);
+        }
         
         $query = "SELECT count(numero_atencion) as conteo from ISAU_Transaccion WHERE numero_atencion=$numero_atencion "
                 . " and CONVERT(varchar(10), fecha, 112)='$fecha'";
-
         $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
     } 
     
-    /**************************************** IMPRIMIR ORDEN ***************************************/
+ /**************************************** IMPRIMIR ORDEN ***************************************/
     public function actionImprimeOrden($id = null) {
         $connection = \Yii::$app->db;
         require_once ('reporte_pdf.php');
@@ -774,7 +781,7 @@ class TransaccionController extends Controller
         $pdf->Cell(185,6,utf8_decode('Técnico Asignado: ').$tecnico['CodMeca']." ".$tecnico['Descrip'],0,1,'R');
         $pdf->Cell(185,6,utf8_decode('Monto Total del Servicio: ').$pendientes['total']." Bs.",0,1,'R');
 
-        //Inseccion del Vehiculo
+        //Inspeccion del Vehiculo
         $pdf->MultiCell(185,8,utf8_decode("INSPECCIÓN DEL VEHÍCULO"),0,'C');
         $query_inp = "select a.id_inspeccion, descripcion, observacion
         from ISAU_TransaccionInspeccion a

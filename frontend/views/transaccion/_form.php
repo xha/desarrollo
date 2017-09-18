@@ -19,12 +19,12 @@ for($i=7;$i<23;$i++) {
     } else {
         $valor = $i;
     }
-    if ($valor>12) {
+    /*if ($valor>12) {
         $hora1 = $valor - 12;
     } else {
         $hora1 = $valor;
-    }
-    $hora.= "<option value='$valor'>$hora1</option>";
+    }*/
+    $hora.= "<option value='$valor'>$valor</option>";
 }
 
 for($i=0;$i<60;$i++) {

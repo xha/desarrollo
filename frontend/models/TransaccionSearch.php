@@ -75,15 +75,15 @@ class TransaccionSearch extends Transaccion
         ]);
         
         date_default_timezone_set("America/Caracas");
-        $fecha= time();
-        $fecha=date('d-m-Y',$fecha);
+        //$fecha= time();
+        //$fecha=date('d-m-Y',$fecha);
         
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
             ->andFilterWhere(['IN', 'activo', 1])
-            ->andFilterWhere(['=', 'fecha', $fecha])
-            ->orderBy('numero_atencion ASC');
+            //->andFilterWhere(['=', 'fecha', $fecha])
+            ->orderBy('fecha DESC');
 
         return $dataProvider;
     }

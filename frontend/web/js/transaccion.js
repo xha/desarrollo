@@ -33,9 +33,11 @@ function buscar_cliente(id) {
 
 function buscar_vehiculo() {
     var placa = trae('transaccion-placa');
-    
+    var fecha = trae('transaccion-fecha').value.split('-');
+        fecha = fecha[2]+fecha[1]+fecha[0];
+        
     if (placa.value!="") {
-        $.get('../transaccion/buscar-vehiculo-activo',{placa : placa.value},function(data){
+        $.get('../transaccion/buscar-vehiculo-activo',{placa : placa.value, fecha : fecha},function(data){
             var data = $.parseJSON(data);
             if (data.conteo < 1) {
                 $.get('../transaccion/buscar-vehiculo',{placa : placa.value},function(data){
@@ -72,9 +74,11 @@ function buscar_vehiculo() {
 
 function buscar_numero() {
     var numero_atencion = trae('transaccion-numero_atencion');
-    
+    var fecha = trae('transaccion-fecha').value.split('-');
+        fecha = fecha[2]+fecha[1]+fecha[0];
+        
     if (numero_atencion.value!="") {
-        $.get('../transaccion/buscar-numero',{numero_atencion : numero_atencion.value},function(data){
+        $.get('../transaccion/buscar-numero',{numero_atencion : numero_atencion.value, fecha : fecha},function(data){
             var data = $.parseJSON(data);
             if (data.conteo>0) {
                 alert("Ya existe el número "+numero_atencion.value);
