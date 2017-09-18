@@ -85,7 +85,9 @@ class VehiculoController extends Controller
         }
         
         $model->placa = strtoupper($model->placa);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->placa = strtoupper($model->placa);
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_vehiculo]);
         } else {
             return $this->render('create', [
