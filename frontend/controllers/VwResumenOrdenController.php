@@ -124,7 +124,9 @@ class VwResumenOrdenController extends Controller
     public function actionBuscarOrden($consulta = null) {
         $connection = \Yii::$app->db;
 
-        $query = "SELECT * from vw_resumen_orden where 1=1";
+        $query = "SELECT * "
+                . "FROM vw_resumen_orden "
+                . "WHERE 1=1";
         $query.= $consulta;
         $query.= " ORDER BY numero_atencion,fecha DESC";
 
@@ -132,4 +134,61 @@ class VwResumenOrdenController extends Controller
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
     }    
+    
+    /**************************************** IMPRIMIR RESUMEN ***************************************/
+    public function actionImprimeResumen($consulta = null) {
+        $connection = \Yii::$app->db;
+        $query = "SELECT * from vw_resumen_orden where 1=1";
+        $query.= $consulta;
+        $query.= " ORDER BY fecha DESC";
+
+        $pendientes = $connection->createCommand($query)->queryAll();
+        $pdf = new \fpdf\FPDF('L','mm','Letter');
+        $pdf->SetAutoPageBreak(false,35);
+        /*****************************************************************************************************************/
+        $pdf->AddPage(); 
+        $logo = "../../img/saint.jpg";
+        $pdf->Image($logo,12,11,20,15);     
+        $yactual = $pdf->getY(); 
+        /*****************************************************************************************************************/
+        $pdf->SetFont('Arial','B',13); 
+        $pdf->SetFillColor(255,255,255);
+        $pdf->MultiCell(260,5,"Automotores IPSFA",0,'C');
+        $pdf->MultiCell(260,5,"Los Proceres",0,'C');
+        $pdf->SetFont('Arial','',9);    
+        $pdf->MultiCell(260,5,"Rif: G-20003692-3",0,'C');
+        $pdf->ln();
+        $pdf->SetFont('Arial','B',9);    
+        $pdf->MultiCell(260,5,utf8_decode("RESUMEN DE ORDENES"),0,'C');
+        $pdf->ln();
+
+        $pdf->SetFillColor(200,200,200);
+        $titulo = array('Nro','Fecha','Asesor','Placa','Modelo','Total','Rif','Representante','Estatus');
+        $pdf->Cell(10,4,'No',1,0,'C', TRUE);
+        $pdf->Cell(15,4,'Cono',1,0,'C', TRUE);
+        $pdf->Cell(20,4,'Fecha',1,0,'C', TRUE);
+        $pdf->Cell(40,4,'Asesor',1,0,'C', TRUE);
+        $pdf->Cell(20,4,'Placa',1,0,'C', TRUE);
+        $pdf->Cell(30,4,'Modelo',1,0,'C', TRUE);
+        $pdf->Cell(90,4,'Representante',1,0,'C', TRUE);
+        $pdf->Cell(30,4,'Total',1,0,'C', TRUE);
+        $pdf->ln();
+        
+        $pdf->SetFillColor(255,255,255);
+        $pdf->SetFont('Arial','',9);
+        for ($i=0;$i<count($pendientes);$i++) {
+            $pdf->Cell(10,4,$i+1,1,0,'C', TRUE);
+            $pdf->Cell(15,4,$pendientes[$i]['numero_atencion'],1,0,'C', TRUE);
+            $pdf->Cell(20,4,$pendientes[$i]['fecha'],1,0,'C', TRUE);
+            $pdf->Cell(40,4,$pendientes[$i]['nombre_asesor'],1,0,'C', TRUE);
+            $pdf->Cell(20,4,$pendientes[$i]['placa'],1,0,'C', TRUE);
+            $pdf->Cell(30,4,$pendientes[$i]['modelo'],1,0,'C', TRUE);
+            $pdf->Cell(90,4,$pendientes[$i]['nombre_pagador'],1,0,'L', TRUE);
+            $pdf->Cell(30,4,number_format($pendientes[$i]['total'],2,'.',','),1,0,'R', TRUE);
+            $pdf->ln();
+        }
+        
+        $pdf->Output('');
+        exit;
+    }
 }

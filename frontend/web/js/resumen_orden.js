@@ -75,7 +75,7 @@ function enviar_data() {
                 tabla.appendChild(add_filas(campos, 'td','#imprime_orden###','',9));
             }
         } else {
-            div_resultado.innerHTML = "NO EXISTEN RESULTADOS";
+            div_resultado.innerHTML = "<b>NO EXISTEN RESULTADOS</b>";
         }
     });
 }
@@ -87,5 +87,5 @@ function imprime_orden (data) {
 }
 
 function imprimir_resumen(query) {
-    alert(query);
+    window.open("../vw-resumen-orden/imprime-resumen?consulta="+query,'_blank','');
 }
