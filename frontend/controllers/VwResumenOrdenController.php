@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use common\models\AccessHelpers;
 
 /**
  * VwResumenOrdenController implements the CRUD actions for VwResumenOrden model.
@@ -30,6 +31,14 @@ class VwResumenOrdenController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return AccessHelpers::chequeo();
+    }
     /**
      * Lists all VwResumenOrden models.
      * @return mixed
