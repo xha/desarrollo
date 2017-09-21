@@ -8,6 +8,7 @@ use frontend\models\VwResumenOrdenSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * VwResumenOrdenController implements the CRUD actions for VwResumenOrden model.
@@ -35,12 +36,9 @@ class VwResumenOrdenController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new VwResumenOrdenSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        $model = new VwResumenOrden();
+        return $this->render('reporteOrdenes', [
+            'model' => $model,
         ]);
     }
 
@@ -51,8 +49,9 @@ class VwResumenOrdenController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $model = new VwResumenOrden();
+        return $this->render('reporteOrdenes', [
+            'model' => $model,
         ]);
     }
 
@@ -64,14 +63,9 @@ class VwResumenOrdenController extends Controller
     public function actionCreate()
     {
         $model = new VwResumenOrden();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_transaccion]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        return $this->render('reporteOrdenes', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -82,15 +76,10 @@ class VwResumenOrdenController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_transaccion]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        $model = new VwResumenOrden();
+        return $this->render('reporteOrdenes', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -101,9 +90,10 @@ class VwResumenOrdenController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = new VwResumenOrden();
+        return $this->render('reporteOrdenes', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -125,51 +115,21 @@ class VwResumenOrdenController extends Controller
     public function actionReporteOrdenes()
     {
         $model = new VwResumenOrden();
-        $consulta="";
-        if ($model->load(Yii::$app->request->post())) {    
-   
-            $connection= \Yii::$app->db;
-            
-            $consulta="select * from  vw_resumen_orden where id_transaccion>0";
-            
-            if ($model->numero_atencion){
-                $consulta.=" and asesor=".$model->nombre_asesor;
-            }  
-            
-            if (($model->fecha) && ($model->fecha_transaccion)){
-                $consulta.=" and fecha_transaccion between '".$model->fecha." 00:00' and '".$model->fecha_transaccion." 23:59'";
-            }
-            
-            if ($model->modelo){
-                $consulta.=" and id_modelo=".$model->modelo;
-            }
-            
-            if ($model->placa){
-                $consulta.=" and placa between '%".$model->modelo."%'";
-            }                
-            
-            if ($model->activo){
-                $consulta.=" and activo=".$model->activo;
-            }                
-            
-            $command = $connection->createCommand($consulta);
-            $row = $command->queryAll();
-            
-            if($row){
-                return $this->render('listado_ordenes', [
-                    'model' => $row,
-                ]);
-            }else{
-                \Yii::$app->getSession()->setFlash('danger', 'Los paremetro indicanos no arrojaron resultado');
-                    return $this->render('reporteOrdenes', [
-                    'model' => $model,
-                ]);
-            }
-        } else {
-            return $this->render('reporteOrdenes', [
-                'model' => $model,
-            ]);
-        }
 
+        return $this->render('reporteOrdenes', [
+            'model' => $model,
+        ]);
+    }    
+    
+    public function actionBuscarOrden($consulta = null) {
+        $connection = \Yii::$app->db;
+
+        $query = "SELECT * from vw_resumen_orden where 1=1";
+        $query.= $consulta;
+        $query.= " ORDER BY numero_atencion,fecha DESC";
+
+        $pendientes = $connection->createCommand($query)->queryAll();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
     }    
 }

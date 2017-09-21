@@ -69,7 +69,8 @@ class VwResumenOrden extends \yii\db\ActiveRecord
                 'fecha', 'hora', 'asesor', 'km', 'representante', 'pagador', 'gravable', 'exento', 'tax',
                 'total'], 'required'],
             [['id_transaccion', 'id_vehiculo', 'nro_puestos', 'asesor', 'activo'], 'integer'],
-            [['modelo', 'tipo_vehiculo', 'marca', 'placa', 'anio', 'color', 'serial_carroceria', 'serial_motor', 'venta', 'propietario', 'nombre_propietario', 'hora', 'nombre_asesor', 'representante', 'nombre_representante', 'pagador', 'nombre_pagador', 'observacion', 'observacion3'], 'string'],
+            [['modelo', 'tipo_vehiculo', 'marca', 'placa', 'anio', 'color', 'serial_carroceria', 'serial_motor', 'venta', 'propietario', 'nombre_propietario', 'hora', 
+                'nombre_asesor', 'representante', 'nombre_representante', 'pagador', 'nombre_pagador', 'observacion', 'observacion3'], 'string'],
             [['fecha_transaccion', 'fecha','numero_atencion', 'modelo', 'placa', 'nombre_asesor', 'activo'], 'safe'],
             [['km', 'gravable', 'exento', 'tax', 'total'], 'number'],
         ];

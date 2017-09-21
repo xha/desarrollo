@@ -18,9 +18,17 @@ $this->title = 'Consulta de Ordenes';
 $this->params['breadcrumbs'][] = ['label' => 'Orden', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $fecha_actual=date('d-m-Y');
+$this->registerCssFile('@web/css/general.css');
+$this->registerJsFile('@web/general.js');
+$this->registerJsFile('@web/js/resumen_orden.js');
 ?>
 <div class="vw-resumen-orden-form">
 
+    <center>
+        <?= Html::submitButton('<i class="glyphicon glyphicon-search"></i> Consultar',array('class'=>'btn btn-success','onclick'=>'js:enviar_data();')); ?>
+        <?= Html::a('Limpiar Consulta', ['reporte-ordenes'], ['class' => 'btn btn-danger']) ?>
+    </center>
+    <br />
     <?php $form = ActiveForm::begin(); ?>
 
 	    <div class="panel panel-primary">
@@ -44,58 +52,44 @@ $fecha_actual=date('d-m-Y');
                             ?>
                         </div>         
                         <div class="col-md-4">
-                            <?php 
-                            $model->fecha = ($model->isNewRecord  || $model->fecha != null) ? $fecha_actual : null;
-                            echo $form->field($model, 'fecha')->widget(DatePicker::classname(), [
-                                'language' => 'es',
-                                'removeButton'=>false,
-                                'options' => ['placeholder' => 'Fecha de la Orden', 'class'=>'form-control'],
-                                'id'=>'fecha_desde',
-                                'pluginOptions' => [
-                                'endDate' => date('d-m-Y'),
-                                    'autoclose'=>true,
-                                    'format' => 'dd-mm-yyyy',
-                                ]
-                            ])->label('Fecha Desde de la Orden');
+                            <label>Fecha Hasta </label><br /><br />
+                            <?= $form->field($model, 'fecha')->widget(DatePicker::classname(), [
+                                    'language' => 'es',
+                                    'removeButton'=>false,
+                                    'options' => ['readonly' => true, 'value' => $fecha_actual],
+                                    'id'=>'fecha_desde',
+                                    'pluginOptions' => [
+                                    'endDate' => date('d-m-Y'),
+                                        'autoclose'=>true,
+                                        'format' => 'dd-mm-yyyy',
+                                    ]
+                                ])->label(false);
                             ?>    
                         </div>         
                         <div class="col-md-4">
-                            <?php 
-                            $model->fecha_transaccion = ($model->isNewRecord  || $model->fecha_transaccion != null) ? $fecha_actual : null;
-                            echo $form->field($model, 'fecha_transaccion')->widget(DatePicker::classname(), [
-                                'language' => 'es',
-                                'removeButton'=>false,
-                                'id'=>'fecha_Hasta',
-                                'options' => ['placeholder' => 'Fecha de la Orden', 'class'=>'form-control'],
-                                'pluginOptions' => [
-                                'endDate' => date('d-m-Y'),
-                                    'autoclose'=>true,
-                                    'format' => 'dd-mm-yyyy',
-                                ]
-                            ])->label('Fecha Hasta de la Orden');
+                            <label>Fecha Desde </label><br /><br />
+                            <?= $form->field($model, 'fecha_transaccion')->widget(DatePicker::classname(), [
+                                    'language' => 'es',
+                                    'removeButton'=>false,
+                                    'id'=>'fecha_Hasta',
+                                    'options' => ['readonly' => true, 'value' => $fecha_actual],
+                                    'pluginOptions' => [
+                                    'endDate' => date('d-m-Y'),
+                                        'autoclose'=>true,
+                                        'format' => 'dd-mm-yyyy',
+                                    ]
+                                ])->label(false);
                             ?>    
                         </div>
                         <div class="col-md-4">
-                            <?= $form->field($model, 'modelo')->dropDownList(ArrayHelper::map(Modelo::find()->where('activo=1')->OrderBy('descripcion')->all(), 
-                            'id_modelo', 'descripcion'), ['prompt' => 'Seleccione'])->label('Modelo'); ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?= $form->field($model, 'activo')->dropDownList(['1' => 'Abierta', '2' => 'Cerrada'],['prompt'=>'Seleccione...'])->label("Estatus de la Orden") ?>
+                            <?= $form->field($model, 'activo')->dropDownList(['1' => 'Abierta', '0' => 'Cerrada'],['prompt'=>'Seleccione...'])->label("Estatus de la Orden") ?>
                         </div>
                        
                        
                     </div>
                 </div>
-
-		<!--FOOTER-->
-		        <div class="panel-footer">
-		                <center>
-		                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', '<i class="glyphicon glyphicon-search"></i> Consultar') : Yii::t('app', 'Actualizar'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-                                <?= Html::a('Limpiar Consulta', ['index'], ['class' => 'btn btn-danger']) ?>
-                                </center>
-		        </div>
-		</div>
-
+            </div>
     <?php ActiveForm::end(); ?>
-
+    <center class="panel" id="div_resultado"></center>
+    <table class="tablas inicial00" id="listado_detalle"></table>
 </div>

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\jui\DatePicker;
+use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\tabs\TabsX;
 /* @var $this yii\web\View */
@@ -58,14 +58,16 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             </td>
             <td>
                 <b>Fecha</b>
-                <?= $form->field($model,'fecha')->label(false)->
-                    widget(DatePicker::className("form-control"),[
-                        'dateFormat' => 'dd-MM-yyyy',
-                        'clientOptions' => [
-                            'changeYear' => true
-                        ],
-                        'options' => ['class' => 'texto texto-ec', 'readonly' => true]
-                    ]) 
+                <?= $form->field($model, 'fecha')->widget(DatePicker::classname(), [
+                        'language' => 'es',
+                        'removeButton'=>false,
+                        'options' => ['class' => 'texto texto-ec', 'readonly' => true],
+                        'pluginOptions' => [
+                            'endDate' => date('d-m-Y'),
+                            'autoclose'=>true,
+                            'format' => 'dd-mm-yyyy',
+                        ]
+                    ])->label(false);
                 ?>
             </td>
         </tr>
