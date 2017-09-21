@@ -39,8 +39,8 @@
                 'items' => [
                     ['label' => 'Ordenes', 'icon' => 'check', 'url' => ['../../frontend/web/vw-resumen-orden/reporte-ordenes']],
                     ['label' => 'Consulta de Orden', 'icon' => 'check', 'url' => ['../../frontend/web/transaccion/consulta-estatus']],
-                    ['label' => 'Solicitudes', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
-                    ['label' => 'Facturas de Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
+                    /*['label' => 'Solicitudes', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],
+                    ['label' => 'Facturas de Alianza', 'icon' => 'check', 'url' => ['../../frontend/web/modelo']],*/
             ],];
         }
     ?>
