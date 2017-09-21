@@ -155,13 +155,13 @@ class VwResumenOrdenController extends Controller
         $pdf->SetFillColor(255,255,255);
         $pdf->MultiCell(260,5,"Automotores IPSFA",0,'C');
         $pdf->MultiCell(260,5,"Los Proceres",0,'C');
-        $pdf->SetFont('Arial','',9);    
+        $pdf->SetFont('Arial','',10);    
         $pdf->MultiCell(260,5,"Rif: G-20003692-3",0,'C');
         $pdf->ln();
-        $pdf->SetFont('Arial','B',9);    
+        $pdf->SetFont('Arial','B',10);    
         $pdf->MultiCell(260,5,utf8_decode("RESUMEN DE ORDENES"),0,'C');
         $pdf->ln();
-
+        $pdf->SetFont('Arial','B',9);    
         $pdf->SetFillColor(200,200,200);
         $titulo = array('Nro','Fecha','Asesor','Placa','Modelo','Total','Rif','Representante','Estatus');
         $pdf->Cell(10,4,'No',1,0,'C', TRUE);
