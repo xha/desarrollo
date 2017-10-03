@@ -54,7 +54,7 @@ class Transaccion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_vehiculo', 'asesor', 'representante', 'pagador', 'placa', 'numero_atencion'], 'required'],
+            [['id_vehiculo', 'asesor', 'representante', 'pagador', 'placa', 'numero_atencion', 'CodVend'], 'required'],
             [['id_vehiculo', 'asesor', 'numero_atencion', 'activo'], 'integer'],
             [['fecha_transaccion', 'fecha'], 'safe'],
             [['hora', 'representante', 'observacion', 'observacion3'], 'string'],
@@ -89,6 +89,7 @@ class Transaccion extends \yii\db\ActiveRecord
             'tecnico' => 'Mecánico Asignado',
             'observacion2' => 'Respuesta',
             'observacion3' => 'Observaciones',
+            'CodVend' => 'Vendedor',
         ];
     }
 

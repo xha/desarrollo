@@ -865,4 +865,114 @@ class TransaccionController extends Controller
         $pdf->Output('');
         exit;
     }
+    
+    /**************************************** IMPRIMIR SOLICITUD ***************************************/
+    public function actionImprimeSolicitud($id = null) {
+        $connection = \Yii::$app->db;
+        require_once ('reporte_pdf.php');
+        $extra = "";
+       
+        if($id!="") $extra=" and a.id_transaccion=".$id;
+       
+        $query = "SELECT a.*,b.nombre_asesor FROM vw_resumen_transaccion a,
+            vw_resumen_orden b  where a.id_transaccion=b.id_transaccion ".$extra;
+        $pendientes = $connection->createCommand($query)->queryone();
+        $pdf = new \fpdf\FPDF('P','mm','Letter');
+        $pdf->SetAutoPageBreak(false,35);
+        /*****************************************************************************************************************/
+        $pdf->AddPage();
+        $logo = "../../img/saint.jpg";
+        //$logo2 = "../../img/escudoipsfa.jpg";
+        //$pdf->Image($logo2,20,11,15,15);    
+        $pdf->Image($logo,175,11,20,15);    
+        $yactual = $pdf->getY();
+        /*****************************************************************************************************************/
+        $pdf->SetFont('Arial','B',13);
+        $pdf->SetFillColor(255,255,255);
+        $pdf->MultiCell(193,5,"Automotores IPSFA",0,'C');
+        $pdf->MultiCell(193,5,"Los Proceres",0,'C');
+        $pdf->SetFont('Arial','',9);   
+        $pdf->MultiCell(193,5,"Rif: G-20003692-3",0,'C');
+        $pdf->ln();
+        $pdf->SetFont('Arial','B',9);   
+        $pdf->MultiCell(193,5,utf8_decode("SOLICITUD DE RESPUESTOS AL ALMACEN"),0,'C');
+        $pdf->ln();
+        $pdf->SetFillColor(192,192,192);
+        $pdf->SetY(40);
+        $pdf->Cell(20,6,'Asesor',1,0,'L', true);
+        $pdf->Cell(60,6,$pendientes['nombre_asesor'],1,1,'L');
+        $pdf->SetY(40);
+        //Cuadro de los datos de recepcion del vehiculo
+        $pdf->SetX(140);
+        $pdf->SetFillColor(192,192,192);
+        $pdf->Cell(35,6,'Fecha de la Orden',1,0,'L', true);
+        $pdf->Cell(20,6,$pendientes['fecha'],1,1,'C');
+        $pdf->SetX(140);
+        $pdf->Cell(35,6,utf8_decode('Número de Atención'),1,0,'L', true);
+        $pdf->Cell(20,6,$pendientes['numero_atencion'],1,1,'C');
+       
+       
+        $pdf->MultiCell(185,7,utf8_decode("DATOS DEL CLIENTE"),0,'C');
+       
+        $pdf->SetFillColor(192,192,192);
+        $pdf->Cell(33,6,'Nombre del Cliente',1,0,'L', true);
+        $pdf->Cell(85,6,$pendientes['nombre_pagador'],1,0,'L');
+        $pdf->Cell(22,6,utf8_decode('Cédula o RIF'),1,0,'L', true);
+        $pdf->Cell(45,6,$pendientes['pagador'],1,1,'L');
+       
+        $pdf->Cell(33,6,utf8_decode('Teléfonos'),1,0,'L', true);
+        $pdf->Cell(85,6,$pendientes['Movil'],1,0,'L');
+        $pdf->Cell(22,6,utf8_decode('Email'),1,0,'L', true);
+        $pdf->Cell(45,6,$pendientes['Email'],1,1,'L');
+  
+        $pdf->MultiCell(185,7,utf8_decode("DATOS DEL VEHÍCULOS"),0,'C');
+        $pdf->SetX(35);
+        $pdf->SetFillColor(192,192,192); //Gris
+        $pdf->Cell(15,6,'Modelo',1,0,'L', true);
+        $pdf->Cell(30,6,$pendientes['modelo'],1,0,'L');
+        $pdf->Cell(24,6,utf8_decode('Año'),1,0,'L', true);
+        $pdf->Cell(24,6,$pendientes['anio'],1,0,'L');
+        $pdf->Cell(15,6,utf8_decode('Color'),1,0,'L', true);
+        $pdf->Cell(30,6,$pendientes['color'],1,1,'L');
+        $pdf->SetX(35);
+        $pdf->Cell(15,6,utf8_decode('Placa'),1,0,'L', true);
+        $pdf->Cell(30,6,$pendientes['placa'],1,0,'L');
+        $pdf->Cell(24,6,utf8_decode('Km de Entrada'),1,0,'L', true);
+        $pdf->Cell(69,6,$pendientes['km']." Km.",1,1,'L');
+               
+      
+       
+        //Repuestos Solicitados
+        $pdf->MultiCell(185,8,utf8_decode("REPUESTOS REQUERIDOS PARA EL SERVICIO / DESPACHADOS"),0,'C');
+        $query_rep = "select CodItem, descripcion, cantidad
+                       from ISAU_DetalleTransaccion
+                       where EsServ=0 and id_transaccion=".$id;
+        $repuesto = $connection->createCommand($query_rep)->queryAll();
+        $conteo= count($repuesto);
+        $i=0;
+        $pdf->SetFillColor(192,192,192); //Gris
+        $pdf->Cell(100,6,'Repuestos',1,0,'C', true);
+        $pdf->Cell(43,6,'Solicitados',1,0,'C', true);
+        $pdf->Cell(43,6,'Despachados',1,1,'C', true);
+        $pdf->SetFillColor(255,255,255);
+
+        while ($i<$conteo) {
+            $pdf->Cell(100,6,"(".$repuesto[$i]['CodItem'].") ".utf8_decode($repuesto[$i]['descripcion']),1,0,'L');
+            $pdf->Cell(43,6,intval($repuesto[$i]['cantidad']),1,0,'C');
+            //Ubicar los despachados
+            $muestra_desp=0;
+            $query_despachados = "SELECT * FROM ISAU_SolicitudTransaccion where CodProd='".$repuesto[$i]['CodItem']."'";
+            $desp = $connection->createCommand($query_despachados)->queryOne();
+            if(isset($desp)){
+                $muestra_desp=$desp['cantidad'];
+            }
+            $pdf->Cell(43,6,$muestra_desp,1,1,'C');
+            $i++;
+        }      
+        $pdf->ln(20);
+        $pdf->MultiCell(185,8,utf8_decode("                ________________________                                                                        _____________________________"),0,1,'C');
+        $pdf->MultiCell(185,8,utf8_decode("                        Depacahado por                                                                                                  Recibido por         "),0,1,'C');
+        $pdf->Output('');
+        exit;
+    }
 }

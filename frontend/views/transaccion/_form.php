@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\tabs\TabsX;
+use frontend\models\Savend;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Transaccion */
 /* @var $form yii\widgets\ActiveForm */
@@ -57,7 +58,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                 <select class='texto texto-xc' id='minuto_e'><?= $minuto; ?></select> 
             </td>
             <td>
-                <b>Fecha</b>
+                <b>Fecha</b><br /><br />
                 <?= $form->field($model, 'fecha')->widget(DatePicker::classname(), [
                         'language' => 'es',
                         'removeButton'=>false,
@@ -69,6 +70,10 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
                         ]
                     ])->label(false);
                 ?>
+            </td>
+            <td>
+                <?= $form->field($model, 'CodVend')->dropDownList(ArrayHelper::map(Savend::find()->where('Activo=1')->OrderBy('Descrip')->all(), 
+                'CodVend', 'Descrip')); ?>
             </td>
         </tr>
     </table>

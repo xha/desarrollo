@@ -41,22 +41,26 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'observacion',
             // 'activo',
             ['class' => 'yii\grid\ActionColumn',
-                'template' => '{update}',
-                /*'buttons' => [
-                    'info' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-info-sign"></span>', $url, [
-                                    'title' => Yii::t('app', 'Info'),
+                'template' => '{update} {print}',
+                'buttons' => [
+                    'print' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', $url, [
+                                    'title' => Yii::t('app', 'Orden '.$model->numero_atencion),
+                                    'target' => '_blank',
                         ]);
                     }
-                ],*/
+                ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if ($action === 'update') {
                         $url = Yii::$app->urlManager->createUrl(['transaccion/solicitud-index?id='.$model->id_transaccion]); // your own url generation logic
                         return $url;
+                    } else {
+                        $url = Yii::$app->urlManager->createUrl(['transaccion/imprime-solicitud?id='.$model->id_transaccion]); // your own url generation logic
+                        return $url;
                     }
-                }
-                          
+                }         
             ],
+            
         ],
     ]); ?>
 </div>
