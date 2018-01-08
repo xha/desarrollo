@@ -74,7 +74,7 @@ class TransaccionSearch extends Transaccion
             'activo' => $this->activo,
         ]);
         
-        date_default_timezone_set("America/Caracas");
+        //date_default_timezone_set("America/Caracas");
         //$fecha= time();
         //$fecha=date('d-m-Y',$fecha);
         
