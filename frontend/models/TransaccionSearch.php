@@ -21,6 +21,7 @@ class TransaccionSearch extends Transaccion
             [['id_transaccion', 'id_vehiculo', 'asesor', 'numero_atencion', 'activo'], 'integer'],
             [['fecha_transaccion', 'fecha', 'hora', 'representante', 'observacion'], 'safe'],
             [['km', 'gravable', 'exento', 'tax', 'total'], 'number'],
+            [['CodUbic'], 'string'],
         ];
     }
 
@@ -81,6 +82,7 @@ class TransaccionSearch extends Transaccion
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'representante', $this->representante])
             ->andFilterWhere(['like', 'observacion', $this->observacion])
+            ->andFilterWhere(['=', 'CodUbic', $this->CodUbic])
             ->andFilterWhere(['IN', 'activo', 1])
             //->andFilterWhere(['=', 'fecha', $fecha])
             ->orderBy('fecha DESC');

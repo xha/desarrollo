@@ -57,7 +57,7 @@ class Transaccion extends \yii\db\ActiveRecord
             [['id_vehiculo', 'asesor', 'representante', 'pagador', 'placa', 'numero_atencion', 'CodVend'], 'required'],
             [['id_vehiculo', 'asesor', 'numero_atencion', 'activo'], 'integer'],
             [['fecha_transaccion', 'fecha'], 'safe'],
-            [['hora', 'representante', 'observacion', 'observacion3'], 'string'],
+            [['hora', 'representante', 'observacion', 'observacion3', 'CodUbic'], 'string'],
             [['km', 'gravable', 'exento', 'tax', 'total'], 'number'],
             [['id_vehiculo'], 'exist', 'skipOnError' => true, 'targetClass' => Vehiculo::className(), 'targetAttribute' => ['id_vehiculo' => 'id_vehiculo']],
         ];
@@ -90,6 +90,7 @@ class Transaccion extends \yii\db\ActiveRecord
             'observacion2' => 'Respuesta',
             'observacion3' => 'Observaciones',
             'CodVend' => 'Vendedor',
+            'CodUbic' => 'Ubicación',
         ];
     }
 

@@ -24,7 +24,7 @@ use yii\helpers\Html;
 ?>              
                 <li class="dropdown user user-menu">
                     <?= Html::a(
-                        'Logout (' . Yii::$app->user->identity->usuario . ')',
+                        'Logout (Usuario: '.Yii::$app->user->identity->usuario.', Ubic: '.Yii::$app->user->identity->CodUbic.')',
                         ['/site/logout'],
                         ['data-method' => 'post']
                     ) ?>

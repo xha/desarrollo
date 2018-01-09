@@ -28,6 +28,7 @@ class ActivarForm extends model{
         return [
             'usuario' => 'Usuario',
             'id_rol' => 'Rol',
+            'CodUbic' => 'Ubicación',
         ];
     }
 }

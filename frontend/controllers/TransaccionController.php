@@ -47,7 +47,8 @@ class TransaccionController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TransaccionSearch();
+        $codubic = Yii::$app->user->identity->CodUbic;
+        $searchModel = new TransaccionSearch(['CodUbic' => $codubic]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -691,14 +692,17 @@ class TransaccionController extends Controller
     
     public function actionBuscarNumero($numero_atencion,$fecha = null) {
         $connection = \Yii::$app->db;
+        $CodUbic = Yii::$app->user->identity->CodUbic;
         date_default_timezone_set("America/Caracas");
         if ($fecha=="") {
             $fecha = time();
             $fecha = date('Ymd',$fecha);
         }
         
-        $query = "SELECT count(numero_atencion) as conteo from ISAU_Transaccion WHERE numero_atencion=$numero_atencion "
-                . " and CONVERT(varchar(10), fecha, 112)='$fecha'";
+        $query = "SELECT count(numero_atencion) as conteo 
+                FROM ISAU_Transaccion 
+                WHERE numero_atencion=$numero_atencion and CodUbic='".$CodUbic."'
+                and CONVERT(varchar(10), fecha, 112)='$fecha'";
         $pendientes = $connection->createCommand($query)->queryOne();
         //$pendientes = $comand->readAll();
         echo Json::encode($pendientes);
