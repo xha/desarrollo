@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_modelo',
             'id_tipo_vehiculo',
             'id_marca',
+            'serial_inttt',
             'placa',
             'anio',
             'color',

@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\TipoVehiculo */
+/* @var $model frontend\models\Vehiculo */
 
-$this->title = $model->id_tipo_vehiculo;
-$this->params['breadcrumbs'][] = ['label' => 'Tipo Vehiculos', 'url' => ['index']];
+$this->title = $model->id_vehiculo;
+$this->params['breadcrumbs'][] = ['label' => 'Vehiculos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="tipo-vehiculo-view">
+<div class="vehiculo-view">
 
     
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->id_tipo_vehiculo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Desactivar', ['delete', 'id' => $model->id_tipo_vehiculo], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->id_vehiculo], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Desactivar', ['delete', 'id' => $model->id_vehiculo], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Confirmar Desactivado',
@@ -28,9 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-//            'id_tipo_vehiculo',
-            'descripcion',
-//            'activo',
+            'id_vehiculo',
+            'id_modelo',
+            'id_tipo_vehiculo',
+            'id_marca',
+            'serial_inttt',
+            'placa',
+            'anio',
+            'color',
+            'propietario',
+            'activo',
         ],
     ]) ?>
 
