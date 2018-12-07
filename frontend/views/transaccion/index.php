@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'total',
             // 'observacion',
             // 'activo',
+            //'CodUbic',
             ['class' => 'yii\grid\ActionColumn',
                 'template' => '{print}',
                 'buttons' => [

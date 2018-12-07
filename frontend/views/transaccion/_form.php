@@ -322,6 +322,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
     
     <?= $form->field($model, 'asesor')->hiddenInput(['value' => $id_usuario])->label(false) ?>
     <?= $form->field($model, 'id_vehiculo')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'CodUbic')->hiddenInput(['value' => Yii::$app->user->identity->CodUbic])->label(false) ?>
     <?= $form->field($model, 'hora')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'activo')->hiddenInput(['value' => 1])->label(false); ?>
     
