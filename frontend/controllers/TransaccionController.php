@@ -761,15 +761,18 @@ class TransaccionController extends Controller
         
         $pdf->SetFillColor(192,192,192); //Gris 
         $pdf->Cell(15,6,'Modelo',1,0,'L', true);
-        $pdf->Cell(23,6,$pendientes['modelo'],1,0,'L');
+        $pdf->Cell(70,6,$pendientes['modelo'],1,0,'L');
         $pdf->Cell(15,6,utf8_decode('Año'),1,0,'L', true);
-        $pdf->Cell(15,6,$pendientes['anio'],1,0,'L');
+        $pdf->Cell(35,6,$pendientes['anio'],1,0,'L');
         $pdf->Cell(15,6,utf8_decode('Color'),1,0,'L', true);
-        $pdf->Cell(15,6,$pendientes['color'],1,0,'L');
+        $pdf->Cell(35,6,$pendientes['color'],1,1,'L');
+        
         $pdf->Cell(15,6,utf8_decode('Placa'),1,0,'L', true);
-        $pdf->Cell(25,6,$pendientes['placa'],1,0,'L');
-        $pdf->Cell(24,6,utf8_decode('Km de Entrada'),1,0,'L', true);
-        $pdf->Cell(23,6,$pendientes['km'],1,1,'L');
+        $pdf->Cell(30,6,$pendientes['placa'],1,0,'L');
+        $pdf->Cell(25,6,utf8_decode('Km de Entrada'),1,0,'L', true);
+        $pdf->Cell(30,6,$pendientes['km'],1,0,'L');
+        $pdf->Cell(20,6,utf8_decode('INTT No.'),1,0,'L', true);
+        $pdf->Cell(65,6,$pendientes['serial_inttt'],1,1,'L');
                 
         //Servicio Solictado
         $query_serv = "select CodItem,descripcion

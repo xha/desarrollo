@@ -32,3 +32,5 @@ phpunit.phar
 /.vagrant
 !/vendor/
 !/composer.phar
+/backend/web/assets/
+/frontend/web/assets/
