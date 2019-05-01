@@ -43,6 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'Municipio',
             // 'ZipCode',
             'Telef',
+            [
+                'filter' =>[frontend\models\Proveedor::ESTATUS_ACTIVE=>'SI', frontend\models\Proveedor::ESTATUS_INACTIVE=>'NO'],
+                'header'=>'Activo',
+                'attribute'=>'Activo',
+                'value'=>'activo',
+            ],
             // 'Movil',
             // 'Fax',
             // 'Email:email',

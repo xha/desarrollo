@@ -26,6 +26,8 @@ class Vehiculo extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'ISAU_Vehiculo';
@@ -54,7 +56,7 @@ class Vehiculo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_vehiculo' => 'Id Vehiculo',
+            'id_vehiculo' => 'Id',
             'id_modelo' => 'Modelo',
             'id_marca' => 'Marca',
             'id_tipo_vehiculo' => 'Tipo Vehiculo',
@@ -107,5 +109,15 @@ class Vehiculo extends \yii\db\ActiveRecord
     public function getIdTipoVehiculo()
     {
         return $this->hasOne(TipoVehiculo::className(), ['id_tipo_vehiculo' => 'id_tipo_vehiculo']);
+    }
+
+    public function getActivo(){
+        $r = $this->activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

@@ -41,7 +41,8 @@ class Servicio extends \yii\db\ActiveRecord
      */
     public $iva;
     public $mtotax;
-    
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'SASERV';
@@ -94,5 +95,15 @@ class Servicio extends \yii\db\ActiveRecord
             'EsVenta' => 'Es Venta',
             'EsCompra' => 'Es Compra',
         ];
+    }
+
+    public function getActivo(){
+        $r = $this->Activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

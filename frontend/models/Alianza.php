@@ -20,6 +20,8 @@ class Alianza extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'ISAU_Alianza';
@@ -67,5 +69,15 @@ class Alianza extends \yii\db\ActiveRecord
     public function getISAUAlianzaTransaccions()
     {
         return $this->hasMany(ISAUAlianzaTransaccion::className(), ['id_alianza' => 'id_alianza']);
+    }
+
+    public function getActivo(){
+        $r = $this->activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

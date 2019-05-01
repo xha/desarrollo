@@ -12,6 +12,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
 $this->title = 'Actualizar Solicitud';
 $this->params['breadcrumbs'][] = $this->title;
 $id_usuario = Yii::$app->user->identity->id_usuario;
+$rol = Yii::$app->user->identity->id_rol;
 ?>
 
 <div class="solicitud-form">
@@ -23,8 +24,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'id_vehiculo')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'id_transaccion')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'pagador')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'numero_atencion')->textInput(['readonly'=>true, 'class'=>'texto texto-ec']) ?><br />
-    
+    <input type="hidden" id='rol' name='rol' value="<?= $rol ?>" />
     <table class="tablas tablas1">
         <tr>
             <th colspan="5" align="center">
@@ -116,6 +118,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             </td>
         </tr>
     </table>
+    <div class="row" align="center">
+        <h3 class="text-danger" id='h_bloqueo'></h3>
+    </div>
     <table class="tablas inicial00" id="listado_detalle">
         <tr>
             <th>Nro</th>

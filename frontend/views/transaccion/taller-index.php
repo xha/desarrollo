@@ -9,6 +9,7 @@ $this->registerJsFile('@web/general.js');
 $this->registerJsFile('@web/js/taller.js');
 $this->registerCssFile('@web/css/general.css');
 $id_usuario = Yii::$app->user->identity->id_usuario;
+$rol = Yii::$app->user->identity->id_rol;
 
 $this->title = 'Actualizar Taller';
 $this->params['breadcrumbs'][] = $this->title;
@@ -24,7 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <input type='hidden' id='asignador' name='asignador' value='<?= $id_usuario; ?>' />
     <?= $form->field($model, 'id_vehiculo')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'id_transaccion')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'pagador')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'numero_atencion')->textInput(['readonly'=>true, 'class'=>'texto texto-ec']) ?>
+    <input type="hidden" id='rol' name='rol' value="<?= $rol ?>" />
     <br />
     <table class="tablas tablas1">
         <tr>
@@ -125,7 +128,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </td>
         </tr>    
     </table>
-    
+    <div class="row" align="center">
+        <h3 class="text-danger" id='h_bloqueo'></h3>
+    </div>
     <table class="tablas inicial00" id="listado_detalle">
         <tr>
             <th>Nro</th>

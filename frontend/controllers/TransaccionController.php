@@ -56,6 +56,22 @@ class TransaccionController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    public function actionBuscarEstadisticaProducto($cliente = NULL,$fecha_desde,$fecha_hasta) {
+        $connection = \Yii::$app->db;
+
+        if ($cliente!="") $extra = " and f.CodClie='".$cliente."'";
+
+        $query2 = "SELECT i.CodItem,i.Descrip1,i.Descrip2,i.Descrip3,f.CodUbic,CONVERT(VARCHAR(10), f.FechaE, 105) as Fecha_Despacho, CONVERT(VARCHAR(10),
+            DATEADD(day,28,f.FechaE), 105) as Fecha_Fin, sum(i.Cantidad) as Cantidad
+            from SAFACT f, SAITEMFAC i
+            WHERE f.NumeroD=i.NumeroD and f.TipoFac='A' and f.FechaE between '$fecha_desde 00:00:00' and '$fecha_hasta 23:59:59' and f.NumeroR is NULL and i.TipoFac=f.TipoFac $extra
+            group by i.CodItem,i.Descrip1,i.Descrip2,i.Descrip3,f.CodUbic,f.FechaE
+            order by i.Descrip1";
+        $listado = $connection->createCommand($query2)->queryAll();
+
+        return Json::encode($listado);
+    }
     
     public function actionCerrar()
     {
@@ -608,8 +624,35 @@ class TransaccionController extends Controller
         echo Json::encode($pendientes);
     }
     
-    public function actionBuscarItems($codigo) {
+    public function actionBuscarItems($codigo, $cliente) {
         $connection = \Yii::$app->db;
+
+        $error = "";
+        $CodUbic = Yii::$app->user->identity->CodUbic;
+        $query = "SELECT *
+                from ISAU_Racionado
+                where activo=1 and CodItem='".$codigo."' and CodUbic='".$CodUbic."'";
+        $racionado = $connection->createCommand($query)->queryAll();
+
+        if (count($racionado)>0) {
+            date_default_timezone_set("America/Caracas");
+            $fecha=date('Ymd h:m:s',time());
+            $dias = $racionado[0]['dias'];
+            $d = "-".$dias;
+            $dia28 = strtotime ($d.' day',strtotime($fecha));
+            $dia28 = date ('Ymd',$dia28);
+
+            $query2 = "SELECT i.CodItem,i.Descrip1,i.Descrip2,i.Descrip3,f.CodUbic,CONVERT(VARCHAR(10), f.FechaE, 105) as Fecha_Despacho, CONVERT(VARCHAR(10),
+            DATEADD(day,$dias,f.FechaE), 105) as Fecha_Fin, sum(i.Cantidad) as Cantidad
+            from SAFACT f, SAITEMFAC i
+            WHERE f.NumeroD=i.NumeroD and f.TipoFac='A' and f.FechaE > '$dia28 00:00:00' and f.NumeroR is NULL and i.TipoFac=f.TipoFac and i.CodItem='".$codigo."'
+            and f.CodClie='".$cliente."'
+            group by i.CodItem,i.Descrip1,i.Descrip2,i.Descrip3,f.CodUbic,f.FechaE 
+            order by i.Descrip1";
+            $listado = $connection->createCommand($query2)->queryAll();
+
+            if (count($listado) > 0) $error = "Producto '".$codigo."' Bloqueado para el cliente '".$cliente."' hasta el ".$listado[0]['Fecha_Fin'];
+        }
 
         $query = "SELECT CodServ,Descrip,Precio1,1 as EsServ
                 from SASERV
@@ -623,7 +666,8 @@ class TransaccionController extends Controller
             $pendientes = $connection->createCommand($query)->queryOne();
         }
         //$pendientes = $comand->readAll();
-        echo Json::encode($pendientes);
+        $pendientes['Error'] = $error;
+        return Json::encode($pendientes);
     }    
 
     public function actionBuscarImpuestos($codigo,$tipo) {

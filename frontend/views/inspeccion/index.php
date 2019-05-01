@@ -21,10 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function ($model, $index, $widget, $grid){
+            if($model->activo == 0) return ['style' => 'background-color: #FADCAC'];
+        },
         'columns' => [
             'id_inspeccion',
             'descripcion',
-            'activo',
+            [
+                'filter' =>[frontend\models\Inspeccion::ESTATUS_ACTIVE=>'SI', frontend\models\Inspeccion::ESTATUS_INACTIVE=>'NO'],
+                'header'=>'Activo',
+                'attribute'=>'activo',
+                'value'=>'Activo',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

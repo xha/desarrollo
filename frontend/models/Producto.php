@@ -62,7 +62,8 @@ class Producto extends \yii\db\ActiveRecord
      */
     public $iva;
     public $mtotax;
-    
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'SAPROD';
@@ -136,5 +137,15 @@ class Producto extends \yii\db\ActiveRecord
             'Volumen' => 'Volumen',
             'UndVol' => 'Und Vol',
         ];
+    }
+
+    public function getActivo(){
+        $r = $this->Activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

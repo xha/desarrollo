@@ -5,15 +5,14 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "ISAU_Modelo".
+ * This is the model class for table "ISAU_Racionado".
  *
- * @property integer $id_modelo
- * @property string $descripcion
+ * @property string $CodItem
+ * @property string $CodUbic
+ * @property integer $dias
  * @property integer $activo
- *
- * @property ISAUVehiculo[] $iSAUVehiculos
  */
-class Modelo extends \yii\db\ActiveRecord
+class Racionado extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -22,7 +21,7 @@ class Modelo extends \yii\db\ActiveRecord
     const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
-        return 'ISAU_Modelo';
+        return 'ISAU_Racionado';
     }
 
     /**
@@ -31,9 +30,9 @@ class Modelo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['descripcion'], 'required'],
-            [['descripcion'], 'string'],
-            [['activo'], 'integer'],
+            [['CodItem', 'CodUbic'], 'required'],
+            [['CodItem', 'CodUbic'], 'string'],
+            [['dias', 'activo'], 'integer'],
         ];
     }
 
@@ -43,18 +42,11 @@ class Modelo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_modelo' => 'Id Modelo',
-            'descripcion' => 'Descripcion',
+            'CodItem' => 'Item',
+            'CodUbic' => 'Ubicación',
+            'dias' => 'Dias',
             'activo' => 'Activo',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getISAUVehiculos()
-    {
-        return $this->hasMany(ISAUVehiculo::className(), ['id_modelo' => 'id_modelo']);
     }
 
     public function getActivo(){

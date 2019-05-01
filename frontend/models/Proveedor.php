@@ -53,6 +53,8 @@ class Proveedor extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'SAPROV';
@@ -125,5 +127,15 @@ class Proveedor extends \yii\db\ActiveRecord
     public function getISAUAlianzas()
     {
         return $this->hasMany(ISAUAlianza::className(), ['CodProv' => 'CodProv']);
+    }
+
+    public function getActivo(){
+        $r = $this->Activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

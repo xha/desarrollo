@@ -38,6 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'PrecioI3',
             // 'Costo',
             'EsExento',
+            [
+                'filter' =>[frontend\models\Racionado::ESTATUS_ACTIVE=>'SI', frontend\models\Racionado::ESTATUS_INACTIVE=>'NO'],
+                'header'=>'Activo',
+                'attribute'=>'Activo',
+                'value'=>'activo',
+            ],
             // 'EsReten',
             // 'EsPorCost',
             // 'UsaServ',

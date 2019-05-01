@@ -18,6 +18,8 @@ class Marca extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'ISAU_Marca';
@@ -53,5 +55,15 @@ class Marca extends \yii\db\ActiveRecord
     public function getISAUVehiculos()
     {
         return $this->hasMany(ISAUVehiculo::className(), ['id_marca' => 'id_marca']);
+    }
+    
+    public function getActivo(){
+        $r = $this->activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

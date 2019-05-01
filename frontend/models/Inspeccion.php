@@ -18,6 +18,8 @@ class Inspeccion extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'ISAU_Inspeccion';
@@ -53,5 +55,15 @@ class Inspeccion extends \yii\db\ActiveRecord
     public function getISAUTransaccionInspeccions()
     {
         return $this->hasMany(ISAUTransaccionInspeccion::className(), ['id_inspeccion' => 'id_inspeccion']);
+    }
+
+    public function getActivo(){
+        $r = $this->activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

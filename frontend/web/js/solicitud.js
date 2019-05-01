@@ -62,14 +62,23 @@ function carga_servicios() {
     var d_codigo = trae("transaccion-d_codigo");
     var tipo_item = trae("tipo_item");
     var precio = trae("d_precio");
+    var rol = trae('rol');
+    var cliente = trae('transaccion-pagador').value;
     
     d_nombre.value = "";
     d_iva.length = 0;
     if (d_codigo.value!="") {
         var campo = d_codigo.value.split(" - ");
-        $.get('../transaccion/buscar-items',{codigo : campo[0]},function(data){
-            var data = $.parseJSON(data);
+        $.getJSON('../transaccion/buscar-items',{codigo : campo[0], cliente : cliente},function(data){
             if (data!="") {
+                h_bloqueo.innerHTML = "";
+                if (rol!=3) {
+                    if (data.Error!="") {
+                        h_bloqueo.innerHTML = data.Error;
+                    }
+                }
+                
+                if (h_bloqueo.innerHTML!="") return false;
                 d_codigo.value = campo[0];
                 d_nombre.value = data.Descrip;    
                 tipo_item.value = data.EsServ;

@@ -26,7 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'CodProv',
             'Descrip',
             'porcentaje',
-
+            [
+                'filter' =>[frontend\models\Alianza::ESTATUS_ACTIVE=>'SI', frontend\models\Alianza::ESTATUS_INACTIVE=>'NO'],
+                'header'=>'Activo',
+                'attribute'=>'activo',
+                'value'=>'Activo',
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

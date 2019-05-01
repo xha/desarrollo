@@ -137,7 +137,7 @@ function add_filas(row, clase, funcion, falso, limite, identi) {
         
         td[i] = document.createElement(clase);
         if (clase=='td') {
-            td[i].align = 'left';
+            td[i].align = 'center';
         }
 
         if (falso!="") {

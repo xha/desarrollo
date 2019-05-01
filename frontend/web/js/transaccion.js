@@ -4,11 +4,29 @@ $(function() {
     buscar_inspeccion();    
 });
 
+function titulo_estadistica() {
+    var arreglo = new Array();
+        arreglo[0] = 'Código';
+        arreglo[1] = 'Descripción';
+        arreglo[2] = 'Cantidad';
+        arreglo[3] = 'Fecha';
+        arreglo[4] = 'Fecha Fin';
+
+    var tabla = document.getElementById('resultado_estadistica');
+        tabla.innerHTML = "";
+
+    tabla.appendChild(add_filas(arreglo, 'th','','',5));
+}
+
 function buscar_cliente(id) {
     var cliente = trae(id).value.split(" - ");
+    var resultado_estadistica = trae('resultado_estadistica');
+        
     var ext = 'p';
     if (id=='transaccion-representante') ext = 'c';
     cliente = cliente[0];
+    resultado_estadistica.innerHTML = "";
+
     if (cliente!="") {
         $.get('../transaccion/buscar-cliente',{cliente : cliente},function(data){
             var data = $.parseJSON(data);
@@ -26,6 +44,35 @@ function buscar_cliente(id) {
                 tlf.value = data.Telef;
                 nombre.value = data.Descrip;
                 direccion.value = data.Direc1+" "+data.Direc2;
+                div_estadistica.style.visibility = 'visible';
+                buscar_estadistica(data.ID3);
+            }
+        });
+    }
+}
+
+function buscar_estadistica(cliente) {
+    var fecha_desde = document.getElementById('fecha_desde').value;
+    var fecha_hasta = document.getElementById('fecha_hasta').value;
+    var tabla = trae('resultado_estadistica');
+    var i;
+
+    if ((fecha_desde!="") && (fecha_hasta!="") && (cliente!="")) {
+        titulo_estadistica();
+        $.getJSON('../transaccion/buscar-estadistica-producto',{cliente : cliente, fecha_desde : fecha_desde, fecha_hasta : fecha_hasta},function(data){
+            var campos = Array();
+            if (data!="") {
+                for (i = 0; i < data.length; i++) {
+                    campos.length = 0;
+                    campos.push(data[i].CodItem);
+                    if (data[i].Descrip2==null) data[i].Descrip2 = "";
+                    if (data[i].Descrip3==null) data[i].Descrip3 = "";
+                    campos.push(data[i].Descrip1+data[i].Descrip2+data[i].Descrip3);
+                    campos.push(parseInt(data[i].Cantidad));
+                    campos.push(data[i].Fecha_Despacho);
+                    campos.push(data[i].Fecha_Fin);
+                    tabla.appendChild(add_filas(campos, 'td','','',5));
+                }
             }
         });
     }
@@ -60,7 +107,7 @@ function buscar_vehiculo() {
                             cliente.value = data.propietario;
                             cliente2.value = data.propietario;
                             buscar_cliente('transaccion-pagador');
-                            buscar_cliente('transaccion-representante');
+                            //buscar_cliente('transaccion-representante');
                         }
                     }
                 });
@@ -148,17 +195,29 @@ function carga_servicios() {
     var d_codigo = trae("transaccion-d_codigo");
     var tipo_item = trae("tipo_item");
     var precio = trae("d_precio");
+    var h_bloqueo = trae('h_bloqueo');
+    var rol = trae('rol');
+    var cliente = trae('p_rif').value;
     
     d_nombre.value = "";
     d_iva.length = 0;
-    if (d_codigo.value!="") {
+    if ((d_codigo.value!="") && (p_rif!="")) {
         var campo = d_codigo.value.split(" - ");
-        $.get('../transaccion/buscar-items',{codigo : campo[0]},function(data){
-            var data = $.parseJSON(data);
+        h_bloqueo.innerHTML = "";
+        $.getJSON('../transaccion/buscar-items',{codigo : campo[0], cliente : cliente},function(data){
             if (data!="") {
+                h_bloqueo.innerHTML = "";
+                if (rol!=3) {
+                    if (data.Error!="") {
+                        h_bloqueo.innerHTML = data.Error;
+                    }
+                }
+                
+                if (h_bloqueo.innerHTML!="") return false;
                 d_codigo.value = campo[0];
                 d_nombre.value = data.Descrip;    
                 tipo_item.value = data.EsServ;
+                if (data.Precio1 < 1) data.Precio1 = 0;
                 precio.value = data.Precio1;
                 $.get('../transaccion/buscar-impuestos',{codigo : campo[0],tipo : data.EsServ},function(data){
                     var data2 = $.parseJSON(data);
@@ -195,6 +254,7 @@ function calcula_subtotal() {
     if (selected=="") selected = 0;
 
     if ((precio>0) && (cantidad>0)) {
+        console.log(precio);
         sub = (parseFloat(cantidad) * parseFloat(precio)) - parseFloat(descuento.value);
         impuesto.value = Math.round((parseFloat(sub) * (parseFloat(selected)/100)) * 100) / 100 ;
         total.value = Math.round((parseFloat(sub) + parseFloat(impuesto.value)) * 100) / 100 ;    
@@ -402,10 +462,12 @@ function recorre_tabla() {
         d_sub_total = d_sub_total + ((cantidad * precio) - d_descuento2);
     });
 
-    gravable.value = Math.round(d_sub_total * 100) / 100;   
-    impuesto.value = Math.round(d_impuesto * 100) / 100;   
-    //descuento.value = Math.round(d_descuento * 100) / 100;   
-    total.value = Math.round((d_sub_total + d_impuesto) * 100) / 100;   
+    if (d_sub_total > 0) {
+        gravable.value = Math.round(parseFloat(d_sub_total) * 100) / 100;   
+        impuesto.value = Math.round(parseFloat(d_impuesto) * 100) / 100;   
+        //descuento.value = Math.round(d_descuento * 100) / 100;   
+        total.value = Math.round((parseFloat(d_sub_total) + parseFloat(d_impuesto)) * 100) / 100;   
+    }
 }
 
 function enviar_data() {

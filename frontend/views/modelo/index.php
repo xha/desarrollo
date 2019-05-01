@@ -25,7 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
         'id_modelo',
         'descripcion',
-        'activo',
+        [
+            'filter' =>[frontend\models\Modelo::ESTATUS_ACTIVE=>'SI', frontend\models\Modelo::ESTATUS_INACTIVE=>'NO'],
+            'header'=>'Activo',
+            'attribute'=>'activo',
+            'value'=>'Activo',
+        ],
 
         ['class' => 'yii\grid\ActionColumn'],
     ],

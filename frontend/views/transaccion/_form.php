@@ -40,6 +40,11 @@ $this->registerJsFile('@web/general.js');
 $this->registerJsFile('@web/js/transaccion.js');
 $this->registerCssFile('@web/css/general.css');
 $id_usuario = Yii::$app->user->identity->id_usuario;
+$rol = Yii::$app->user->identity->id_rol;
+$fecha_2=date('d-m-Y',time());
+
+$dia28 = strtotime ('-28 day',strtotime($fecha_2)) ;
+$dia28 = date ('d-m-Y',$dia28)
 ?>
 
 <div class="transaccion-form">
@@ -49,7 +54,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
     </div>
     
     <?php $form = ActiveForm::begin(); ?>
-    
+    <input type="hidden" id='rol' name='rol' value="<?= $rol ?>" />
     <table class="tablas tablas1">
         <tr>
             <td>
@@ -283,6 +288,9 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             </td>
         </tr>
     </table>
+    <div class="row" align="center">
+        <h3 class="text-danger" id='h_bloqueo'></h3>
+    </div>
     <table class="tablas inicial00" id="listado_detalle">
         <tr>
             <th>Nro</th>
@@ -298,7 +306,7 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             <th>Opt</th>
         </tr>
     </table>
-    
+
     <table class="tablas tablas1">
         <tr>
             <td>
@@ -316,6 +324,29 @@ $id_usuario = Yii::$app->user->identity->id_usuario;
             <td>
                 <b>Total</b>
                 <?= $form->field($model, 'total')->textInput(['value' => 0, 'readonly'=>true, 'class'=>'texto texto-ec'])->label(false) ?>
+            </td>
+        </tr>
+    </table>
+
+    <table id="div_estadistica" class="tablas tablas1" style="visibility: hidden; border: 1px solid green">
+        <tr>
+            <td>
+                <h4 style="margin-left: 10px">Estadística de Despacho</h4>
+                <table style="margin-left: 10px" cellpadding="2" cellspacing="2">
+                    <tr>
+                        <td>
+                            Desde:<br />
+                            <input readonly="true" class='texto texto-ec' type='text' id='fecha_desde' value='<?= $dia28 ?>' />
+                        </td>
+                        <td>
+                            Hasta:<br />
+                            <input readonly="true" class='texto texto-ec' type='text' id='fecha_hasta' value='<?= $fecha_2 ?>' />
+                        </td>
+                    </tr>
+                </table>
+                <div style='max-height: 600px; overflow-y: scroll; width: 100%' >
+                    <table id='resultado_estadistica' class='tablas inicial00' style='width: 98%'></table>
+                </div>
             </td>
         </tr>
     </table>

@@ -4,16 +4,18 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\MarcaSearch */
+/* @var $searchModel frontend\models\RacionadoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Marcas';
+$this->title = 'Control de Entrega';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="marca-index">
+<div class="racionado-index">
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear Marca', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -22,10 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
             if($model->activo == 0) return ['style' => 'background-color: #FADCAC'];
         },
         'columns' => [
-            'id_marca',
-            'descripcion',
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'CodItem',
+            'CodUbic',
+            'dias',
             [
-                'filter' =>[frontend\models\Marca::ESTATUS_ACTIVE=>'SI', frontend\models\Marca::ESTATUS_INACTIVE=>'NO'],
+                'filter' =>[frontend\models\Racionado::ESTATUS_ACTIVE=>'SI', frontend\models\Racionado::ESTATUS_INACTIVE=>'NO'],
                 'header'=>'Activo',
                 'attribute'=>'activo',
                 'value'=>'Activo',

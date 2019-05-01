@@ -43,6 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'CostPro',
             // 'CostAnt',
             'Existen',
+            [
+                'filter' =>[frontend\models\Producto::ESTATUS_ACTIVE=>'SI', frontend\models\Producto::ESTATUS_INACTIVE=>'NO'],
+                'header'=>'Activo',
+                'attribute'=>'Activo',
+                'value'=>'activo',
+            ],
             // 'ExUnidad',
             // 'Compro',
             // 'Pedido',

@@ -28,6 +28,8 @@ class Tecnico extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const ESTATUS_ACTIVE=1;
+    const ESTATUS_INACTIVE=0;
     public static function tableName()
     {
         return 'SAMECA';
@@ -68,5 +70,15 @@ class Tecnico extends \yii\db\ActiveRecord
             'DEsComi' => 'Des Comi',
             'Monto' => 'Monto',
         ];
+    }
+
+    public function getActivo(){
+        $r = $this->Activo;
+        if($r == 1){
+            $z = "SI";
+        }else{
+            $z = 'NO';
+        }
+        return $z;
     }
 }

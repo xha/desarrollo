@@ -148,8 +148,7 @@ function carga_servicios() {
     d_iva.length = 0;
     if (d_codigo.value!="") {
         var campo = d_codigo.value.split(" - ");
-        $.get('../transaccion/buscar-items',{codigo : campo[0]},function(data){
-            var data = $.parseJSON(data);
+        $.getJSON('../transaccion/buscar-items',{codigo : campo[0]},function(data){
             if (data!="") {
                 d_codigo.value = campo[0];
                 d_nombre.value = data.Descrip;    
