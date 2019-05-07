@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
             'clientOptions' => [
                 'source' => $items,
             ],
-            'options' => ['class' => 'form-control'],
+            'options' => ['class' => 'form-control','onblur'=>'js: carga_servicios()'],
         ]) 
     ?>
 
@@ -34,3 +34,12 @@ use yii\helpers\ArrayHelper;
     <?php ActiveForm::end(); ?>
 
 </div>
+<script type="text/javascript">
+    function carga_servicios() {
+        var d_nombre = $("#racionado-coditem")[0];
+        if (d_nombre!="") {
+            var campo = d_nombre.value.split(" - ");
+            d_nombre.value = campo[0];
+        }
+    }
+</script>

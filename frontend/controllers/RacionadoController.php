@@ -83,11 +83,11 @@ class RacionadoController extends Controller
             $connection = \Yii::$app->db;
             $items = array();
             /********************** ITEMS ******************************************/
-            $query = "SELECT CodProd,Descrip FROM SAPROD where Activo=1";
+            $query = "SELECT CodProd,Descrip,Descrip2,Descrip3 FROM SAPROD where Activo=1";
             $data1 = $connection->createCommand($query)->queryAll();
-
+            
             for($i=0;$i<count($data1);$i++) {
-                $items[]= $data1[$i]['CodProd'];
+                $items[]= $data1[$i]['CodProd']." - ".$data1[$i]['Descrip'].$data1[$i]['Descrip2'].$data1[$i]['Descrip3'];
             }
 
             return $this->render('create', [
