@@ -57,10 +57,10 @@ class TransaccionController extends Controller
         ]);
     }
 
-    public function actionBuscarEstadisticaProducto($cliente = NULL,$fecha_desde,$fecha_hasta) {
+    public function actionBuscarEstadisticaProducto($placa = NULL,$fecha_desde,$fecha_hasta) {
         $connection = \Yii::$app->db;
 
-        if ($cliente!="") $extra = " and f.CodClie='".$cliente."'";
+        if ($placa!="") $extra = " and f.Notas1='".$placa."'";
 
         $query2 = "SELECT i.CodItem,i.Descrip1,i.Descrip2,i.Descrip3,f.CodUbic,CONVERT(VARCHAR(10), f.FechaE, 105) as Fecha_Despacho, CONVERT(VARCHAR(10),
             DATEADD(day,28,f.FechaE), 105) as Fecha_Fin, sum(i.Cantidad) as Cantidad
@@ -624,7 +624,7 @@ class TransaccionController extends Controller
         echo Json::encode($pendientes);
     }
     
-    public function actionBuscarItems($codigo, $cliente) {
+    public function actionBuscarItems($codigo, $placa) {
         $connection = \Yii::$app->db;
 
         $error = "";
@@ -646,12 +646,12 @@ class TransaccionController extends Controller
             DATEADD(day,$dias,f.FechaE), 105) as Fecha_Fin, sum(i.Cantidad) as Cantidad
             from SAFACT f, SAITEMFAC i
             WHERE f.NumeroD=i.NumeroD and f.TipoFac='A' and f.FechaE > '$dia28 00:00:00' and f.NumeroR is NULL and i.TipoFac=f.TipoFac and i.CodItem='".$codigo."'
-            and f.CodClie='".$cliente."'
+            and f.Notas1='".$placa."'
             group by i.CodItem,i.Descrip1,i.Descrip2,i.Descrip3,f.CodUbic,f.FechaE 
             order by i.Descrip1";
             $listado = $connection->createCommand($query2)->queryAll();
 
-            if (count($listado) > 0) $error = "Producto '".$codigo."' Bloqueado para el cliente '".$cliente."' hasta el ".$listado[0]['Fecha_Fin'];
+            if (count($listado) > 0) $error = "Producto '".$codigo."' Bloqueado para el vehículo '".$placa."' hasta el ".$listado[0]['Fecha_Fin'];
         }
 
         $query = "SELECT CodServ,Descrip,Precio1,1 as EsServ

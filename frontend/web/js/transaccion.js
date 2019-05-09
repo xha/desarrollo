@@ -45,21 +45,21 @@ function buscar_cliente(id) {
                 nombre.value = data.Descrip;
                 direccion.value = data.Direc1+" "+data.Direc2;
                 div_estadistica.style.visibility = 'visible';
-                buscar_estadistica(data.ID3);
             }
         });
     }
 }
 
-function buscar_estadistica(cliente) {
+function buscar_estadistica() {
     var fecha_desde = document.getElementById('fecha_desde').value;
     var fecha_hasta = document.getElementById('fecha_hasta').value;
     var tabla = trae('resultado_estadistica');
+    var placa = trae('transaccion-placa').value;
     var i;
 
-    if ((fecha_desde!="") && (fecha_hasta!="") && (cliente!="")) {
+    if ((fecha_desde!="") && (fecha_hasta!="") && (placa!="")) {
         titulo_estadistica();
-        $.getJSON('../transaccion/buscar-estadistica-producto',{cliente : cliente, fecha_desde : fecha_desde, fecha_hasta : fecha_hasta},function(data){
+        $.getJSON('../transaccion/buscar-estadistica-producto',{placa : placa, fecha_desde : fecha_desde, fecha_hasta : fecha_hasta},function(data){
             var campos = Array();
             if (data!="") {
                 for (i = 0; i < data.length; i++) {
@@ -107,7 +107,8 @@ function buscar_vehiculo() {
                             cliente.value = data.propietario;
                             cliente2.value = data.propietario;
                             buscar_cliente('transaccion-pagador');
-                            //buscar_cliente('transaccion-representante');
+                            buscar_cliente('transaccion-representante');
+                            buscar_estadistica();
                         }
                     }
                 });
@@ -192,6 +193,7 @@ function buscar_inspeccion() {
 function carga_servicios() {
     var d_nombre = trae("d_nombre");
     var d_iva = trae("d_iva");
+    var placa = trae("transaccion-placa").value;
     var d_codigo = trae("transaccion-d_codigo");
     var tipo_item = trae("tipo_item");
     var precio = trae("d_precio");
@@ -201,10 +203,10 @@ function carga_servicios() {
     
     d_nombre.value = "";
     d_iva.length = 0;
-    if ((d_codigo.value!="") && (p_rif!="")) {
+    if ((d_codigo.value!="") && (p_rif!="") && (placa!="")) {
         var campo = d_codigo.value.split(" - ");
         h_bloqueo.innerHTML = "";
-        $.getJSON('../transaccion/buscar-items',{codigo : campo[0], cliente : cliente},function(data){
+        $.getJSON('../transaccion/buscar-items',{codigo : campo[0], placa : placa},function(data){
             if (data!="") {
                 h_bloqueo.innerHTML = "";
                 if (rol!=3) {
@@ -254,7 +256,7 @@ function calcula_subtotal() {
     if (selected=="") selected = 0;
 
     if ((precio>0) && (cantidad>0)) {
-        console.log(precio);
+        //console.log(precio);
         sub = (parseFloat(cantidad) * parseFloat(precio)) - parseFloat(descuento.value);
         impuesto.value = Math.round((parseFloat(sub) * (parseFloat(selected)/100)) * 100) / 100 ;
         total.value = Math.round((parseFloat(sub) + parseFloat(impuesto.value)) * 100) / 100 ;    

@@ -67,13 +67,13 @@ function carga_servicios() {
     var tipo_item = trae("tipo_item");
     var precio = trae("d_precio");
     var rol = trae('rol');
-    var cliente = trae('transaccion-pagador').value;
+    var placa = trae('v_placa').value;
     
     d_nombre.value = "";
     d_iva.length = 0;
     if (d_codigo.value!="") {
         var campo = d_codigo.value.split(" - ");
-        $.getJSON('../transaccion/buscar-items',{codigo : campo[0], cliente : cliente},function(data){
+        $.getJSON('../transaccion/buscar-items',{codigo : campo[0], placa : placa},function(data){
             if (data!="") {
                 h_bloqueo.innerHTML = "";
                 if (rol!=3) {

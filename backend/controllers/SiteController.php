@@ -292,4 +292,17 @@ class SiteController extends Controller
             'data' => $data
         ]);
     }
+
+    public function actionBuscaUsuarios() {
+        $connection = \Yii::$app->db;
+        
+        $query = "select u.usuario, u.cedula, CONCAT(u.apellido,', ',u.nombre) as nombre,d.Descrip as ubicacion, r.descripcion as rol, u.activo
+            from ISAU_Usuario u, SADEPO d, ISAU_Rol r
+            WHERE u.CodUbic=d.CodUbic and r.id_rol=u.id_rol
+            ORDER BY ubicacion,nombre";
+
+        $pendientes = $connection->createCommand($query)->queryAll();
+        //$pendientes = $comand->readAll();
+        echo Json::encode($pendientes);
+    }
 }
